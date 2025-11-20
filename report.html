@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="title_report">Hồ sơ Kỹ năng (CV) - Future Xion</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+    <style>
+        /* CSS TÍCH HỢP TỪ DASHBOARD (Đảm bảo đồng bộ) */
+        :root {
+            --color-primary: #5A189A;
+            --color-accent: #4F9AFF;
+            --color-callout: #FFD700;
+            --color-white: #ffffff;
+            --color-background-light: #f7f7f7; 
+            --color-background-muted: #ececec; 
+            --color-background-soft: #f2f6fc;
+            --color-text-dark: #2c3e50;
+            --color-text-medium: #6c7a89;
+            --color-text-light: #9ba7b5; 
+            --color-border: #e0e6ed;
+            --color-error: #e74c3c;
+            --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --shadow-prominent: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --font-family-body: 'Inter', sans-serif;
+            --font-family-heading: 'Outfit', sans-serif;
+        }
+        
+        body {
+            font-family: var(--font-family-body);
+            background-color: var(--color-background-light);
+            color: var(--color-text-dark);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-family-heading);
+            font-weight: 700;
+            color: var(--color-text-dark);
+            margin-top: 0;
+            margin-bottom: 0.8em;
+        }
+        h1 { font-size: 2.2em; font-weight: 800; }
+        h3 { font-size: 1.6em; color: var(--color-primary); }
+        h4 { font-size: 1.3em; color: var(--color-text-dark); }
+        
+        a { text-decoration: none; color: var(--color-primary); transition: color 0.2s ease-in-out; }
+        .primary-color { color: var(--color-primary); }
+        .accent-color { color: var(--color-accent); }
+        .text-medium { color: var(--color-text-medium); }
+        .font-semibold { font-weight: 600; }
+        .font-bold { font-weight: 700; }
+        .stat-sub-text { font-size: 0.9em; }
+
+        /* General Layout */
+        .dashboard-layout { display: flex; min-height: 100vh; }
+        .sidebar { width: 250px; background-color: var(--color-primary); color: var(--color-white); padding: 20px; flex-shrink: 0; box-shadow: var(--shadow-medium); }
+        .main-content { flex-grow: 1; padding: 30px; background-color: var(--color-background-light); }
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding: 0 20px; }
+
+        /* Buttons */
+        .btn { border: none; border-radius: 10px; cursor: pointer; padding: 12px 22px; font-weight: 600; transition: all 0.2s ease-in-out; display: inline-flex; align-items: center; gap: 10px; font-size: 1em; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .btn-accent { background-color: var(--color-accent); color: var(--color-white); box-shadow: 0 4px 15px rgba(79, 154, 255, 0.3); }
+        .btn-primary { background-color: var(--color-primary); color: var(--color-white); box-shadow: 0 4px 15px rgba(90, 24, 154, 0.3); }
+
+        /* CV Report Container */
+        .report-wrapper { 
+            background-color: var(--color-background-card); border-radius: 15px; box-shadow: var(--shadow-prominent); padding: 0; margin: 0 auto; 
+            max-width: 1000px; overflow: hidden; border: 1px solid var(--color-border);
+        }
+
+        /* 1. Profile Header */
+        .profile-header-section {
+             padding: 40px 50px; background-color: var(--color-background-soft); border-bottom: 1px solid var(--color-border);
+             display: flex; justify-content: space-between; align-items: center; border-bottom: 5px solid var(--color-primary);
+        }
+        .profile-header-section h2 { font-size: 3.2em; margin-bottom: 5px; color: var(--color-primary); font-weight: 800; line-height: 1.1; }
+        .profile-header-section .profile-detail { font-size: 1.05em; font-weight: 500; color: var(--color-text-medium); margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .profile-header-section .profile-detail i { color: var(--color-primary); opacity: 0.7; font-size: 1.1em; }
+        
+        .profile-header-section .profile-stats-grid { display: flex; gap: 40px; margin-left: 50px; }
+        .profile-header-section .stat-item .value { font-size: 2.5em; font-weight: 800; color: var(--color-accent); line-height: 1; margin-bottom: 5px; }
+
+
+        /* 2. CORE CONTENT GRID (70% DETAILS | 30% ADVICE) */
+        .report-content-grid {
+            display: grid; 
+            grid-template-columns: 2fr 1fr; 
+            gap: 40px; padding: 40px 50px;
+        }
+        .report-details-col { padding-right: 20px; border-right: 1px solid var(--color-border); }
+        .report-advice-col { padding-left: 20px; }
+
+        /* Section Header (Tinh tế) */
+        .section-separator {
+            font-size: 1.6em; color: var(--color-text-dark); margin-bottom: 25px; padding-bottom: 10px; border-bottom: 2px solid var(--color-border);
+        }
+
+        /* NEW: SKILL PROFICIENCY BAR SECTION */
+        .proficiency-section {
+            padding: 20px; background-color: var(--color-background-soft); border-radius: 10px; margin-bottom: 30px;
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.05);
+        }
+        .proficiency-item { margin-bottom: 15px; }
+        .proficiency-item .bar-label { display: flex; justify-content: space-between; font-weight: 600; font-size: 0.95em; margin-bottom: 5px; }
+        .proficiency-item progress { appearance: none; -webkit-appearance: none; -moz-appearance: none; width: 100%; height: 10px; border: none; border-radius: 5px; background-color: var(--color-border); }
+        .proficiency-item progress::-webkit-progress-value { background-color: var(--color-accent); border-radius: 5px; }
+        .proficiency-item progress::-moz-progress-bar { background-color: var(--color-accent); border-radius: 5px; }
+
+
+        /* Skill Detail Cards */
+        .skills-detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-top: 30px; }
+        .skill-card-detail { background-color: var(--color-background-soft); padding: 25px; border-radius: 12px; box-shadow: var(--shadow-soft); border-left: 5px solid var(--color-primary); }
+        .skill-card-detail h4 { font-size: 1.4em; margin-bottom: 5px; color: var(--color-primary); }
+        .skill-card-detail .score-display { font-size: 1.2em; font-weight: 700; margin-bottom: 10px; display: block; }
+        .skill-card-detail .status-proficient { border-left-color: var(--color-accent); }
+        .skill-card-detail .status-needs-improvement { border-left-color: var(--color-error); }
+        .skill-card-detail .evidence-list { list-style: none; padding-left: 0; margin: 0; }
+        .skill-card-detail .evidence-list li { background-color: var(--color-white); padding: 10px 15px; border-radius: 8px; margin-bottom: 8px; font-size: 0.9em; color: var(--color-text-medium); border-left: 3px solid var(--color-border); }
+
+        /* Insight Cards (Right Column) */
+        .insight-card { background-color: var(--color-background-soft); padding: 25px; border-radius: 12px; margin-bottom: 25px; box-shadow: var(--shadow-subtle); border-left: 5px solid var(--color-accent); }
+        .insight-card.benchmark { border-left-color: var(--color-primary); }
+        .insight-card h4 { font-size: 1.25em; color: var(--color-primary); margin-bottom: 15px; }
+        .cta-box-bottom { margin-top: 40px; text-align: center; }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .report-content-grid { grid-template-columns: 1fr; gap: 30px; padding: 30px; }
+            .profile-header-section { flex-direction: column; align-items: flex-start; }
+            .profile-header-section .profile-stats-grid { margin-top: 25px; margin-left: 0; width: 100%; justify-content: space-around; }
+            .report-details-col { border-right: none; padding-right: 0; border-bottom: 1px solid var(--color-border); padding-bottom: 30px; }
+            .report-advice-col { padding-left: 0; padding-top: 30px; }
+            .skills-detail-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body onload="applyLanguageReport(); loadReportData();">
+    
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="logo">future<span class="logo-xion">Xion</span></div>
+            <nav>
+                <a href="dashboard.html" data-translate="menu_dashboard"><i class="fas fa-chart-pie"></i> Dashboard</a>
+                <a href="activity.html" data-translate="menu_activity"><i class="fas fa-pen-nib"></i> Ghi nhận Hoạt động</a>
+                <a href="#" class="active" data-translate="menu_report"><i class="fas fa-file-alt"></i> Hồ sơ Kỹ năng (CV)</a>
+                <a href="settings.html" data-translate="menu_settings"><i class="fas fa-cog"></i> Cài đặt</a>
+                <a href="auth.html" data-translate="menu_logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h1 data-translate="h1_report">Hồ Sơ Kỹ Năng Chuyên Nghiệp</h1>
+                    <button class="btn btn-accent" onclick="copyLink()" data-translate="cta_copy_link"><i class="fas fa-share-alt"></i> Copy Link Hồ Sơ (Công khai)</button>
+                </div>
+
+                <div class="report-wrapper" id="report-content-body">
+                    
+                    <div class="profile-header-section">
+                        <div class="profile-info">
+                            <h2 class="profile-name" id="profile-name">Trần Văn A</h2>
+                            <p class="profile-detail" id="profile-university"><i class="fas fa-graduation-cap"></i> Sinh viên Đại học Kinh tế Quốc dân</p>
+                            <p class="profile-detail" id="profile-email"><i class="fas fa-envelope"></i> t.vana@university.edu</p>
+                        </div>
+                        
+                        <div class="profile-stats-grid">
+                            <div class="stat-item">
+                                <span class="value primary-color" id="profile-avg-score">4.0 / 5.0</span>
+                                <span class="label">Điểm TB Hệ thống</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="value text-dark" id="profile-total-activities">12</span>
+                                <span class="label">Tổng Hoạt động Đã Ghi</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="report-data-view" class="report-content-grid">
+                        
+                        <div class="report-details-col">
+                            
+                            <h3 class="section-separator primary-color"><i class="fas fa-bullhorn"></i> Tóm tắt Hồ sơ Kỹ năng</h3>
+                            <p class="color-text-medium" id="summary-narrative" style="font-style: italic; margin-bottom: 30px;">
+                                Dựa trên 12 hoạt động được ghi nhận, bạn thể hiện sự thành thạo cao trong Giải quyết Vấn đề (4.7). Bạn có nền tảng vững chắc trong Leadership và sẵn sàng cho các dự án yêu cầu kỹ năng Teamwork.
+                            </p>
+                            
+                            <h3 class="section-separator primary-color" data-translate="h3_skill_overview"><i class="fas fa-star-half-alt"></i> Mức độ Thành thạo (Proficiency)</h3>
+                            <div class="proficiency-section">
+                                <p class="text-medium">Trực quan hóa điểm trung bình của bạn trên thang 5.0 so với mức yêu cầu ngành.</p>
+                                <div id="skills-proficiency-bars" style="margin-top: 20px;">
+                                    </div>
+                            </div>
+                            
+                            
+                            <h3 class="section-separator primary-color" data-translate="h3_detail_score"><i class="fas fa-file-invoice"></i> Chi tiết Điểm số & Bằng chứng Hoạt động</h3>
+                            <div id="skills-detail-output" class="skills-detail-grid">
+                                </div>
+                        </div>
+                        
+                        <div class="report-advice-col">
+                            <h3 class="section-separator accent-color" data-translate="h3_cv_advice"><i class="fas fa-brain"></i> Phân tích Chuyên sâu</h3>
+
+                            <div class="insight-grid">
+                                <div class="insight-card benchmark">
+                                    <h4 data-translate="h4_benchmark_title" class="primary-color">So sánh Thị trường</h4>
+                                    <p id="benchmark-status" class="font-semibold">**Điểm Lãnh đạo (4.5) cao hơn 85% Sinh viên**</p>
+                                    <div class="progress-bar-wrapper">
+                                        <progress id="benchmark-progress" value="85" max="100" style="accent-color: var(--color-primary);"></progress>
+                                    </div>
+                                </div>
+                                
+                                <div class="insight-card accent-border">
+                                    <h4 class="accent-color" data-translate="h4_cv_prompt_title">Gợi ý Mô tả CV</h4>
+                                    <p id="cv-prompt-skill" class="font-semibold">[Lãnh đạo - 4.5/5.0]:</p>
+                                    <p id="cv-prompt-text" class="text-sm text-medium" style="font-style: italic;">
+                                        "Đã đạt mức Lãnh đạo Vững Vàng (4.5/5.0), có bằng chứng chi tiết qua vai trò Trưởng nhóm dự án, **được Web Rating của FutureXion xác nhận**."
+                                    </p>
+                                    <button class="btn btn-primary" onclick="copyCVPrompt()" style="margin-top: 15px; font-size: 0.9em; padding: 10px 15px;">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="cta-box-bottom">
+                                <h4 class="primary-color" style="font-size: 1.3em;">Hành động tiếp theo</h4>
+                                <a id="cta-develop-weak" href="courses.html" class="btn btn-primary" style="width: 100%; padding: 15px 25px; font-size: 1.1em;">
+                                    <i class="fas fa-rocket"></i> Phát triển Kỹ năng yếu (2.8)
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="no-data-message" style="display: none; margin: 40px auto; max-width: 960px;">
+                    <h3 class="primary-color">Chưa có dữ liệu hoạt động nào được ghi nhận.</h3>
+                    <p class="text-medium">
+                        Bắt đầu hành trình phát triển kỹ năng của bạn ngay hôm nay bằng cách ghi nhận hoạt động đầu tiên.
+                    </p>
+                    <a href="activity.html" class="btn btn-primary">Ghi nhận Hoạt động đầu tiên của bạn</a>
+                </div>
+
+            </div>
+            </main>
+    </div>
+
+    <script>
+        const ReportTranslations = {
+            // ... (GIỮ NGUYÊN KHỐI DỊCH THUẬT VÀ LOGIC JS)
+            vi: {
+                title_report: "Hồ sơ Kỹ năng (CV) - Future Xion", h1_report: "Hồ Sơ Kỹ Năng Chuyên Nghiệp",
+                cta_copy_link: "Copy Link Hồ Sơ (Công khai)", cta_develop_weak_skill: "Phát triển Kỹ năng yếu nhất của bạn",
+                h3_detail_score: "Chi tiết Điểm số & Bằng chứng Hoạt động", h3_cv_advice: "Ứng dụng CV & Lời khuyên",
+                h3_skill_overview: "Tổng quan Kỹ năng",
+                h5_evidence: "Bằng chứng (Evidence Log):",
+                h4_benchmark_title: "So sánh Thị trường", p_benchmark_status: "**Điểm {skill} ({score}) cao hơn {percent}% Sinh viên**",
+                h4_cv_prompt_title: "Gợi ý Mô tả CV (Copy/Paste)", p_cv_prompt_skill: "[{skill} - {score}/5.0]:",
+                p_cv_prompt_text: "\"\Đã đạt mức {status_vi} ({score}/5.0), có bằng chứng chi tiết qua vai trò Trưởng nhóm dự án, **được Web Rating của FutureXion xác nhận**.\"",
+                status_proficient_vi: "Vững Vàng", status_needs_improvement_vi: "Cần Cải Thiện",
+                skill_leadership: "Lãnh đạo", skill_communication: "Giao tiếp", skill_problemsolving: "Giải quyết Vấn đề", skill_teamwork: "Teamwork", skill_criticalthinking: "Tư duy Phản biện"
+            },
+            en: { /* ... tương tự ... */ }
+        };
+        
+        const SKILLS_LABELS = [ 'Leadership', 'Communication', 'ProblemSolving', 'Teamwork', 'CriticalThinking' ];
+        const SKILL_DISPLAY_NAMES = {
+            'Leadership': 'Lãnh đạo', 'Communication': 'Giao tiếp', 'ProblemSolving': 'Giải quyết Vấn đề', 
+            'Teamwork': 'Teamwork', 'CriticalThinking': 'Tư duy Phản biện'
+        };
+        const INDUSTRY_DEMAND = { 'Leadership': 4.5, 'CriticalThinking': 3.5, 'ProblemSolving': 4.7, 'Communication': 4.0, 'Teamwork': 4.2 };
+
+        let radarChart; 
+
+        function aggregateSkillData(activities) {
+            const scores = {};
+            SKILLS_LABELS.forEach(skill => { scores[skill] = { total: 0, count: 0, evidence: [] }; });
+
+            activities.forEach(activity => {
+                const skill = activity.skill;
+                if (SKILLS_LABELS.includes(skill)) {
+                    const score5pt = (activity.points / 100) * 5.0;
+                    scores[skill].total += score5pt;
+                    scores[skill].count += 1;
+                    scores[skill].evidence.push(activity);
+                }
+            });
+
+            let minScore = 5.1;
+            let maxScore = -0.1;
+            let weakestSkill = null;
+            let strongestSkill = null;
+
+            SKILLS_LABELS.forEach(skill => {
+                const data = scores[skill];
+                const avg = data.count > 0 ? data.total / data.count : 0;
+                scores[skill].avg = avg;
+
+                if (avg > 0) {
+                    if (avg < minScore) { minScore = avg; weakestSkill = skill; }
+                    if (avg > maxScore) { maxScore = avg; strongestSkill = skill; }
+                }
+            });
+
+            if (weakestSkill === null && activities.length > 0) {
+                 const firstSkill = SKILLS_LABELS.find(skill => scores[skill].count > 0);
+                 if (firstSkill) { weakestSkill = strongestSkill = firstSkill; }
+            } else if (activities.length === 0) {
+                 weakestSkill = 'CriticalThinking'; 
+                 strongestSkill = 'ProblemSolving'; 
+            }
+
+            if (minScore > 0) {
+                 const zeroSkill = SKILLS_LABELS.find(skill => scores[skill].count === 0);
+                 if (zeroSkill) weakestSkill = zeroSkill;
+            }
+
+            return { scores, weakestSkill, strongestSkill };
+        }
+        
+        function drawRadarChart(skillScores) {
+            const ctx = document.getElementById('skillsRadarChart').getContext('2d');
+
+            if (radarChart) {
+                radarChart.destroy(); 
+            }
+
+            const currentLang = localStorage.getItem('language') || 'vi';
+            const t = ReportTranslations[currentLang];
+            const skillLabelsTranslated = SKILLS_LABELS.map(skill => t[`skill_${skill.toLowerCase()}`] || SKILL_DISPLAY_NAMES[skill]);
+            const dataValues = SKILLS_LABELS.map(skill => skillScores[skill].avg ? skillScores[skill].avg.toFixed(1) : 0);
+            
+            radarChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: skillLabelsTranslated,
+                    datasets: [{
+                        label: 'Mức độ Thành thạo (5.0)',
+                        data: dataValues,
+                        backgroundColor: 'rgba(90, 24, 154, 0.4)', 
+                        borderColor: 'rgba(90, 24, 154, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'var(--color-accent)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'var(--color-accent)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        r: {
+                            ticks: { beginAtZero: true, max: 5, min: 0, stepSize: 1, fontColor: 'var(--color-text-medium)' },
+                            gridLines: { color: 'rgba(0,0,0,0.1)' }, angleLines: { color: 'rgba(0,0,0,0.1)' }
+                        }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+        
+        // HÀM TẠO THANH PROGRESS BAR
+        function generateProficiencyBars(skillScores) {
+            const container = document.getElementById('skills-proficiency-bars');
+            container.innerHTML = '';
+            
+            SKILLS_LABELS.forEach(skillName => {
+                const score = skillScores[skillName].avg || 0;
+                const displayScore = score.toFixed(1);
+                const max = INDUSTRY_DEMAND[skillName] || 4.5; 
+                const value = score;
+                
+                const t = ReportTranslations[localStorage.getItem('language') || 'vi'];
+                const skillLabel = t[`skill_${skillName.toLowerCase()}`] || SKILL_DISPLAY_NAMES[skillName];
+
+                container.innerHTML += `
+                    <div class="proficiency-item">
+                        <div class="bar-label">
+                            <span class="font-semibold">${skillLabel}</span>
+                            <span class="font-semibold">${displayScore} / 5.0</span>
+                        </div>
+                        <progress value="${value}" max="5.0"></progress>
+                    </div>
+                `;
+            });
+        }
+        
+        // HÀM CHÍNH: TẢI VÀ HIỂN THỊ DỮ LIỆU REPORT
+        function loadReportData() {
+            const activitiesJson = localStorage.getItem('userActivities');
+            const reportContentBody = document.getElementById('report-content-body');
+            const noDataMsg = document.getElementById('no-data-message');
+            
+            // Lấy các element profile
+            const profileNameElement = document.getElementById('profile-name');
+            const profileAvgScoreElement = document.getElementById('profile-avg-score');
+            const profileTotalActivitiesElement = document.getElementById('profile-total-activities'); 
+
+            const userName = localStorage.getItem('currentUser') || 'Sinh viên Tên Mẫu';
+            profileNameElement.textContent = userName; 
+            document.getElementById('profile-university').textContent = 'Sinh viên Đại học Kinh tế Quốc dân (Mẫu)';
+
+            if (!activitiesJson || JSON.parse(activitiesJson).length === 0) {
+                // Hiển thị trạng thái không có dữ liệu
+                reportContentBody.style.display = 'none'; 
+                noDataMsg.style.display = 'block';
+                profileAvgScoreElement.textContent = 'N/A';
+                profileTotalActivitiesElement.textContent = '0';
+                return;
+            }
+            
+            // Show content
+            reportContentBody.style.display = 'block';
+            noDataMsg.style.display = 'none';
+
+            const activities = JSON.parse(activitiesJson);
+            const { scores, weakestSkill, strongestSkill } = aggregateSkillData(activities);
+            const currentLang = localStorage.getItem('language') || 'vi';
+            const t = ReportTranslations[currentLang];
+            const skillsOutput = document.getElementById('skills-detail-output');
+            skillsOutput.innerHTML = '';
+            
+            let weakestScoreVal = 0;
+            let strongestScoreVal = 0;
+            let totalScoreSum = 0;
+            let totalScoreCount = 0;
+
+            // DRAW CHARTS AND BARS
+            drawRadarChart(scores);
+            generateProficiencyBars(scores); // Vẽ thanh tiến trình
+
+            // 1. TẠO DYNAMIC SKILL CARDS & TÍNH ĐIỂM TỔNG THỂ
+            SKILLS_LABELS.forEach((skillName, index) => {
+                const score = scores[skillName].avg || 0;
+                
+                if (score > 0) {
+                    totalScoreSum += score;
+                    totalScoreCount++;
+                }
+
+                if (skillName === weakestSkill) weakestScoreVal = score;
+                if (skillName === strongestSkill) strongestScoreVal = score;
+
+                // Bỏ qua hiển thị nếu điểm 0 và không phải là skill yếu nhất
+                if (score === 0 && skillName !== weakestSkill) return;
+
+                const displayScore = score.toFixed(1);
+                const isProficient = score >= 4.0;
+                const displayStatus = isProficient ? t.status_proficient_vi : t.status_needs_improvement_vi;
+                const statusClass = isProficient ? 'status-proficient' : 'status-needs-improvement';
+                const statusIcon = isProficient ? 'fa-check-circle' : 'fa-times-circle';
+
+
+                // Xây dựng danh sách bằng chứng
+                const evidenceListHtml = scores[skillName].evidence.map(act => 
+                    `<li>${act.name} (Điểm: ${ (act.points / 100 * 5).toFixed(1) }/5.0). Ngày: ${act.date}</li>`
+                ).join('');
+                
+                let noteHtml = '';
+                if (skillName === 'CriticalThinking') {
+                    const demand = INDUSTRY_DEMAND[skillName] || 3.5;
+                    if (score > 0 && score < demand) {
+                        noteHtml = `<p class="note-text">Cần thêm ${(demand - score).toFixed(1)} điểm để đạt mức yêu cầu cơ bản (${demand}).</p>`;
+                    } else if (score === 0) {
+                        noteHtml = `<p class="note-text">Chưa có dữ liệu để đánh giá kỹ năng này.</p>`;
+                    }
+                }
+
+                skillsOutput.innerHTML += `
+                    <div class="skill-card-detail ${statusClass}">
+                        <h4 class="primary-color">${index + 1}. ${SKILL_DISPLAY_NAMES[skillName]}</h4>
+                        <span class="score-display">${displayScore}/5.0</span>
+                        
+                        <p class="status-text ${isProficient ? 'status-proficient-text' : 'status-needs-improvement-text'} font-semibold"><i class="fas ${statusIcon}"></i> Mức độ: ${displayStatus}</p>
+
+                        <h5 class="evidence-title">Bằng chứng (Evidence Log):</h5>
+                        <ul class="evidence-list">
+                            ${evidenceListHtml || '<li>Chưa có bằng chứng cụ thể được ghi nhận.</li>'}
+                        </ul>
+                        ${noteHtml}
+                    </div>
+                `;
+            });
+            
+            // CẬP NHẬT ĐIỂM TRUNG BÌNH CHUNG VÀ TỔNG HOẠT ĐỘNG
+            const finalAvgScore = totalScoreCount > 0 ? totalScoreSum / SKILLS_LABELS.length : 0;
+            profileAvgScoreElement.textContent = finalAvgScore.toFixed(2) + ' / 5.0';
+            profileTotalActivitiesElement.textContent = activities.length;
+
+            // 2. CẬP NHẬT KHỐI CV ADVICE
+            
+            // Benchmark
+            document.getElementById('benchmark-status').textContent = t.p_benchmark_status
+                .replace('{skill}', SKILL_DISPLAY_NAMES[strongestSkill])
+                .replace('{score}', strongestScoreVal.toFixed(1))
+                .replace('{percent}', '85'); 
+            document.getElementById('benchmark-progress').value = strongestScoreVal * 20;
+
+            // CV Prompt Title
+            document.getElementById('cv-prompt-skill').textContent = t.p_cv_prompt_skill
+                .replace('{skill}', SKILL_DISPLAY_NAMES[strongestSkill])
+                .replace('{score}', strongestScoreVal.toFixed(1));
+
+            // CTA Phát triển
+            document.getElementById('cta-develop-weak').textContent = t.cta_develop_weak_skill.replace('(2.8)', `(${weakestScoreVal.toFixed(1)})`);
+            document.getElementById('cta-develop-weak').href = `courses.html?skill=${weakestSkill}`;
+        }
+
+        function applyLanguageReport() { /* ... (Logic dịch thuật giữ nguyên) ... */
+             const currentLang = localStorage.getItem('language') || 'vi';
+            document.title = ReportTranslations[currentLang].title_report;
+            const t = ReportTranslations[currentLang];
+            
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (t[key]) {
+                    if (key.includes('cta_')) {
+                        const icon = element.querySelector('i');
+                        element.textContent = t[key];
+                        if (icon) element.prepend(icon);
+                    } else if (key.includes('menu_')) {
+                        const icon = element.querySelector('i');
+                        element.innerHTML = icon.outerHTML + ' ' + t[key];
+                    } else if (key.includes('_status')) {
+                        const icon = element.querySelector('i');
+                        element.innerHTML = t[key] + (icon ? icon.outerHTML : '');
+                    } else if (key === 'title_report') {
+                         document.title = t[key];
+                    } else {
+                        element.innerHTML = t[key];
+                    }
+                }
+            });
+        }
+        
+        function copyLink() {
+            const mockLink = "https://futurexion.com/reports/sinhvienx123";
+            const el = document.createElement('textarea');
+            el.value = mockLink;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            applyLanguageReport();
+            loadReportData(); 
+        });
+    </script>
+</body>
+</html>

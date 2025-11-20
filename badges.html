@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="title_badges">Huy hiệu & Thành tựu - Future Xion</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        /* CSS TÍCH HỢP TỪ DASHBOARD (Đảm bảo đồng bộ) */
+        :root {
+            --color-primary: #5A189A;
+            --color-accent: #4F9AFF;
+            --color-callout: #FFD700;
+            --color-white: #ffffff;
+            --color-background-light: #f7f7f7;
+            --color-background-muted: #ececec;
+            --color-background-soft: #f2f6fc;
+            --color-text-dark: #2c3e50;
+            --color-text-medium: #6c7a89;
+            --color-text-light: #9ba7b5; 
+            --color-border: #e0e6ed;
+            --color-error: #e74c3c;
+            --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background-light);
+            color: var(--color-text-dark);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            color: var(--color-text-dark);
+            margin-top: 0;
+            margin-bottom: 0.8em;
+        }
+        h1 { font-size: 2.2em; font-weight: 800; }
+        h3 { font-size: 1.6em; color: var(--color-primary); }
+        h4 { font-size: 1.3em; color: var(--color-text-dark); }
+        
+        a { text-decoration: none; color: var(--color-primary); transition: color 0.2s ease-in-out; }
+        .primary-color { color: var(--color-primary); }
+        .accent-color { color: var(--color-accent); }
+        .text-medium { color: var(--color-text-medium); }
+        .font-semibold { font-weight: 600; }
+
+        /* General Layout */
+        .dashboard-layout { display: flex; min-height: 100vh; }
+        .sidebar { width: 250px; background-color: var(--color-primary); color: var(--color-white); padding: 20px; flex-shrink: 0; box-shadow: var(--shadow-medium); }
+        .sidebar .logo { font-size: 1.8em; font-weight: 700; margin-bottom: 40px; }
+        .sidebar .logo-xion { color: var(--color-accent); }
+        .sidebar nav a { display: block; color: var(--color-white); padding: 12px 10px; margin-bottom: 5px; border-radius: 8px; transition: background-color 0.2s; font-weight: 500; }
+        .sidebar nav a:hover, .sidebar nav a.active { background-color: rgba(255, 255, 255, 0.15); }
+        .sidebar nav i { margin-right: 10px; }
+        .main-content { flex-grow: 1; padding: 30px; background-color: var(--color-background-light); }
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+
+        /* Badges Specific Styles */
+        .report-wrapper { 
+            background-color: var(--color-background-card);
+            border-radius: 15px; 
+            box-shadow: var(--shadow-soft); 
+            padding: 40px;
+            border: 1px solid var(--color-border);
+        }
+        .badges-intro {
+            font-size: 1.1em;
+            color: var(--color-text-medium);
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .badge-card {
+            background-color: var(--color-background-soft);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease-in-out;
+            border: 1px solid var(--color-border);
+        }
+        .badge-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        .badge-card.unlocked {
+            border-bottom: 5px solid var(--color-accent);
+            filter: none;
+            opacity: 1;
+        }
+        .badge-card.locked {
+            border-bottom: 5px solid var(--color-border);
+            filter: grayscale(100%);
+            opacity: 0.6;
+        }
+
+        .badge-icon {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            color: var(--color-primary);
+        }
+        .badge-card.locked .badge-icon {
+            color: var(--color-text-light);
+        }
+        .badge-card h4 {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+        .badge-status {
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+        .status-unlocked { color: #2ecc71; font-weight: 700; }
+        .status-locked { color: var(--color-error); }
+    </style>
+</head>
+<body onload="applyLanguageBadges(); loadBadgesData();">
+    
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="logo">future<span class="logo-xion">Xion</span></div>
+            <nav>
+                <a href="dashboard.html" data-translate="menu_dashboard"><i class="fas fa-chart-pie"></i> Dashboard</a>
+                <a href="activity.html" data-translate="menu_activity"><i class="fas fa-pen-nib"></i> Ghi nhận Hoạt động</a>
+                <a href="report.html" data-translate="menu_report"><i class="fas fa-file-alt"></i> Hồ sơ Kỹ năng (CV)</a>
+                <a href="#" class="active" data-translate="menu_badges"><i class="fas fa-award"></i> Huy hiệu</a> <a href="settings.html" data-translate="menu_settings"><i class="fas fa-cog"></i> Cài đặt</a>
+                <a href="auth.html" data-translate="menu_logout" onclick="localStorage.clear();"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="dashboard-header">
+                <h1 data-translate="h1_badges">Thành tựu và Huy hiệu</h1>
+            </div>
+
+            <div class="report-wrapper">
+                <p data-translate="p_badges_intro" class="badges-intro">
+                    Mở khóa huy hiệu bằng cách hoàn thành các mục tiêu phát triển và ghi nhận hoạt động thường xuyên.
+                </p>
+
+                <div id="badge-grid-output" class="badge-grid">
+                    <div class="badge-card locked">
+                        <i class="fas fa-users badge-icon"></i>
+                        <h4>Chiến Binh Teamwork</h4>
+                        <p class="badge-status status-locked">Yêu cầu: 5 Hoạt động nhóm</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        const BadgesTranslations = {
+            vi: {
+                title_badges: "Huy hiệu & Thành tựu - Future Xion", h1_badges: "Thành tựu và Huy hiệu",
+                menu_dashboard: "Dashboard", menu_activity: "Ghi nhận Hoạt động", menu_report: "Hồ sơ Kỹ năng (CV)", menu_settings: "Cài đặt", menu_logout: "Đăng xuất", menu_badges: "Huy hiệu",
+                p_badges_intro: "Mở khóa huy hiệu bằng cách hoàn thành các mục tiêu phát triển và ghi nhận hoạt động thường xuyên.",
+                status_unlocked: "Đã mở khóa", status_locked: "Yêu cầu:",
+                req_teamwork: "5 Hoạt động nhóm", req_leadership: "Điểm Lãnh đạo ≥ 4.0", req_communication: "Điểm Giao tiếp ≥ 4.5", req_critical_thinking: "Điểm TVPB ≥ 3.5",
+            },
+            en: {
+                title_badges: "Badges & Achievements - Future Xion", h1_badges: "Achievements and Badges",
+                menu_dashboard: "Dashboard", menu_activity: "Log Activity", menu_report: "Skill Profile (CV)", menu_settings: "Settings", menu_logout: "Logout", menu_badges: "Badges",
+                p_badges_intro: "Unlock badges by completing development goals and consistently logging activities.",
+                status_unlocked: "Unlocked", status_locked: "Requirement:",
+                req_teamwork: "5 Teamwork Activities", req_leadership: "Leadership Score ≥ 4.0", req_communication: "Communication Score ≥ 4.5", req_critical_thinking: "Critical Thinking Score ≥ 3.5",
+            }
+        };
+
+        const SKILLS_LABELS = [ 'Leadership', 'Communication', 'ProblemSolving', 'Teamwork', 'CriticalThinking' ];
+        const SKILL_DISPLAY_NAMES = {
+            'Leadership': 'Người Dẫn Đầu', 'Communication': 'Bậc Thầy Giao Tiếp', 'Teamwork': 'Chiến Binh Teamwork', 'CriticalThinking': 'Tư Duy Phản Biện'
+        };
+        
+        // MOCKUP AGGREGATION LOGIC (Sao chép và điều chỉnh từ Report/Dashboard)
+        function aggregateSkillData(activities) {
+            const scores = {};
+            SKILLS_LABELS.forEach(skill => { scores[skill] = { total: 0, count: 0, activityCount: 0 }; });
+
+            activities.forEach(activity => {
+                const skill = activity.skill;
+                if (SKILLS_LABELS.includes(skill)) {
+                    const score5pt = (activity.points / 100) * 5.0;
+                    scores[skill].total += score5pt;
+                    scores[skill].count += 1;
+                    scores[skill].activityCount += 1;
+                }
+            });
+
+            // Tính điểm trung bình và tổng số hoạt động theo từng skill
+            const finalScores = {};
+            SKILLS_LABELS.forEach(skill => {
+                scores[skill].avg = scores[skill].count > 0 ? scores[skill].total / scores[skill].count : 0;
+            });
+
+            return scores;
+        }
+
+        // ĐỊNH NGHĨA VÀ KIỂM TRA HUY HIỆU
+        function getBadgeDefinitions(scores, t) {
+            const teamActivities = scores.Teamwork.activityCount;
+            const leadershipScore = scores.Leadership.avg;
+            const communicationScore = scores.Communication.avg;
+            const criticalThinkingScore = scores.CriticalThinking.avg;
+            
+            const badges = [
+                {
+                    id: 'teamwork',
+                    title: 'Chiến Binh Teamwork',
+                    icon: 'fas fa-users',
+                    isUnlocked: teamActivities >= 5, // ĐK: 5 Hoạt động nhóm
+                    statusText: t.req_teamwork,
+                    currentProgress: `${teamActivities} / 5`
+                },
+                {
+                    id: 'leadership',
+                    title: 'Người Dẫn Đầu (Alpha)',
+                    icon: 'fas fa-trophy',
+                    isUnlocked: leadershipScore >= 4.0, // ĐK: Điểm Lãnh đạo >= 4.0
+                    statusText: t.req_leadership,
+                    currentProgress: `${leadershipScore.toFixed(1)} / 4.0`
+                },
+                {
+                    id: 'communication',
+                    title: 'Bậc Thầy Giao Tiếp',
+                    icon: 'fas fa-microphone-alt',
+                    isUnlocked: communicationScore >= 4.5, // ĐK: Điểm Giao tiếp >= 4.5
+                    statusText: t.req_communication,
+                    currentProgress: `${communicationScore.toFixed(1)} / 4.5`
+                },
+                {
+                    id: 'critical_thinking',
+                    title: 'Tư Duy Phản Biện',
+                    icon: 'fas fa-brain',
+                    isUnlocked: criticalThinkingScore >= 3.5, // ĐK: Điểm TVPB >= 3.5 (Benchmark)
+                    statusText: t.req_critical_thinking,
+                    currentProgress: `${criticalThinkingScore.toFixed(1)} / 3.5`
+                }
+            ];
+            return badges;
+        }
+
+        function loadBadgesData() {
+            const activitiesJson = localStorage.getItem('userActivities');
+            const badgeGrid = document.getElementById('badge-grid-output');
+            const t = BadgesTranslations[localStorage.getItem('language') || 'vi'];
+            
+            // Xử lý dữ liệu
+            const activities = activitiesJson ? JSON.parse(activitiesJson) : [];
+            const scores = aggregateSkillData(activities);
+            const badgeList = getBadgeDefinitions(scores, t);
+            
+            badgeGrid.innerHTML = '';
+
+            badgeList.forEach(badge => {
+                const statusClass = badge.isUnlocked ? 'unlocked' : 'locked';
+                const statusTextColor = badge.isUnlocked ? 'status-unlocked' : 'status-locked';
+
+                badgeGrid.innerHTML += `
+                    <div class="badge-card ${statusClass}">
+                        <i class="badge-icon ${badge.icon}"></i>
+                        <h4>${badge.title}</h4>
+                        <p class="badge-status ${statusTextColor}">
+                            ${badge.isUnlocked ? t.status_unlocked : t.status_locked} ${badge.statusText}
+                        </p>
+                        <p class="text-xs text-medium" style="margin-top: 5px;">
+                            Tiến độ: ${badge.currentProgress}
+                        </p>
+                    </div>
+                `;
+            });
+
+            if (activities.length === 0) {
+                 badgeGrid.innerHTML += '<p style="text-align: center; grid-column: 1 / -1; color: var(--color-text-medium);">Chưa có dữ liệu hoạt động nào được ghi nhận. Hãy bắt đầu ghi nhận để mở khóa Huy hiệu!</p>';
+            }
+        }
+
+        function applyLanguageBadges() {
+            const currentLang = localStorage.getItem('language') || 'vi';
+            const t = BadgesTranslations[currentLang];
+            
+            document.title = t.title_badges;
+            
+            // Cập nhật tất cả các phần tử có data-translate
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (t[key]) {
+                    if (key.includes('menu_')) {
+                        const icon = element.querySelector('i');
+                        element.innerHTML = icon.outerHTML + ' ' + t[key];
+                    } else {
+                        element.textContent = t[key];
+                    }
+                }
+            });
+            // Gọi lại loadBadgesData để áp dụng ngôn ngữ mới cho text động
+            loadBadgesData();
+        }
+    </script>
+</body>
+</html>

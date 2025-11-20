@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghi nhận Hoạt động - Future Xion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #5A189A;
+            --color-accent: #4F9AFF;
+            --color-callout: #FFD700;
+            --glass-background: rgba(255, 255, 255, 0.6);
+            --color-white: #ffffff;
+            --color-background-light: #f7f7f7;
+            --color-text-dark: #333;
+            --border-color: #ddd;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--color-background-light);
+            color: var(--color-text-dark);
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 30px;
+            background: var(--glass-background);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            color: var(--color-primary);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.95em;
+        }
+
+        input[type="text"], input[type="date"], select, textarea, input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1em;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: #4B1480;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1><i class="fas fa-pen-nib"></i> Ghi nhận Hoạt động & Kinh nghiệm</h1>
+        <p>Vui lòng điền chi tiết kinh nghiệm của bạn để hệ thống có thể đo lường kỹ năng mềm.</p>
+        
+        <form id="activityForm" onsubmit="saveActivity(event)">
+            <div class="form-group">
+                <label for="activityName">Tên Hoạt động/Dự án:</label>
+                <input type="text" id="activityName" required placeholder="Ví dụ: Dự án Marketing CLB Yêu Sách">
+            </div>
+
+            <div class="form-group">
+                <label for="activitySkill">Kỹ năng Chính được Đo lường (Mock):</label>
+                <select id="activitySkill" required>
+                    <option value="">-- Chọn một kỹ năng --</option>
+                    <option value="Teamwork">Teamwork (Làm việc nhóm)</option>
+                    <option value="Leadership">Leadership (Lãnh đạo)</option>
+                    <option value="ProblemSolving">Giải quyết Vấn đề</option>
+                    <option value="Communication">Giao tiếp</option>
+                </select>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="form-group">
+                    <label for="activityDate">Ngày hoàn thành (Mock):</label>
+                    <input type="date" id="activityDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="activityPoints">Điểm tự đánh giá (10-100):</label>
+                    <input type="number" id="activityPoints" min="10" max="100" required value="75">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="activityDescription">Mô tả (Vai trò, Kết quả):</label>
+                <textarea id="activityDescription" required placeholder="Sử dụng phương pháp STAR để mô tả vai trò và kết quả đạt được."></textarea>
+            </div>
+            
+            <button type="submit" class="btn-primary" style="width: 100%;"><i class="fas fa-save"></i> Lưu & Cập nhật Dashboard</button>
+            <div id="messageOutput"></div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Có thể thêm logic kiểm tra đăng nhập tại đây
+        });
+
+        // Hàm chính để lưu dữ liệu vào localStorage
+        function saveActivity(event) {
+            event.preventDefault(); // Ngăn form gửi đi
+
+            const form = document.getElementById('activityForm');
+            const messageOutput = document.getElementById('messageOutput');
+            const userName = localStorage.getItem('currentUser') || 'Unknown User'; // Lấy tên người dùng
+
+            // 1. Lấy dữ liệu từ Form
+            const newActivity = {
+                id: Date.now(),
+                user: userName,
+                name: document.getElementById('activityName').value,
+                skill: document.getElementById('activitySkill').value,
+                date: document.getElementById('activityDate').value,
+                points: parseInt(document.getElementById('activityPoints').value),
+                description: document.getElementById('activityDescription').value
+            };
+
+            // 2. Tải danh sách hoạt động hiện có (hoặc mảng rỗng nếu chưa có)
+            const activitiesJson = localStorage.getItem('userActivities');
+            let activities = activitiesJson ? JSON.parse(activitiesJson) : [];
+            
+            // 3. Thêm hoạt động mới vào đầu mảng (để hiển thị mới nhất trước)
+            activities.unshift(newActivity);
+
+            // 4. Lưu lại danh sách cập nhật vào localStorage
+            localStorage.setItem('userActivities', JSON.stringify(activities));
+            
+            // 5. Hiển thị thông báo thành công
+            messageOutput.innerHTML = `<div class="message success"><i class="fas fa-check-circle"></i> Đã ghi nhận thành công! Dashboard sẽ được cập nhật.</div>`;
+            
+            // Tùy chọn: Xóa form sau khi lưu
+            form.reset();
+            
+            // Tùy chọn: Tự động chuyển về Dashboard sau 2 giây để xem kết quả
+            setTimeout(() => {
+                 window.location.href = 'dashboard.html';
+            }, 2000);
+        }
+    </script>
+
+</body>
+</html>
