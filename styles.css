@@ -1,26 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
 :root {
-   
-    --color-primary: #5A189A; /* Tím Sâu (Grape) - Primary */
-    --color-accent: #4F9AFF; /* Xanh Pastel - Dùng cho Gradient */
-    --color-callout: #FFD700; /* Vàng Gold - CTA */
-    
-    /* Màu nền & Chữ */
+    --color-primary: #5A189A; /* Grape */
+    --color-accent: #4F9AFF; /* Sky */
+    --color-callout: #FFD700; /* Gold CTA */
     --color-white: #FFFFFF;
-    --color-background-light: #F3E5FF; /* Tím Siêu Nhạt (Nền chính) */
-    --color-background-muted: #E6EAF0; /* Xám Xanh Nhạt */
-    --color-text-dark: #2C074C; /* Tím Đậm cho chữ */
+    --color-background-light: #F3E5FF;
+    --color-background-muted: #E6EAF0;
+    --color-text-dark: #2C074C;
     --color-text-medium: #6B4FA2;
     --color-text-light: #C0A8D8;
-    
-    /* Thiết lập Glassmorphism */
+    --color-sidebar-start: #42116F;
+    --color-sidebar-end: #1F0A3C;
+    --color-background-soft: #F2F6FC;
+    --color-background-card: #FFFFFF;
+    --color-border: #E0E6ED;
+    --color-success: #10B981;
+    --color-warning: #F59E0B;
+    --color-error: #DC3545;
     --glass-background: rgba(255, 255, 255, 0.6);
     --glass-border: 1px solid rgba(255, 255, 255, 0.4);
-    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-
-    /* Font Chữ Hiện đại */
-    --font-heading: 'Outfit', sans-serif;
-    --font-body: 'Poppins', sans-serif;
-    
+    --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+    --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --shadow-prominent: 0 12px 35px rgba(0, 0, 0, 0.08);
+    --shadow-subtle: 0 8px 20px rgba(0, 0, 0, 0.06);
+    --font-heading: 'Roboto', sans-serif;
+    --font-body: 'Roboto', sans-serif;
+    --font-family-heading: var(--font-heading);
+    --font-family-body: var(--font-body);
     --padding-section: 80px 0;
     --border-color: #D3DCE6;
 }
@@ -35,11 +42,13 @@
 body {
     font-family: var(--font-body);
     color: var(--color-text-medium);
-    background-color: var(--color-background-light);
     line-height: 1.6;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    background: radial-gradient(circle at top, rgba(255,255,255,0.35), transparent 55%),
+                linear-gradient(120deg, #f7f0ff 0%, #eef5ff 55%, #f3f0ff 100%);
+    background-attachment: fixed;
 }
 
 .container { max-width: 1200px; margin: 0 auto; padding: 0 25px; }
@@ -180,6 +189,46 @@ input:focus, select:focus, textarea:focus {
     padding: 50px 40px;
     text-align: center;
 }
+.auth-feedback {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 0.9em;
+    display: none;
+}
+.auth-feedback.show {
+    display: block;
+}
+.auth-feedback.success {
+    background: rgba(16, 185, 129, 0.15);
+    color: #0f5132;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+}
+.auth-feedback.error {
+    background: rgba(239, 68, 68, 0.15);
+    color: #842029;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+}
+.remember-forgot-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 12px;
+    font-size: 0.9em;
+}
+.custom-checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    color: var(--color-text-medium);
+}
+.custom-checkbox-label input {
+    width: 16px;
+    height: 16px;
+}
 .auth-box h2 {
     font-size: 2.5em;
     background-image: linear-gradient(to right, #8C82FF, #4F9AFF);
@@ -216,13 +265,78 @@ input:focus, select:focus, textarea:focus {
 
 
 /* DASHBOARD LAYOUT */
-.dashboard-layout { display: flex; flex-grow: 1; }
-.sidebar { width: 250px; background-color: var(--color-primary); color: var(--color-white); padding: 20px; box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1); flex-shrink: 0; }
-.sidebar .logo { font-family: var(--font-heading); font-size: 1.8em; font-weight: 700; margin-bottom: 40px; }
-.sidebar .logo-xion { color: var(--color-callout); }
-.sidebar nav a { display: block; color: var(--color-white); padding: 12px 15px; margin-bottom: 10px; border-radius: 10px; transition: background-color 0.3s; text-decoration: none; }
-.sidebar nav a.active { background-color: #4F9AFF; }
-.main-content { flex-grow: 1; padding: 40px; background-color: var(--color-background-light); }
+.dashboard-layout {
+    display: flex;
+    flex-grow: 1;
+    min-height: 100vh;
+}
+.sidebar {
+    width: 260px;
+    background: linear-gradient(180deg, var(--color-sidebar-start), var(--color-sidebar-end));
+    color: var(--color-white);
+    padding: 28px 24px;
+    flex-shrink: 0;
+    box-shadow: 0 18px 30px rgba(21, 8, 43, 0.55);
+    border-right: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+    overflow: hidden;
+}
+.sidebar::after {
+    content: "";
+    position: absolute;
+    inset: 18px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    pointer-events: none;
+}
+.sidebar .logo {
+    font-family: var(--font-heading);
+    font-size: 1.9em;
+    font-weight: 800;
+    margin-bottom: 42px;
+    letter-spacing: 0.5px;
+    color: var(--color-white);
+}
+.sidebar .logo-xion {
+    color: var(--color-callout);
+}
+.sidebar nav {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.sidebar nav a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--color-white);
+    padding: 12px 16px;
+    border-radius: 14px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.25s, transform 0.15s;
+    backdrop-filter: blur(0px);
+}
+.sidebar nav a i {
+    font-size: 1em;
+    width: 20px;
+    text-align: center;
+}
+.sidebar nav a:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateX(4px);
+}
+.sidebar nav a.active {
+    background: rgba(79, 154, 255, 0.25);
+    box-shadow: 0 10px 20px rgba(13, 6, 28, 0.45);
+}
+.main-content {
+    flex-grow: 1;
+    padding: 40px;
+    background-color: transparent;
+}
 .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
 
 /* CONTENT BLOCKS */

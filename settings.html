@@ -1,135 +1,366 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cài đặt - Future Xion</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body>
-    
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
     <div class="dashboard-layout">
-        <aside class="sidebar">
-            <div class="logo">future<span class="logo-xion">Xion</span></div>
-            <nav>
-                <a href="dashboard.html"><i class="fas fa-chart-pie"></i> Dashboard</a>
-                <a href="activity.html"><i class="fas fa-pen-nib"></i> Ghi nhận Hoạt động</a>
-                <a href="report.html"><i class="fas fa-file-alt"></i> Hồ sơ Kỹ năng (CV)</a>
-                <a href="#" class="active"><i class="fas fa-cog"></i> Cài đặt</a>
-                <a href="auth.html"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
-            </nav>
-        </aside>
+      <aside class="sidebar">
+        <div class="logo">future<span class="logo-xion">Xion</span></div>
+        <nav></nav>
+      </aside>
 
-        <main class="main-content">
-            <div class="dashboard-header">
-                <h1>Cài đặt Hệ thống</h1>
+      <main class="main-content">
+        <div class="dashboard-header">
+          <h1>Cài đặt Hệ thống</h1>
+        </div>
+
+        <div class="activity-box glass-box">
+          <h2 style="font-size: 1.8em; margin-bottom: 25px">
+            1. Tùy chọn Chung
+          </h2>
+
+          <!-- CHỨC NĂNG CHUYỂN ĐỔI NGÔN NGỮ -->
+          <div class="setting-item">
+            <label id="label-language">Ngôn ngữ Giao diện</label>
+            <div style="display: flex; gap: 10px; align-items: center">
+              <select
+                id="language-selector"
+                onchange="changeLanguage(this.value)"
+                style="width: 150px; padding: 8px"
+              >
+                <option value="vi" selected>Tiếng Việt</option>
+                <option value="en">English</option>
+              </select>
+              <span class="settings-chip" id="language-pill">VI</span>
+              <i class="fas fa-globe" style="color: var(--color-primary)"></i>
             </div>
+          </div>
 
-            <div class="activity-box glass-box">
-                
-                <h2 style="font-size: 1.8em; margin-bottom: 25px;">1. Tùy chọn Chung</h2>
-                
-                <!-- CHỨC NĂNG CHUYỂN ĐỔI NGÔN NGỮ -->
-                <div class="setting-item">
-                    <label id="label-language">Ngôn ngữ Giao diện</label>
-                    <div style="display: flex; gap: 10px; align-items: center;">
-                        <select id="language-selector" onchange="changeLanguage(this.value)" style="width: 150px; padding: 8px;">
-                            <option value="vi" selected>Tiếng Việt</option>
-                            <option value="en">English</option>
-                        </select>
-                        <i class="fas fa-globe" style="color: var(--color-primary);"></i>
-                    </div>
-                </div>
+          <div class="setting-item">
+            <label id="label-benchmark"
+              >Hiển thị Mức Yêu cầu Ngành (Demand Benchmark)</label
+            >
+            <label class="switch"
+              ><input type="checkbox" checked /><span
+                class="slider round"
+              ></span
+            ></label>
+          </div>
+          <div class="setting-item">
+            <label id="label-supervisor"
+              >Tự động gửi yêu cầu xác nhận email Giám sát</label
+            >
+            <label class="switch"
+              ><input type="checkbox" /><span class="slider round"></span
+            ></label>
+          </div>
 
-                <div class="setting-item">
-                    <label id="label-benchmark">Hiển thị Mức Yêu cầu Ngành (Demand Benchmark)</label>
-                    <label class="switch"><input type="checkbox" checked><span class="slider round"></span></label>
-                </div>
-                <div class="setting-item">
-                    <label id="label-supervisor">Tự động gửi yêu cầu xác nhận email Giám sát</label>
-                    <label class="switch"><input type="checkbox"><span class="slider round"></span></label>
-                </div>
+          <h3
+            id="heading-integration"
+            style="margin-top: 40px; color: var(--color-primary)"
+          >
+            2. Kết nối Nguồn ngoài (Future Vision)
+          </h3>
+          <p id="p-integration" style="margin-bottom: 15px">
+            Kết nối để tự động hóa việc ghi nhận hoạt động.
+          </p>
 
-                <h3 id="heading-integration" style="margin-top: 40px; color: var(--color-primary);">2. Kết nối Nguồn ngoài (Future Vision)</h3>
-                <p id="p-integration" style="margin-bottom: 15px;">Kết nối để tự động hóa việc ghi nhận hoạt động.</p>
-                
-                <div style="display: flex; flex-direction: column; gap: 15px;">
-                    <button class="btn btn-primary" style="justify-content: left; box-shadow: none; background-color: var(--color-background-muted); color: var(--color-text-dark);">
-                        <i class="fab fa-google" style="color: #DB4437; margin-right: 10px;"></i> Tích hợp Google Classroom (Mock)
-                    </button>
-                    <button class="btn btn-primary" style="justify-content: left; box-shadow: none; background-color: var(--color-background-muted); color: var(--color-text-dark);">
-                        <i class="fab fa-linkedin" style="color: #0077B5; margin-right: 10px;"></i> Đồng bộ Khóa học LinkedIn (Mock)
-                    </button>
-                </div>
-            </div>
-        </main>
+          <div style="display: flex; flex-direction: column; gap: 15px">
+            <button
+              class="btn btn-primary"
+              style="
+                justify-content: left;
+                box-shadow: none;
+                background-color: var(--color-background-muted);
+                color: #fefefe;
+              "
+            >
+              <i
+                class="fab fa-google"
+                style="color: #db4437; margin-right: 10px"
+              ></i>
+              Tích hợp Google Classroom
+            </button>
+            <button
+              class="btn btn-primary"
+              style="
+                justify-content: left;
+                box-shadow: none;
+                background-color: var(--color-background-muted);
+                color: #fefefe;
+              "
+            >
+              <i
+                class="fab fa-linkedin"
+                style="color: #db4437; margin-right: 10px"
+              ></i>
+              Đồng bộ Khóa học LinkedIn
+            </button>
+          </div>
+
+          <div id="integration-status" style="margin-top: 20px"></div>
+
+          <div class="setting-hint">
+            <i class="fas fa-info-circle"></i>
+            <p>
+              Mọi thay đổi được lưu ngay trên trình duyệt, áp dụng cho toàn bộ
+              giao diện khi bạn quay lại Dashboard hoặc các trang chức năng
+              khác.
+            </p>
+          </div>
+        </div>
+      </main>
     </div>
 
     <style>
-    /* CSS cho Toggle Switch (Áp dụng cho settings.html) */
-    .switch { position: relative; display: inline-block; width: 45px; height: 25px; }
-    .switch input { opacity: 0; width: 0; height: 0; }
-    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; }
-    .slider:before { position: absolute; content: ""; height: 17px; width: 17px; left: 4px; bottom: 4px; background-color: white; transition: .4s; }
-    input:checked + .slider { background-color: var(--color-primary); }
-    input:checked + .slider:before { transform: translateX(20px); }
-    .slider.round { border-radius: 25px; }
-    .slider.round:before { border-radius: 50%; }
+      /* CSS cho Toggle Switch (Áp dụng cho settings.html) */
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 45px;
+        height: 25px;
+      }
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.4s;
+      }
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 17px;
+        width: 17px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: 0.4s;
+      }
+      input:checked + .slider {
+        background-color: var(--color-primary);
+      }
+      input:checked + .slider:before {
+        transform: translateX(20px);
+      }
+      .slider.round {
+        border-radius: 25px;
+      }
+      .slider.round:before {
+        border-radius: 50%;
+      }
+      .settings-chip {
+        background: rgba(90, 24, 154, 0.15);
+        color: var(--color-primary);
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 0.8em;
+        font-weight: 600;
+      }
+      .setting-hint {
+        margin-top: 25px;
+        padding: 14px 16px;
+        border-radius: 14px;
+        border: 1px solid rgba(90, 24, 154, 0.18);
+        background: rgba(79, 154, 255, 0.08);
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      .setting-hint i {
+        color: var(--color-primary);
+        margin-top: 4px;
+      }
+      .integration-card {
+        margin-top: 15px;
+        padding: 16px 18px;
+        border-radius: 14px;
+        border: 1px solid rgba(90, 24, 154, 0.12);
+        background: rgba(255, 255, 255, 0.85);
+        box-shadow: 0 10px 20px rgba(90, 24, 154, 0.08);
+      }
+      .integration-card__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .integration-status-pill {
+        background: rgba(16, 185, 129, 0.15);
+        color: #059669;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 0.8em;
+        font-weight: 600;
+      }
+      .integration-meta {
+        margin: 6px 0;
+        font-size: 0.9em;
+        color: var(--color-text-medium);
+      }
+      .integration-card ul {
+        margin: 4px 0 0 18px;
+        padding: 0;
+        color: var(--color-text-dark);
+      }
     </style>
-    
+
+    <script src="mock-data.js"></script>
+    <script src="sidebar.js"></script>
     <script>
-        // BẢNG DỊCH cho Settings
-        const SettingsTranslations = {
-             vi: { 
-                    title: "Cài đặt - Future Xion", h1: "Cài đặt Hệ thống", h2: "1. Tùy chọn Chung", 
-                    h3: "2. Kết nối Nguồn ngoài (Future Vision)", p_int: "Kết nối để tự động hóa việc ghi nhận hoạt động.",
-                    l_lang: "Ngôn ngữ Giao diện", l_bench: "Hiển thị Mức Yêu cầu Ngành (Demand Benchmark)", 
-                    l_super: "Tự động gửi yêu cầu xác nhận email Giám sát" 
-                },
-                en: { 
-                    title: "Settings - Future Xion", h1: "System Settings", h2: "1. General Options", 
-                    h3: "2. External Source Integration (Future Vision)", p_int: "Connect to automate activity logging.",
-                    l_lang: "Interface Language", l_bench: "Show Industry Demand Benchmark", 
-                    l_super: "Automatically send supervisor email confirmation requests" 
-                }
-        };
+      Sidebar.renderSidebar("settings");
+      // BẢNG DỊCH cho Settings
+      const SettingsTranslations = {
+        vi: {
+          title: "Cài đặt",
+          h1: "Cài đặt Hệ thống",
+          h2: "1. Tùy chọn Chung",
+          h3: "2. Kết nối Nguồn ngoài",
+          p_int: "Kết nối để tự động hóa việc ghi nhận hoạt động.",
+          l_lang: "Ngôn ngữ Giao diện",
+          l_bench: "Hiển thị Mức Yêu cầu Ngành",
+          l_super: "Tự động gửi yêu cầu xác nhận email Giám sát",
+          integration_last_sync: "Lần đồng bộ gần nhất",
+          integration_connected_courses: "Lớp/Course đã kết nối:",
+        },
+        en: {
+          title: "Settings - Future Xion",
+          h1: "System Settings",
+          h2: "1. General Options",
+          h3: "2. External Source Integration (Future Vision)",
+          p_int: "Connect to automate activity logging.",
+          l_lang: "Interface Language",
+          l_bench: "Show Industry Demand Benchmark",
+          l_super: "Automatically send supervisor email confirmation requests",
+          integration_last_sync: "Last synced",
+          integration_connected_courses: "Connected classes/courses:",
+        },
+      };
+      const MOCK_INTEGRATIONS = [
+        {
+          id: "google",
+          name: "Google Classroom",
+          translations: {
+            vi: {
+              status: "Đã kết nối",
+              lastSync: "10 phút trước",
+              classes: ["Design Thinking 101", "Business Analytics Cohort"],
+            },
+            en: {
+              status: "Connected",
+              lastSync: "10 minutes ago",
+              classes: ["Design Thinking 101", "Business Analytics Cohort"],
+            },
+          },
+        },
+        {
+          id: "linkedin",
+          name: "LinkedIn Learning",
+          translations: {
+            vi: {
+              status: "Đang đồng bộ",
+              lastSync: "Hôm qua, 21:15",
+              classes: ["Strategic Decision Making", "Leading Teams Virtual"],
+            },
+            en: {
+              status: "Syncing",
+              lastSync: "Yesterday, 9:15 PM",
+              classes: ["Strategic Decision Making", "Leading Teams Virtual"],
+            },
+          },
+        },
+      ];
 
-        // MOCKUP LOGIC ĐỔI NGÔN NGỮ - LƯU VÀ TẢI LẠI TRANG
-        function changeLanguage(lang) {
-            // 1. Lưu trạng thái ngôn ngữ vào LocalStorage
-            localStorage.setItem('language', lang);
-            
-            // 2. Cập nhật giao diện (chỉ cần cập nhật nội dung, không cần alert)
-            applyLanguageSettings(lang);
+      // MOCKUP LOGIC ĐỔI NGÔN NGỮ - LƯU VÀ TẢI LẠI TRANG
+      function changeLanguage(lang) {
+        // 1. Lưu trạng thái ngôn ngữ vào LocalStorage
+        localStorage.setItem("language", lang);
 
-            // 3. (Mô phỏng) Tải lại toàn bộ ứng dụng để áp dụng ngôn ngữ cho các trang khác
-            // window.location.reload(); 
-            // KHÔNG dùng reload để tránh lỗi, chỉ cập nhật nội dung trên trang hiện tại.
+        // 2. Cập nhật giao diện (chỉ cần cập nhật nội dung, không cần alert)
+        applyLanguageSettings(lang);
+
+        // 3. (Mô phỏng) Tải lại toàn bộ ứng dụng để áp dụng ngôn ngữ cho các trang khác
+        // window.location.reload();
+        // KHÔNG dùng reload để tránh lỗi, chỉ cập nhật nội dung trên trang hiện tại.
+      }
+
+      function applyLanguageSettings(lang) {
+        const currentLang = lang || localStorage.getItem("language") || "vi";
+        if (window.Sidebar) {
+          Sidebar.applySidebarLanguage(currentLang);
         }
-        
-        function applyLanguageSettings(lang) {
-             const currentLang = lang || localStorage.getItem('language') || 'vi';
-             const t = SettingsTranslations[currentLang];
-            
-            // Cập nhật các nhãn chính trên trang
-            document.title = t.title;
-            document.querySelector('h1').textContent = t.h1;
-            document.querySelector('.activity-box h2').textContent = t.h2;
-            document.getElementById('heading-integration').textContent = t.h3;
-            document.getElementById('p-integration').textContent = t.p_int;
-            document.getElementById('label-language').textContent = t.l_lang;
-            document.getElementById('label-benchmark').textContent = t.l_bench;
-            document.getElementById('label-supervisor').textContent = t.l_super;
-            document.getElementById('language-selector').value = currentLang; // Đảm bảo selector đúng
-        }
+        const t = SettingsTranslations[currentLang];
 
-        // Khôi phục trạng thái ban đầu khi tải trang
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedLang = localStorage.getItem('language') || 'vi';
-            document.getElementById('language-selector').value = savedLang;
-            applyLanguageSettings(savedLang);
-        });
+        // Cập nhật các nhãn chính trên trang
+        document.title = t.title;
+        document.querySelector("h1").textContent = t.h1;
+        document.querySelector(".activity-box h2").textContent = t.h2;
+        document.getElementById("heading-integration").textContent = t.h3;
+        document.getElementById("p-integration").textContent = t.p_int;
+        document.getElementById("label-language").textContent = t.l_lang;
+        document.getElementById("label-benchmark").textContent = t.l_bench;
+        document.getElementById("label-supervisor").textContent = t.l_super;
+        document.getElementById("language-selector").value = currentLang; // Đảm bảo selector đúng
+        const pill = document.getElementById("language-pill");
+        if (pill) {
+          pill.textContent = currentLang.toUpperCase();
+        }
+        renderIntegrationStatus();
+      }
+
+      // Khôi phục trạng thái ban đầu khi tải trang
+      document.addEventListener("DOMContentLoaded", () => {
+        const savedLang = localStorage.getItem("language") || "vi";
+        document.getElementById("language-selector").value = savedLang;
+        applyLanguageSettings(savedLang);
+      });
+
+      function renderIntegrationStatus() {
+        const container = document.getElementById("integration-status");
+        if (!container) return;
+        const lang = localStorage.getItem("language") || "vi";
+        const t = SettingsTranslations[lang] || SettingsTranslations.vi;
+        container.innerHTML = MOCK_INTEGRATIONS.map((item) => {
+          const copy =
+            item.translations?.[lang] || item.translations?.vi || item;
+          const classList = (copy.classes || [])
+            .map((course) => `<li>${course}</li>`)
+            .join("");
+          return `
+            <div class="integration-card">
+              <div class="integration-card__header">
+                <strong>${item.name}</strong>
+                <span class="integration-status-pill">${
+                  copy.status || ""
+                }</span>
+              </div>
+              <p class="integration-meta"><i class="fas fa-sync-alt"></i> ${
+                t.integration_last_sync
+              }: ${copy.lastSync || ""}</p>
+              <p class="integration-meta"><i class="fas fa-book"></i> ${
+                t.integration_connected_courses
+              }</p>
+              <ul>${classList}</ul>
+            </div>
+          `;
+        }).join("");
+      }
     </script>
-</body>
+  </body>
 </html>

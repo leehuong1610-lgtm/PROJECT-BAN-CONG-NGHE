@@ -1,212 +1,495 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-translate="title_progress">Tiến trình Phát triển - Future Xion</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-translate="title_progress">
+      Tiến trình Phát triển - Future Xion
+    </title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body onload="applyLanguageProgress()">
-    
+    <style>
+      .bar-chart-legend {
+        display: flex;
+        gap: 18px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+      }
+      .bar-chart-legend .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 600;
+        color: var(--color-text-dark, #333);
+      }
+      .bar-chart-legend .legend-color {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        border-radius: 6px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+      }
+    </style>
+  </head>
+  <body onload="applyLanguageProgress()">
     <div class="dashboard-layout">
-        <aside class="sidebar">
-            <div class="logo">future<span class="logo-xion">Xion</span></div>
-            <nav>
-                <a href="dashboard.html" data-translate="menu_dashboard"><i class="fas fa-chart-pie"></i> Dashboard</a>
-                <a href="activity.html" data-translate="menu_activity"><i class="fas fa-pen-nib"></i> Ghi nhận Hoạt động</a>
-                <a href="report.html" data-translate="menu_report"><i class="fas fa-file-alt"></i> Hồ sơ Kỹ năng (CV)</a>
-                <a href="settings.html" data-translate="menu_settings"><i class="fas fa-cog"></i> Cài đặt</a>
-                <a href="auth.html" data-translate="menu_logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
-            </nav>
-        </aside>
+      <aside class="sidebar">
+        <div class="logo">future<span class="logo-xion">Xion</span></div>
+        <nav></nav>
+      </aside>
 
-        <main class="main-content">
-            <div class="dashboard-header">
-                <h1 data-translate="h1_progress">Biểu đồ Thống kê Tiến trình</h1>
+      <main class="main-content">
+        <div class="dashboard-header">
+          <h1 data-translate="h1_progress">Biểu đồ Thống kê Tiến trình</h1>
+        </div>
+
+        <div class="chart-area" style="margin-bottom: 40px; text-align: center">
+          <h2 data-translate="h2_progress_chart">
+            BIỂU ĐỒ THỐNG KÊ QUÁ TRÌNH PHÁT TRIỂN
+          </h2>
+          <p
+            data-translate="p_your_skills"
+            style="
+              font-size: 1.1em;
+              color: var(--color-primary);
+              margin-top: -15px;
+            "
+          >
+            <i class="fas fa-star"></i> Kỹ năng của bạn
+          </p>
+
+          <div style="height: 450px; max-width: 600px; margin: 0 auto">
+            <canvas id="skillsRadarChart"></canvas>
+          </div>
+
+          <div
+            style="max-width: 400px; margin: 30px auto 0 auto; text-align: left"
+          >
+            <h3 data-translate="h3_update_progress" style="font-size: 1.4em">
+              Cập nhật tiến độ Thang điểm 1-100
+            </h3>
+            <div
+              class="form-group"
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <label for="giao-tiep" data-translate="l_communication"
+                >Giao tiếp:</label
+              >
+              <input
+                type="number"
+                id="giao-tiep"
+                value="100"
+                min="1"
+                max="100"
+                style="width: 100px"
+              />
             </div>
-
-            <div class="chart-area" style="margin-bottom: 40px; text-align: center;">
-                <h2 data-translate="h2_progress_chart">BIỂU ĐỒ THỐNG KÊ QUÁ TRÌNH PHÁT TRIỂN</h2>
-                <p data-translate="p_your_skills" style="font-size: 1.1em; color: var(--color-primary); margin-top: -15px;"><i class="fas fa-star"></i> Kỹ năng của bạn</p>
-
-                <div style="height: 450px; max-width: 600px; margin: 0 auto;">
-                    <canvas id="skillsRadarChart"></canvas>
-                </div>
-                
-                <div style="max-width: 400px; margin: 30px auto 0 auto; text-align: left;">
-                    <h3 data-translate="h3_update_progress" style="font-size: 1.4em;">Cập nhật tiến độ (Thang điểm 1-100)</h3>
-                    <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
-                        <label for="giao-tiep" data-translate="l_communication">Giao tiếp:</label>
-                        <input type="number" id="giao-tiep" value="100" min="1" max="100" style="width: 100px;">
-                    </div>
-                    <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
-                        <label for="lanh-dao" data-translate="l_leadership">Lãnh đạo:</label>
-                        <input type="number" id="lanh-dao" value="80" min="1" max="100" style="width: 100px;">
-                    </div>
-                    <div style="display: flex; gap: 15px; margin-top: 20px;">
-                         <button class="btn btn-primary" data-translate="cta_update_chart" style="padding: 10px 20px;">Cập nhật biểu đồ</button>
-                         <button class="btn btn-card" data-translate="cta_delete_data" style="padding: 10px 20px;">Xóa dữ liệu</button>
-                    </div>
-                </div>
+            <div
+              class="form-group"
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <label for="lanh-dao" data-translate="l_leadership"
+                >Lãnh đạo:</label
+              >
+              <input
+                type="number"
+                id="lanh-dao"
+                value="80"
+                min="1"
+                max="100"
+                style="width: 100px"
+              />
             </div>
-
-            <div class="chart-area" style="margin-bottom: 40px;">
-                <h2 data-translate="h2_skill_status" style="text-align: center;">Tình hình Phát triển Kỹ năng (Theo Trạng thái)</h2>
-
-                <div class="bar-chart-legend">
-                    <div class="legend-item"><span class="legend-color" style="background-color: #9370DB;"></span> <span data-translate="legend_underdeveloped">Underdeveloped</span></div>
-                    <div class="legend-item"><span class="legend-color" style="background-color: #FFD700;"></span> <span data-translate="legend_developing">Developing</span></div>
-                    <div class="legend-item"><span class="legend-color" style="background-color: #3CB371;"></span> <span data-translate="legend_developed">Developed</span></div>
-                </div>
-
-                <div class="bar-chart-container">
-                    <div class="bar-chart-box">
-                        <p data-translate="skill_teamwork" style="font-weight: 600;">Team Work</p>
-                        <div style="height: 250px;"><canvas id="teamworkChart"></canvas></div>
-                    </div>
-                    <div class="bar-chart-box">
-                        <p data-translate="skill_communication" style="font-weight: 600;">Communicate</p>
-                        <div style="height: 250px;"><canvas id="communicateChart"></canvas></div>
-                    </div>
-                    <div class="bar-chart-box">
-                        <p data-translate="skill_time_management" style="font-weight: 600;">Time management</p>
-                        <div style="height: 250px;"><canvas id="timeManagementChart"></canvas></div>
-                    </div>
-                </div>
+            <div style="display: flex; gap: 15px; margin-top: 20px">
+              <button
+                class="btn btn-primary"
+                data-translate="cta_update_chart"
+                style="padding: 10px 20px"
+              >
+                Cập nhật biểu đồ
+              </button>
+              <button
+                id="btn-clear-progress"
+                class="btn btn-card"
+                data-translate="cta_delete_data"
+                style="padding: 10px 20px"
+              >
+                Xóa dữ liệu
+              </button>
             </div>
-            
-        </main>
+          </div>
+        </div>
+
+        <div
+          id="progress-toast"
+          class="message success"
+          style="
+            display: none;
+            max-width: 420px;
+            margin: 0 auto 20px;
+            text-align: center;
+          "
+        >
+          <i class="fas fa-check-circle"></i>
+          <span
+            class="progress-toast-text"
+            data-translate="progress_toast_default"
+            >Dữ liệu đã được làm mới.</span
+          >
+        </div>
+
+        <div class="chart-area" style="margin-bottom: 40px">
+          <h2 data-translate="h2_skill_status" style="text-align: center">
+            Tình hình Phát triển Kỹ năng theo Trạng thái
+          </h2>
+
+          <div class="bar-chart-legend">
+            <div class="legend-item">
+              <span
+                class="legend-color"
+                style="background-color: #9370db"
+              ></span>
+              <span data-translate="legend_underdeveloped">Chưa cải thiện</span>
+            </div>
+            <div class="legend-item">
+              <span
+                class="legend-color"
+                style="background-color: #ffd700"
+              ></span>
+              <span data-translate="legend_developing">Đang cải thiện</span>
+            </div>
+            <div class="legend-item">
+              <span
+                class="legend-color"
+                style="background-color: #3cb371"
+              ></span>
+              <span data-translate="legend_developed">Đã cải thiện</span>
+            </div>
+          </div>
+
+          <div class="bar-chart-container">
+            <div class="bar-chart-box">
+              <p data-translate="skill_teamwork" style="font-weight: 600">
+                Team Work
+              </p>
+              <div style="height: 250px">
+                <canvas id="teamworkChart"></canvas>
+              </div>
+            </div>
+            <div class="bar-chart-box">
+              <p data-translate="skill_communication" style="font-weight: 600">
+                Communicate
+              </p>
+              <div style="height: 250px">
+                <canvas id="communicateChart"></canvas>
+              </div>
+            </div>
+            <div class="bar-chart-box">
+              <p
+                data-translate="skill_time_management"
+                style="font-weight: 600"
+              >
+                Time management
+              </p>
+              <div style="height: 250px">
+                <canvas id="timeManagementChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
 
+    <script src="mock-data.js"></script>
+    <script src="sidebar.js"></script>
     <script>
-        const ProgressTranslations = {
-            vi: {
-                title_progress: "Tiến trình Phát triển - Future Xion", h1_progress: "Biểu đồ Thống kê Tiến trình",
-                menu_dashboard: "Dashboard", menu_activity: "Ghi nhận Hoạt động", menu_report: "Hồ sơ Kỹ năng (CV)", menu_settings: "Cài đặt", menu_logout: "Đăng xuất",
-                h2_progress_chart: "BIỂU ĐỒ THỐNG KÊ QUÁ TRÌNH PHÁT TRIỂN", p_your_skills: "Kỹ năng của bạn",
-                h3_update_progress: "Cập nhật tiến độ (Thang điểm 1-100)", l_communication: "Giao tiếp:", l_leadership: "Lãnh đạo:",
-                cta_update_chart: "Cập nhật biểu đồ", cta_delete_data: "Xóa dữ liệu",
-                h2_skill_status: "Tình hình Phát triển Kỹ năng (Theo Trạng thái)",
-                legend_underdeveloped: "Underdeveloped", legend_developing: "Developing", legend_developed: "Developed",
-                skill_teamwork: "Làm việc nhóm", skill_communication: "Giao tiếp", skill_time_management: "Quản lý thời gian",
-                radar_label_user: "Kỹ năng của bạn", radar_labels: ['Giao tiếp', 'Lãnh đạo', 'Giải quyết vấn đề', 'Làm việc nhóm', 'Quản lý thời gian', 'Tư duy phản biện'],
-                bar_labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']
+      Sidebar.renderSidebar("progress");
+      const ProgressTranslations = {
+        vi: {
+          title_progress: "Tiến trình Phát triển",
+          h1_progress: "Biểu đồ Thống kê Tiến trình",
+          menu_dashboard: "Tổng quan",
+          menu_activity: "Ghi nhận Hoạt động",
+          menu_report: "Hồ sơ Kỹ năng",
+          menu_settings: "Cài đặt",
+          menu_logout: "Đăng xuất",
+          h2_progress_chart: "BIỂU ĐỒ THỐNG KÊ QUÁ TRÌNH PHÁT TRIỂN",
+          p_your_skills: "Kỹ năng của bạn",
+          h3_update_progress: "Cập nhật tiến độ Thang điểm 1-100",
+          l_communication: "Giao tiếp:",
+          l_leadership: "Lãnh đạo:",
+          cta_update_chart: "Cập nhật biểu đồ",
+          cta_delete_data: "Xóa dữ liệu",
+          h2_skill_status: "Tình hình Phát triển Kỹ năng theo Trạng thái",
+          legend_underdeveloped: "Chưa cải thiện",
+          legend_developing: "Đang cải thiện",
+          legend_developed: "Đã cải thiện",
+          skill_teamwork: "Làm việc nhóm",
+          skill_communication: "Giao tiếp",
+          skill_time_management: "Quản lý thời gian",
+          radar_label_user: "Kỹ năng của bạn",
+          radar_labels: [
+            "Giao tiếp",
+            "Lãnh đạo",
+            "Giải quyết vấn đề",
+            "Làm việc nhóm",
+            "Quản lý thời gian",
+            "Tư duy phản biện",
+          ],
+          bar_labels: ["T2", "T3", "T4", "T5", "T6", "T7", "CN"],
+          chart_label_bar_developed: "Đã cải thiện",
+          chart_label_bar_developing: "Đang cải thiện",
+          chart_label_bar_underdeveloped: "Chưa cải thiện",
+          progress_toast_default: "Dữ liệu đã được làm mới.",
+          progress_toast_refreshed: "Đã làm mới dữ liệu mô phỏng.",
+          confirm_reset_progress:
+            "Bạn có chắc muốn xóa dữ liệu tiến trình và tải lại biểu đồ?",
+        },
+        en: {
+          title_progress: "Development Progress - Future Xion",
+          h1_progress: "Progress Statistics Chart",
+          menu_dashboard: "Dashboard",
+          menu_activity: "Log Activity",
+          menu_report: "Skill Profile (CV)",
+          menu_settings: "Settings",
+          menu_logout: "Logout",
+          h2_progress_chart: "DEVELOPMENT PROGRESS STATISTICS CHART",
+          p_your_skills: "Your Skills",
+          h3_update_progress: "Update Progress (Scale 1-100)",
+          l_communication: "Communication:",
+          l_leadership: "Leadership:",
+          cta_update_chart: "Update Chart",
+          cta_delete_data: "Delete Data",
+          h2_skill_status: "Skill Development Status (By State)",
+          legend_underdeveloped: "Underdeveloped",
+          legend_developing: "Improving",
+          legend_developed: "Strengthened",
+          skill_teamwork: "Teamwork",
+          skill_communication: "Communication",
+          skill_time_management: "Time Management",
+          radar_label_user: "Your Skills",
+          radar_labels: [
+            "Communication",
+            "Leadership",
+            "Problem Solving",
+            "Teamwork",
+            "Time Management",
+            "Critical Thinking",
+          ],
+          bar_labels: ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"],
+          chart_label_bar_developed: "Strengthened",
+          chart_label_bar_developing: "Improving",
+          chart_label_bar_underdeveloped: "Underdeveloped",
+          progress_toast_default: "Data has been refreshed.",
+          progress_toast_refreshed: "Mock data was refreshed.",
+          confirm_reset_progress:
+            "Are you sure you want to clear the progress data and reload the charts?",
+        },
+      };
+
+      // Dữ liệu Mockup cho Radar Chart
+      const initialRadarData = [100, 80, 60, 80, 40, 60];
+
+      let skillsRadarChart;
+      let teamworkChart, communicateChart, timeManagementChart;
+
+      function initializeProgressCharts(lang) {
+        const t = ProgressTranslations[lang];
+
+        // 1. Radar Chart
+        const radarData = {
+          labels: t.radar_labels,
+          datasets: [
+            {
+              label: t.radar_label_user,
+              data: initialRadarData,
+              backgroundColor: "rgba(26, 67, 124, 0.5)",
+              borderColor: "var(--color-primary)",
+              fill: true,
+              pointBackgroundColor: "var(--color-accent)",
             },
-            en: {
-                title_progress: "Development Progress - Future Xion", h1_progress: "Progress Statistics Chart",
-                menu_dashboard: "Dashboard", menu_activity: "Log Activity", menu_report: "Skill Profile (CV)", menu_settings: "Settings", menu_logout: "Logout",
-                h2_progress_chart: "DEVELOPMENT PROGRESS STATISTICS CHART", p_your_skills: "Your Skills",
-                h3_update_progress: "Update Progress (Scale 1-100)", l_communication: "Communication:", l_leadership: "Leadership:",
-                cta_update_chart: "Update Chart", cta_delete_data: "Delete Data",
-                h2_skill_status: "Skill Development Status (By State)",
-                legend_underdeveloped: "Underdeveloped", legend_developing: "Developing", legend_developed: "Developed",
-                skill_teamwork: "Teamwork", skill_communication: "Communication", skill_time_management: "Time Management",
-                radar_label_user: "Your Skills", radar_labels: ['Communication', 'Leadership', 'Problem Solving', 'Teamwork', 'Time Management', 'Critical Thinking'],
-                bar_labels: ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun']
-            }
+          ],
         };
 
-        // Dữ liệu Mockup cho Radar Chart
-        const initialRadarData = [100, 80, 60, 80, 40, 60]; 
-        
-        let skillsRadarChart;
-        let teamworkChart, communicateChart, timeManagementChart;
-
-        function initializeProgressCharts(lang) {
-            const t = ProgressTranslations[lang];
-            
-            // 1. Radar Chart
-            const radarData = {
-                labels: t.radar_labels,
-                datasets: [{
-                    label: t.radar_label_user,
-                    data: initialRadarData,
-                    backgroundColor: 'rgba(26, 67, 124, 0.5)',
-                    borderColor: 'var(--color-primary)',
-                    fill: true,
-                    pointBackgroundColor: 'var(--color-accent)'
-                }]
-            };
-
-            var radarCtx = document.getElementById('skillsRadarChart').getContext('2d');
-            skillsRadarChart = new Chart(radarCtx, {
-                type: 'radar', data: radarData, options: { responsive: true, maintainAspectRatio: false, scales: { r: { suggestedMin: 0, suggestedMax: 100, ticks: { stepSize: 20 } } }, plugins: { legend: { display: false } } }
-            });
-
-            // 2. Bar Charts
-            const barOptions = { 
-                responsive: true, maintainAspectRatio: false, 
-                scales: { 
-                    x: { stacked: true, labels: t.bar_labels }, 
-                    y: { stacked: true, suggestedMin: 0, suggestedMax: 100 } 
-                }, 
-                plugins: { legend: { display: false } } 
-            };
-            
-            const createBarChart = (elementId, dataDeveloped, dataDeveloping, dataUnderdeveloped) => {
-                 return new Chart(document.getElementById(elementId), {
-                    type: 'bar',
-                    data: {
-                        labels: t.bar_labels,
-                        datasets: [
-                            { label: 'Developed', data: dataDeveloped, backgroundColor: '#3CB371' }, 
-                            { label: 'Developing', data: dataDeveloping, backgroundColor: '#FFD700' }, 
-                            { label: 'Underdeveloped', data: dataUnderdeveloped, backgroundColor: '#9370DB' }
-                        ]
-                    },
-                    options: barOptions
-                });
-            };
-
-            // Khởi tạo các Bar Chart (Dữ liệu cố định)
-            teamworkChart = createBarChart('teamworkChart', [30, 50, 70, 40, 50, 60, 70], [40, 30, 20, 20, 30, 20, 10], [30, 20, 10, 40, 20, 20, 20]);
-            communicateChart = createBarChart('communicateChart', [20, 30, 10, 20, 30, 40, 50], [10, 20, 50, 40, 30, 20, 10], [70, 50, 40, 40, 40, 40, 40]);
-            timeManagementChart = createBarChart('timeManagementChart', [30, 40, 50, 30, 40, 20, 10], [10, 20, 20, 30, 30, 40, 50], [60, 40, 30, 40, 30, 40, 40]);
-        }
-        
-        function applyLanguageProgress() {
-            const currentLang = localStorage.getItem('language') || 'vi';
-            document.title = ProgressTranslations[currentLang].title_progress;
-            const t = ProgressTranslations[currentLang];
-            
-            // Cập nhật tất cả các phần tử có data-translate
-            document.querySelectorAll('[data-translate]').forEach(element => {
-                const key = element.getAttribute('data-translate');
-                if (t[key]) {
-                    if (key.includes('cta_')) {
-                        // Giữ lại icon nếu có
-                        const icon = element.querySelector('i');
-                        element.textContent = t[key];
-                        if (icon) element.prepend(icon);
-                    } else if (key.includes('menu_')) {
-                        // Xử lý menu sidebar
-                        const icon = element.querySelector('i');
-                        element.innerHTML = icon.outerHTML + ' ' + t[key];
-                    } else if (key.includes('p_your_skills')) {
-                        // Giữ lại icon sao
-                        const icon = element.querySelector('i');
-                        element.innerHTML = icon.outerHTML + ' ' + t[key];
-                    } else {
-                        element.textContent = t[key];
-                    }
-                }
-            });
-            
-            // Cập nhật lại Charts với ngôn ngữ mới
-            // Phải hủy và khởi tạo lại charts vì cần thay đổi nhãn trục/nhãn data
-            if (skillsRadarChart) skillsRadarChart.destroy();
-            if (teamworkChart) teamworkChart.destroy();
-            if (communicateChart) communicateChart.destroy();
-            if (timeManagementChart) timeManagementChart.destroy();
-            
-            initializeProgressCharts(currentLang);
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-             // Hàm applyLanguageProgress được gọi trong body onload
+        var radarCtx = document
+          .getElementById("skillsRadarChart")
+          .getContext("2d");
+        skillsRadarChart = new Chart(radarCtx, {
+          type: "radar",
+          data: radarData,
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              r: {
+                suggestedMin: 0,
+                suggestedMax: 100,
+                ticks: { stepSize: 20 },
+              },
+            },
+            plugins: { legend: { display: false } },
+          },
         });
+
+        // 2. Bar Charts
+        const barOptions = {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { stacked: true, labels: t.bar_labels },
+            y: { stacked: true, suggestedMin: 0, suggestedMax: 100 },
+          },
+          plugins: { legend: { display: false } },
+        };
+
+        const createBarChart = (
+          elementId,
+          dataDeveloped,
+          dataDeveloping,
+          dataUnderdeveloped
+        ) => {
+          return new Chart(document.getElementById(elementId), {
+            type: "bar",
+            data: {
+              labels: t.bar_labels,
+              datasets: [
+                {
+                  label: t.chart_label_bar_developed,
+                  data: dataDeveloped,
+                  backgroundColor: "#3CB371",
+                },
+                {
+                  label: t.chart_label_bar_developing,
+                  data: dataDeveloping,
+                  backgroundColor: "#FFD700",
+                },
+                {
+                  label: t.chart_label_bar_underdeveloped,
+                  data: dataUnderdeveloped,
+                  backgroundColor: "#9370DB",
+                },
+              ],
+            },
+            options: barOptions,
+          });
+        };
+
+        // Khởi tạo các Bar Chart (Dữ liệu cố định)
+        teamworkChart = createBarChart(
+          "teamworkChart",
+          [30, 50, 70, 40, 50, 60, 70],
+          [40, 30, 20, 20, 30, 20, 10],
+          [30, 20, 10, 40, 20, 20, 20]
+        );
+        communicateChart = createBarChart(
+          "communicateChart",
+          [20, 30, 10, 20, 30, 40, 50],
+          [10, 20, 50, 40, 30, 20, 10],
+          [70, 50, 40, 40, 40, 40, 40]
+        );
+        timeManagementChart = createBarChart(
+          "timeManagementChart",
+          [30, 40, 50, 30, 40, 20, 10],
+          [10, 20, 20, 30, 30, 40, 50],
+          [60, 40, 30, 40, 30, 40, 40]
+        );
+      }
+
+      function applyLanguageProgress() {
+        const currentLang = localStorage.getItem("language") || "vi";
+        document.documentElement.lang = currentLang;
+        if (window.Sidebar) {
+          Sidebar.applySidebarLanguage(currentLang);
+        }
+        document.title = ProgressTranslations[currentLang].title_progress;
+        const t = ProgressTranslations[currentLang];
+
+        // Cập nhật tất cả các phần tử có data-translate
+        document.querySelectorAll("[data-translate]").forEach((element) => {
+          const key = element.getAttribute("data-translate");
+          if (!t[key]) return;
+          if (key.includes("menu_")) return;
+          if (key.includes("cta_")) {
+            const icon = element.querySelector("i");
+            element.textContent = t[key];
+            if (icon) element.prepend(icon);
+          } else if (key.includes("p_your_skills")) {
+            const icon = element.querySelector("i");
+            element.innerHTML = icon ? icon.outerHTML + " " + t[key] : t[key];
+          } else {
+            element.textContent = t[key];
+          }
+        });
+
+        // Cập nhật lại Charts với ngôn ngữ mới
+        // Phải hủy và khởi tạo lại charts vì cần thay đổi nhãn trục/nhãn data
+        if (skillsRadarChart) skillsRadarChart.destroy();
+        if (teamworkChart) teamworkChart.destroy();
+        if (communicateChart) communicateChart.destroy();
+        if (timeManagementChart) timeManagementChart.destroy();
+
+        initializeProgressCharts(currentLang);
+      }
+
+      function handleProgressReset() {
+        const currentLang = localStorage.getItem("language") || "vi";
+        const t = ProgressTranslations[currentLang];
+        const confirmed = confirm(t.confirm_reset_progress);
+        if (!confirmed) return;
+        localStorage.removeItem("userActivities");
+        if (window.MockData?.ensureMockActivities) {
+          window.MockData.ensureMockActivities(true);
+        }
+        resetChartInputs();
+        applyLanguageProgress();
+        showProgressToast(t.progress_toast_refreshed);
+      }
+
+      function resetChartInputs() {
+        const giaoTiep = document.getElementById("giao-tiep");
+        const lanhDao = document.getElementById("lanh-dao");
+        if (giaoTiep) giaoTiep.value = 100;
+        if (lanhDao) lanhDao.value = 80;
+      }
+
+      function showProgressToast(message) {
+        const toast = document.getElementById("progress-toast");
+        if (!toast) return;
+        const currentLang = localStorage.getItem("language") || "vi";
+        const t = ProgressTranslations[currentLang];
+        const text = message || t.progress_toast_default;
+        const textSpan = toast.querySelector(".progress-toast-text");
+        if (textSpan) {
+          textSpan.textContent = text;
+        } else {
+          toast.textContent = text;
+        }
+        toast.style.display = "block";
+        clearTimeout(showProgressToast.timeoutId);
+        showProgressToast.timeoutId = setTimeout(() => {
+          toast.style.display = "none";
+        }, 2500);
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const resetBtn = document.getElementById("btn-clear-progress");
+        if (resetBtn) {
+          resetBtn.addEventListener("click", handleProgressReset);
+        }
+      });
     </script>
-</body>
+  </body>
 </html>

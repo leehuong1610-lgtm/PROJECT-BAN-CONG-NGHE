@@ -1,192 +1,946 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ghi nhận Hoạt động - Future Xion</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        :root {
-            --color-primary: #5A189A;
-            --color-accent: #4F9AFF;
-            --color-callout: #FFD700;
-            --glass-background: rgba(255, 255, 255, 0.6);
-            --color-white: #ffffff;
-            --color-background-light: #f7f7f7;
-            --color-text-dark: #333;
-            --border-color: #ddd;
-        }
+      .page-header {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+        margin-bottom: 20px;
+      }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--color-background-light);
-            color: var(--color-text-dark);
-        }
+      .page-header h1 {
+        font-size: 2.1em;
+        margin: 0;
+      }
 
-        .container {
-            max-width: 700px;
-            margin: 50px auto;
-            padding: 30px;
-            background: var(--glass-background);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+      .btn-link {
+        color: var(--color-primary);
+        text-decoration: none;
+        font-weight: 600;
+      }
 
-        h1 {
-            font-family: 'Outfit', sans-serif;
-            color: var(--color-primary);
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-        }
+      .insights-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+        margin-bottom: 30px;
+      }
+      .insight-card {
+        background: var(--glass-background);
+        border-radius: 18px;
+        padding: 20px;
+        box-shadow: 0 12px 25px rgba(90, 24, 154, 0.08);
+      }
+      .insight-card span {
+        font-size: 0.85em;
+        color: var(--color-text-medium);
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+      .insight-card strong {
+        display: block;
+        margin-top: 10px;
+        font-size: 1.8em;
+      }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+      .info-banner {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        padding: 16px 20px;
+        border-radius: 18px;
+        background: linear-gradient(
+          120deg,
+          rgba(90, 24, 154, 0.12),
+          rgba(79, 154, 255, 0.12)
+        );
+        color: var(--color-text-dark);
+        margin-bottom: 24px;
+        font-size: 0.95em;
+      }
+      .info-banner i {
+        font-size: 1.4em;
+        color: var(--color-primary);
+      }
+      .template-bank {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 25px;
+      }
+      .template-pill {
+        border: 1px solid rgba(90, 24, 154, 0.25);
+        background: rgba(255, 255, 255, 0.7);
+        color: var(--color-primary);
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-size: 0.85em;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+      .template-pill:hover {
+        background: rgba(90, 24, 154, 0.1);
+        transform: translateY(-1px);
+      }
+      .form-wrapper {
+        background: #fff;
+        border-radius: 24px;
+        padding: 32px 34px 36px;
+        box-shadow: 0 25px 60px rgba(90, 24, 154, 0.12);
+      }
 
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 5px;
-            font-size: 0.95em;
-        }
+      .form-intro {
+        margin-bottom: 30px;
+      }
+      .form-intro p {
+        color: var(--color-text-medium);
+        margin: 10px 0 0;
+      }
 
-        input[type="text"], input[type="date"], select, textarea, input[type="number"] {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1em;
-        }
-        
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 22px 28px;
+      }
 
-        .btn-primary {
-            background-color: var(--color-primary);
-            color: var(--color-white);
-            border: none;
-            border-radius: 8px;
-            padding: 12px 20px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .form-group label {
+        font-weight: 600;
+        font-size: 0.95em;
+      }
+      .form-group small {
+        color: var(--color-text-medium);
+        font-size: 0.8em;
+      }
+      .char-counter {
+        text-align: right;
+        font-size: 0.8em;
+        color: var(--color-text-medium);
+      }
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 1px solid rgba(90, 24, 154, 0.2);
+        font-size: 1em;
+        font-family: "Roboto", sans-serif;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px rgba(90, 24, 154, 0.15);
+      }
+      textarea {
+        min-height: 150px;
+        resize: vertical;
+      }
 
-        .btn-primary:hover {
-            background-color: #4B1480;
-        }
+      .form-actions {
+        margin-top: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        justify-content: flex-end;
+      }
+      .btn {
+        border: none;
+        border-radius: 999px;
+        padding: 12px 22px;
+        font-size: 0.95em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.1s ease, box-shadow 0.2s ease;
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, #6a3ab7, #9c6dff);
+        color: #fff;
+        box-shadow: 0 15px 35px rgba(106, 58, 183, 0.25);
+      }
+      .btn-outline {
+        background: #fff;
+        color: var(--color-text-dark);
+        border: 1px solid rgba(90, 24, 154, 0.25);
+      }
+      .btn:active {
+        transform: translateY(1px);
+      }
 
-        .message {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 8px;
-            font-weight: 500;
+      .message {
+        margin-top: 20px;
+        padding: 14px 16px;
+        border-radius: 14px;
+        font-weight: 500;
+        display: none;
+      }
+      .message.show {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .message.success {
+        background: rgba(16, 185, 129, 0.12);
+        color: var(--color-success);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+      }
+      .message.error {
+        background: rgba(239, 68, 68, 0.12);
+        color: #ef4444;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+      }
+      .live-preview-card {
+        margin-top: 30px;
+        border-radius: 18px;
+        padding: 24px;
+        border: 1px solid rgba(90, 24, 154, 0.12);
+        background: rgba(247, 247, 255, 0.9);
+        box-shadow: inset 0 0 20px rgba(90, 24, 154, 0.05);
+      }
+      .live-preview-card h3 {
+        margin-top: 0;
+        margin-bottom: 6px;
+      }
+      .live-preview-card .preview-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        font-size: 0.9em;
+        color: var(--color-text-medium);
+      }
+      .preview-chip {
+        background: rgba(90, 24, 154, 0.15);
+        color: var(--color-primary);
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 0.8em;
+        font-weight: 600;
+      }
+
+      @media (max-width: 768px) {
+        .page-header {
+          flex-direction: column;
+          align-items: flex-start;
         }
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <div class="dashboard-layout">
+      <aside class="sidebar">
+        <div class="logo">Future<span class="logo-xion">Xion</span></div>
+        <nav></nav>
+      </aside>
 
-    <div class="container">
-        <h1><i class="fas fa-pen-nib"></i> Ghi nhận Hoạt động & Kinh nghiệm</h1>
-        <p>Vui lòng điền chi tiết kinh nghiệm của bạn để hệ thống có thể đo lường kỹ năng mềm.</p>
-        
-        <form id="activityForm" onsubmit="saveActivity(event)">
-            <div class="form-group">
-                <label for="activityName">Tên Hoạt động/Dự án:</label>
-                <input type="text" id="activityName" required placeholder="Ví dụ: Dự án Marketing CLB Yêu Sách">
-            </div>
+      <main class="main-content">
+        <div class="page-header">
+          <div>
+            <p
+              class="btn-link"
+              style="margin: 0"
+              data-translate="activity_tagline"
+            >
+              #LogSkill
+            </p>
+            <h1 data-translate="h1_activity">
+              Ghi nhận Hoạt động & Kinh nghiệm
+            </h1>
+          </div>
+          <a href="dashboard.html" class="btn-link">
+            <i class="fas fa-arrow-left"></i>
+            <span data-translate="back_to_dashboard">Trở về Dashboard</span>
+          </a>
+        </div>
 
-            <div class="form-group">
-                <label for="activitySkill">Kỹ năng Chính được Đo lường (Mock):</label>
+        <div class="insights-grid">
+          <div class="insight-card">
+            <span data-translate="insight_logged_label">Hoạt động đã ghi</span>
+            <strong id="insight-activities-count">0</strong>
+          </div>
+          <div class="insight-card">
+            <span data-translate="insight_average_label">Điểm trung bình</span>
+            <strong id="insight-average-score">0</strong>
+          </div>
+          <div class="insight-card">
+            <span data-translate="insight_top_skill_label"
+              >Kỹ năng nổi bật</span
+            >
+            <strong id="insight-top-skill">—</strong>
+          </div>
+        </div>
+
+        <div class="info-banner">
+          <i class="fas fa-lightbulb"></i>
+          <div data-translate="info_banner_message">
+            Sử dụng các mẫu hoạt động nhanh để tự động điền biểu mẫu, sau đó
+            tinh chỉnh nội dung theo trải nghiệm của bạn.
+          </div>
+        </div>
+
+        <div class="template-bank" id="template-bank"></div>
+
+        <section class="form-wrapper">
+          <div class="form-intro">
+            <h2 style="margin: 0" data-translate="form_title">
+              Thêm hoạt động mới
+            </h2>
+            <p data-translate="form_description">
+              Điền thông tin theo mô hình STAR để FutureXion chấm điểm kỹ năng
+              chính xác hơn.
+            </p>
+            <p
+              id="form-mode-helper"
+              class="color-text-medium"
+              style="display: none; font-size: 0.9em"
+              data-translate="form_edit_helper"
+            >
+              Bạn đang chỉnh sửa hoạt động đã ghi nhận. Cập nhật nội dung và lưu
+              lại để đồng bộ Dashboard.
+            </p>
+          </div>
+
+          <form id="activityForm" onsubmit="saveActivity(event)">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="activityName" data-translate="label_activity_name"
+                  >Tên hoạt động / dự án</label
+                >
+                <input
+                  type="text"
+                  id="activityName"
+                  placeholder="Ví dụ: Mentoring học kỳ Fall"
+                  required
+                />
+                <small data-translate="helper_activity_name"
+                  >Gợi ý: Sự kiện + vai trò</small
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="activitySkill" data-translate="label_activity_skill"
+                  >Kỹ năng chính</label
+                >
                 <select id="activitySkill" required>
-                    <option value="">-- Chọn một kỹ năng --</option>
-                    <option value="Teamwork">Teamwork (Làm việc nhóm)</option>
-                    <option value="Leadership">Leadership (Lãnh đạo)</option>
-                    <option value="ProblemSolving">Giải quyết Vấn đề</option>
-                    <option value="Communication">Giao tiếp</option>
+                  <option value="" data-translate="option_select_skill">
+                    -- Chọn kỹ năng --
+                  </option>
+                  <option value="Leadership">Lãnh đạo</option>
+                  <option value="Communication">
+                    Giao tiếp
+                  </option>
+                  <option value="ProblemSolving">Giải quyết vấn đề</option>
+                  <option value="Teamwork">Làm việc nhóm</option>
+                  <option value="CriticalThinking">Tư duy phản biện</option>
                 </select>
+                <small data-translate="helper_activity_skill"
+                  >Chọn kỹ năng bạn muốn cải thiện</small
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="activityDate" data-translate="label_activity_date"
+                  >Ngày hoàn thành</label
+                >
+                <input type="date" id="activityDate" required />
+                <small data-translate="helper_activity_date"
+                  >Tự động mặc định hôm nay</small
+                >
+              </div>
+
+              <div class="form-group">
+                <label
+                  for="activityPoints"
+                  data-translate="label_activity_points"
+                  >Điểm tác động (10 - 100)</label
+                >
+                <input
+                  type="number"
+                  id="activityPoints"
+                  min="10"
+                  max="100"
+                  value="78"
+                  required
+                />
+                <small data-translate="helper_activity_points"
+                  >Điểm càng cao, kỹ năng càng tăng mạnh</small
+                >
+              </div>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                <div class="form-group">
-                    <label for="activityDate">Ngày hoàn thành (Mock):</label>
-                    <input type="date" id="activityDate" required>
-                </div>
-                <div class="form-group">
-                    <label for="activityPoints">Điểm tự đánh giá (10-100):</label>
-                    <input type="number" id="activityPoints" min="10" max="100" required value="75">
-                </div>
+            <div class="form-group" style="margin-top: 20px">
+              <label
+                for="activityDescription"
+                data-translate="label_activity_description"
+                >Mô tả chi tiết</label
+              >
+              <textarea
+                id="activityDescription"
+                placeholder="Tóm tắt theo STAR: bối cảnh, nhiệm vụ, hành động, kết quả có số liệu."
+                required
+              ></textarea>
+              <div class="char-counter">
+                <span id="description-count">0</span>
+                <span data-translate="description_max">/500 ký tự</span>
+              </div>
+              <small data-translate="helper_activity_description"
+                >Ví dụ: Dẫn dắt 6 thành viên, đạt 120% KPI tài trợ</small
+              >
             </div>
 
-            <div class="form-group">
-                <label for="activityDescription">Mô tả (Vai trò, Kết quả):</label>
-                <textarea id="activityDescription" required placeholder="Sử dụng phương pháp STAR để mô tả vai trò và kết quả đạt được."></textarea>
+            <div class="form-actions">
+              <button
+                type="button"
+                class="btn btn-outline"
+                onclick="resetForm()"
+                data-translate="cta_reset_form"
+              >
+                Làm mới biểu mẫu
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i>
+                <span id="form-submit-label">Lưu & cập nhật Dashboard</span>
+              </button>
             </div>
-            
-            <button type="submit" class="btn-primary" style="width: 100%;"><i class="fas fa-save"></i> Lưu & Cập nhật Dashboard</button>
-            <div id="messageOutput"></div>
-        </form>
+            <div id="messageOutput" class="message"></div>
+          </form>
+
+          <div class="live-preview-card" id="activity-preview">
+            <h3 data-translate="preview_title">Xem trước hoạt động</h3>
+            <div class="preview-meta" id="preview-meta"></div>
+            <p
+              class="color-text-medium"
+              id="preview-description"
+              data-translate="preview_placeholder"
+            >
+              Nội dung xem trước sẽ xuất hiện tại đây khi bạn nhập dữ liệu.
+            </p>
+          </div>
+        </section>
+      </main>
     </div>
 
+    <script src="mock-data.js"></script>
+    <script src="sidebar.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Có thể thêm logic kiểm tra đăng nhập tại đây
+      Sidebar.renderSidebar("activity");
+
+      const ActivityTranslations = {
+        vi: {
+          title: "Ghi nhận Hoạt động",
+          activity_tagline: "",
+          h1_activity: "Ghi nhận Hoạt động & Kinh nghiệm",
+          back_to_dashboard: "Trở về tổng quan",
+          insight_logged_label: "Hoạt động đã ghi",
+          insight_average_label: "Điểm trung bình",
+          insight_top_skill_label: "Kỹ năng nổi bật",
+          info_banner_message:
+            "Sử dụng các mẫu hoạt động nhanh để tự động điền biểu mẫu, sau đó tinh chỉnh nội dung theo trải nghiệm của bạn.",
+          form_title: "Thêm hoạt động mới",
+          form_description:
+            "Điền thông tin theo mô hình STAR để FutureXion chấm điểm kỹ năng chính xác hơn.",
+          form_edit_helper:
+            "Bạn đang chỉnh sửa hoạt động đã ghi nhận. Cập nhật nội dung và lưu lại để đồng bộ tổng quan.",
+          label_activity_name: "Tên hoạt động / dự án",
+          placeholder_activityName: "Ví dụ: Mentoring học kỳ Fall",
+          helper_activity_name: "Gợi ý: Sự kiện + vai trò",
+          label_activity_skill: "Kỹ năng chính",
+          option_select_skill: "-- Chọn kỹ năng --",
+          helper_activity_skill: "Chọn kỹ năng bạn muốn cải thiện",
+          label_activity_date: "Ngày hoàn thành",
+          helper_activity_date: "Tự động mặc định hôm nay",
+          label_activity_points: "Điểm tác động 10 - 100",
+          helper_activity_points: "Điểm càng cao, kỹ năng càng tăng mạnh",
+          label_activity_description: "Mô tả chi tiết",
+          placeholder_activityDescription:
+            "Tóm tắt theo STAR: bối cảnh, nhiệm vụ, hành động, kết quả có số liệu.",
+          description_max: "/500 ký tự",
+          helper_activity_description:
+            "Ví dụ: Dẫn dắt 6 thành viên, đạt 120% KPI tài trợ",
+          cta_reset_form: "Làm mới biểu mẫu",
+          cta_save_activity: "Lưu & cập nhật tổng quan",
+          cta_update_activity: "Cập nhật & đồng bộ tổng quan",
+          preview_title: "Xem trước hoạt động",
+          preview_placeholder:
+            "Nội dung xem trước sẽ xuất hiện tại đây khi bạn nhập dữ liệu.",
+          preview_default_name: "Tên hoạt động",
+          preview_default_skill: "Kỹ năng",
+          preview_default_date: "Ngày chưa cập nhật",
+          preview_default_description:
+            "Nhập mô tả để xem trước câu chuyện của bạn.",
+          preview_points_label: "Điểm tác động",
+          message_success_create:
+            "Đã ghi nhận thành công! tổng quan sẽ được cập nhật.",
+          message_success_update:
+            "Đã cập nhật hoạt động thành công! tổng quan sẽ được đồng bộ.",
+          top_skill_empty: "—",
+          skill_labels: {
+            Leadership: "Lãnh đạo",
+            Communication: "Giao tiếp",
+            ProblemSolving: "Giải quyết vấn đề",
+            Teamwork: "Làm việc nhóm",
+            CriticalThinking: "Tư duy phản biện",
+          },
+          templates: {
+            fundraising: {
+              label: "Chiến dịch gây quỹ",
+              name: "Chiến dịch gây quỹ Mùa Hè Xanh",
+              description:
+                "Dẫn dắt 8 thành viên triển khai chiến dịch 30 ngày, đạt 125% mục tiêu tài trợ và tối ưu ngân sách truyền thông 15%.",
+            },
+            storytelling: {
+              label: "Workshop giao tiếp",
+              name: "Workshop Storytelling cho tân sinh viên",
+              description:
+                "Thiết kế nội dung và đứng lớp cho 120 sinh viên, nhận đánh giá 4.7/5 và huấn luyện 10 bạn tham gia phần thực hành.",
+            },
+            hackathon: {
+              label: "Case hackathon",
+              name: "Case Hackathon FutureXion",
+              description:
+                "Phân tích dữ liệu hành vi người dùng và đề xuất 3 tính năng ưu tiên giúp tăng 18% tỷ lệ quay lại ứng dụng.",
+            },
+          },
+        },
+        en: {
+          title: "Log Activity - Future Xion",
+          activity_tagline: "#LogSkill",
+          h1_activity: "Log Activities & Experiences",
+          back_to_dashboard: "Back to Dashboard",
+          insight_logged_label: "Activities logged",
+          insight_average_label: "Average score",
+          insight_top_skill_label: "Most active skill",
+          info_banner_message:
+            "Use quick-fill templates to auto-populate the form, then tweak the story to match your experience.",
+          form_title: "Add a new activity",
+          form_description:
+            "Complete the STAR-inspired form so FutureXion can evaluate your skills accurately.",
+          form_edit_helper:
+            "You are editing a logged activity. Update the details and save to sync the dashboard.",
+          label_activity_name: "Activity / project name",
+          placeholder_activityName: "Example: Fall Mentoring Sprint",
+          helper_activity_name: "Hint: event + role",
+          label_activity_skill: "Primary skill",
+          option_select_skill: "-- Select a skill --",
+          helper_activity_skill: "Choose the skill you want to strengthen",
+          label_activity_date: "Completion date",
+          helper_activity_date: "Defaults to today automatically",
+          label_activity_points: "Impact score (10 - 100)",
+          helper_activity_points:
+            "The higher the score, the more the skill improves",
+          label_activity_description: "Detailed narrative",
+          placeholder_activityDescription:
+            "Summarize with STAR: situation, task, action, measurable result.",
+          description_max: "/500 characters",
+          helper_activity_description:
+            "Example: Led 6 teammates and hit 120% of the fundraising KPI",
+          cta_reset_form: "Reset form",
+          cta_save_activity: "Save & refresh Dashboard",
+          cta_update_activity: "Update & sync Dashboard",
+          preview_title: "Activity preview",
+          preview_placeholder:
+            "Your story preview will appear here as you type.",
+          preview_default_name: "Activity name",
+          preview_default_skill: "Skill",
+          preview_default_date: "Date not provided",
+          preview_default_description:
+            "Describe the activity to preview your story.",
+          preview_points_label: "Impact score",
+          message_success_create:
+            "Activity saved! Dashboard will be refreshed.",
+          message_success_update:
+            "Activity updated successfully! Dashboard will stay in sync.",
+          top_skill_empty: "—",
+          skill_labels: {
+            Leadership: "Leadership",
+            Communication: "Communication",
+            ProblemSolving: "Problem Solving",
+            Teamwork: "Teamwork",
+            CriticalThinking: "Critical Thinking",
+          },
+          templates: {
+            fundraising: {
+              label: "Fundraising campaign",
+              name: "Green Summer fundraising campaign",
+              description:
+                "Led an 8-member squad for 30 days, exceeded the sponsorship goal by 125% and optimized the media budget by 15%.",
+            },
+            storytelling: {
+              label: "Storytelling workshop",
+              name: "Storytelling workshop for freshmen",
+              description:
+                "Designed content and facilitated a 120-student session, earned a 4.7/5 score, and coached 10 peers during practice.",
+            },
+            hackathon: {
+              label: "Hackathon case",
+              name: "FutureXion Hackathon Case",
+              description:
+                "Analyzed user behavior data and pitched 3 priority features that lifted retention by 18%.",
+            },
+          },
+        },
+      };
+
+      const activityTemplates = [
+        { key: "fundraising", skill: "Leadership", points: 88 },
+        { key: "storytelling", skill: "Communication", points: 90 },
+        { key: "hackathon", skill: "CriticalThinking", points: 82 },
+      ];
+
+      let editingActivityId = null;
+
+      document.addEventListener("DOMContentLoaded", () => {
+        populateDefaultDate();
+        updateActivityInsights();
+        bindTemplates();
+        setupDescriptionCounter();
+        attachPreviewListeners();
+        applyLanguageActivity();
+        checkEditingMode();
+      });
+
+      function getActivityDict(lang) {
+        return ActivityTranslations[lang] || ActivityTranslations.vi;
+      }
+
+      function applyLanguageActivity(lang) {
+        const currentLang = lang || localStorage.getItem("language") || "vi";
+        document.documentElement.lang = currentLang;
+        const dict = getActivityDict(currentLang);
+        if (window.Sidebar) {
+          Sidebar.applySidebarLanguage(currentLang);
+        }
+        document.title = dict.title;
+
+        document.querySelectorAll("[data-translate]").forEach((element) => {
+          const key = element.getAttribute("data-translate");
+          if (dict[key]) {
+            element.textContent = dict[key];
+          }
         });
 
-        // Hàm chính để lưu dữ liệu vào localStorage
-        function saveActivity(event) {
-            event.preventDefault(); // Ngăn form gửi đi
-
-            const form = document.getElementById('activityForm');
-            const messageOutput = document.getElementById('messageOutput');
-            const userName = localStorage.getItem('currentUser') || 'Unknown User'; // Lấy tên người dùng
-
-            // 1. Lấy dữ liệu từ Form
-            const newActivity = {
-                id: Date.now(),
-                user: userName,
-                name: document.getElementById('activityName').value,
-                skill: document.getElementById('activitySkill').value,
-                date: document.getElementById('activityDate').value,
-                points: parseInt(document.getElementById('activityPoints').value),
-                description: document.getElementById('activityDescription').value
-            };
-
-            // 2. Tải danh sách hoạt động hiện có (hoặc mảng rỗng nếu chưa có)
-            const activitiesJson = localStorage.getItem('userActivities');
-            let activities = activitiesJson ? JSON.parse(activitiesJson) : [];
-            
-            // 3. Thêm hoạt động mới vào đầu mảng (để hiển thị mới nhất trước)
-            activities.unshift(newActivity);
-
-            // 4. Lưu lại danh sách cập nhật vào localStorage
-            localStorage.setItem('userActivities', JSON.stringify(activities));
-            
-            // 5. Hiển thị thông báo thành công
-            messageOutput.innerHTML = `<div class="message success"><i class="fas fa-check-circle"></i> Đã ghi nhận thành công! Dashboard sẽ được cập nhật.</div>`;
-            
-            // Tùy chọn: Xóa form sau khi lưu
-            form.reset();
-            
-            // Tùy chọn: Tự động chuyển về Dashboard sau 2 giây để xem kết quả
-            setTimeout(() => {
-                 window.location.href = 'dashboard.html';
-            }, 2000);
+        const nameInput = document.getElementById("activityName");
+        if (nameInput) nameInput.placeholder = dict.placeholder_activityName;
+        const skillSelect = document.getElementById("activitySkill");
+        if (skillSelect) {
+          const placeholderOption =
+            skillSelect.querySelector("option[value='']");
+          if (placeholderOption) {
+            placeholderOption.textContent = dict.option_select_skill;
+          }
         }
-    </script>
+        const descInput = document.getElementById("activityDescription");
+        if (descInput) {
+          descInput.placeholder = dict.placeholder_activityDescription;
+        }
+        const submitLabel = document.getElementById("form-submit-label");
+        if (submitLabel) {
+          submitLabel.textContent = editingActivityId
+            ? dict.cta_update_activity
+            : dict.cta_save_activity;
+        }
+        const previewDescription = document.getElementById(
+          "preview-description"
+        );
+        if (previewDescription && descInput && !descInput.value.trim()) {
+          previewDescription.textContent = dict.preview_placeholder;
+        }
 
-</body>
+        bindTemplates();
+        updateActivityInsights();
+        updateLivePreview();
+      }
+
+      function populateDefaultDate() {
+        const dateField = document.getElementById("activityDate");
+        if (dateField && !dateField.value) {
+          const today = new Date().toISOString().split("T")[0];
+          dateField.value = today;
+        }
+      }
+
+      function updateActivityInsights() {
+        const activitiesJson = localStorage.getItem("userActivities");
+        const activities = activitiesJson ? JSON.parse(activitiesJson) : [];
+        const countEl = document.getElementById("insight-activities-count");
+        const avgEl = document.getElementById("insight-average-score");
+        const topSkillEl = document.getElementById("insight-top-skill");
+        const currentLang = localStorage.getItem("language") || "vi";
+        const dict = getActivityDict(currentLang);
+
+        if (!activities.length) {
+          countEl.textContent = "0";
+          avgEl.textContent = "0";
+          topSkillEl.textContent = dict.top_skill_empty;
+          return;
+        }
+
+        const avg =
+          activities.reduce((sum, act) => sum + Number(act.points || 0), 0) /
+          activities.length;
+        const skillCounter = activities.reduce((acc, act) => {
+          const skill = act.skill || "Khác";
+          acc[skill] = (acc[skill] || 0) + 1;
+          return acc;
+        }, {});
+
+        const topSkill =
+          Object.entries(skillCounter).sort((a, b) => b[1] - a[1])[0]?.[0] ||
+          dict.top_skill_empty;
+
+        countEl.textContent = activities.length.toString().padStart(2, "0");
+        avgEl.textContent = avg.toFixed(1);
+        topSkillEl.textContent =
+          dict.skill_labels?.[topSkill] || dict.top_skill_empty;
+      }
+
+      function bindTemplates() {
+        const container = document.getElementById("template-bank");
+        if (!container || !activityTemplates.length) return;
+        const currentLang = localStorage.getItem("language") || "vi";
+        const dict = getActivityDict(currentLang);
+        container.innerHTML = activityTemplates
+          .map((tpl, index) => {
+            const copy =
+              dict.templates?.[tpl.key] ||
+              ActivityTranslations.vi.templates?.[tpl.key] ||
+              {};
+            return `
+              <button type="button" class="template-pill" data-template-index="${index}">
+                <i class="fas fa-bolt"></i> ${copy.label || tpl.key}
+              </button>
+            `;
+          })
+          .join("");
+        if (!container.dataset.bound) {
+          container.addEventListener("click", handleTemplateClick);
+          container.dataset.bound = "true";
+        }
+      }
+
+      function handleTemplateClick(event) {
+        const pill = event.target.closest(".template-pill");
+        if (!pill) return;
+        const tpl = activityTemplates[Number(pill.dataset.templateIndex)];
+        if (!tpl) return;
+        const currentLang = localStorage.getItem("language") || "vi";
+        const copy =
+          getActivityDict(currentLang).templates?.[tpl.key] ||
+          ActivityTranslations.vi.templates?.[tpl.key] ||
+          {};
+        document.getElementById("activityName").value = copy.name || "";
+        document.getElementById("activitySkill").value = tpl.skill;
+        document.getElementById("activityPoints").value = tpl.points;
+        document.getElementById("activityDescription").value =
+          copy.description || "";
+        populateDefaultDate();
+        updateDescriptionCounter();
+        updateLivePreview();
+      }
+
+      function setupDescriptionCounter() {
+        const field = document.getElementById("activityDescription");
+        if (!field) return;
+        field.maxLength = 500;
+        field.addEventListener("input", updateDescriptionCounter);
+        updateDescriptionCounter();
+      }
+
+      function updateDescriptionCounter() {
+        const field = document.getElementById("activityDescription");
+        const counter = document.getElementById("description-count");
+        if (!field || !counter) return;
+        counter.textContent = field.value.length;
+      }
+
+      function attachPreviewListeners() {
+        const ids = [
+          "activityName",
+          "activitySkill",
+          "activityDate",
+          "activityPoints",
+          "activityDescription",
+        ];
+        ids.forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.addEventListener("input", updateLivePreview);
+          }
+        });
+        updateLivePreview();
+      }
+
+      function updateLivePreview() {
+        const currentLang = localStorage.getItem("language") || "vi";
+        const dict = getActivityDict(currentLang);
+        const name =
+          document.getElementById("activityName").value.trim() ||
+          dict.preview_default_name;
+        const skillValue = document.getElementById("activitySkill").value;
+        const skill =
+          dict.skill_labels?.[skillValue] ||
+          skillValue ||
+          dict.preview_default_skill;
+        const date =
+          document.getElementById("activityDate").value ||
+          dict.preview_default_date;
+        const points = document.getElementById("activityPoints").value || "--";
+        const desc =
+          document.getElementById("activityDescription").value.trim() ||
+          dict.preview_default_description;
+        const meta = document.getElementById("preview-meta");
+        const descriptionEl = document.getElementById("preview-description");
+        if (!meta || !descriptionEl) return;
+        meta.innerHTML = `
+          <span class="preview-chip"><i class="fas fa-toolbox"></i> ${skill}</span>
+          <span class="preview-chip"><i class="fas fa-calendar-alt"></i> ${date}</span>
+          <span class="preview-chip"><i class="fas fa-signal"></i> ${dict.preview_points_label}: ${points}</span>
+        `;
+        descriptionEl.textContent = `${name}: ${desc}`;
+      }
+
+      function checkEditingMode() {
+        const params = new URLSearchParams(window.location.search);
+        const editId = params.get("edit");
+        if (!editId) return;
+        const activitiesJson = localStorage.getItem("userActivities");
+        if (!activitiesJson) return;
+        try {
+          const activities = JSON.parse(activitiesJson);
+          const target = activities.find(
+            (activity) => String(activity.id) === editId
+          );
+          if (target) {
+            enterEditMode(target);
+          }
+        } catch (error) {
+          console.error("Không thể tải hoạt động để chỉnh sửa", error);
+        }
+      }
+
+      function enterEditMode(activity) {
+        editingActivityId = activity.id;
+        document.getElementById("activityName").value = activity.name || "";
+        document.getElementById("activitySkill").value = activity.skill || "";
+        document.getElementById("activityDate").value =
+          activity.date || new Date().toISOString().split("T")[0];
+        document.getElementById("activityPoints").value = activity.points || 50;
+        document.getElementById("activityDescription").value =
+          activity.description || "";
+        updateDescriptionCounter();
+        updateLivePreview();
+        const helper = document.getElementById("form-mode-helper");
+        if (helper) helper.style.display = "block";
+        const submitLabel = document.getElementById("form-submit-label");
+        if (submitLabel) {
+          submitLabel.textContent = getActivityDict(
+            localStorage.getItem("language") || "vi"
+          ).cta_update_activity;
+        }
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function exitEditMode() {
+        editingActivityId = null;
+        const helper = document.getElementById("form-mode-helper");
+        if (helper) helper.style.display = "none";
+        const submitLabel = document.getElementById("form-submit-label");
+        if (submitLabel) {
+          submitLabel.textContent = getActivityDict(
+            localStorage.getItem("language") || "vi"
+          ).cta_save_activity;
+        }
+        const url = new URL(window.location.href);
+        if (url.searchParams.has("edit")) {
+          url.searchParams.delete("edit");
+          window.history.replaceState({}, "", url.toString());
+        }
+      }
+
+      function resetForm() {
+        const form = document.getElementById("activityForm");
+        form.reset();
+        populateDefaultDate();
+        const messageOutput = document.getElementById("messageOutput");
+        messageOutput.className = "message";
+        messageOutput.textContent = "";
+        updateDescriptionCounter();
+        updateLivePreview();
+        exitEditMode();
+      }
+
+      function saveActivity(event) {
+        event.preventDefault();
+
+        const form = document.getElementById("activityForm");
+        const messageOutput = document.getElementById("messageOutput");
+        const userName = localStorage.getItem("currentUser") || "Unknown User";
+
+        const newActivity = {
+          id: editingActivityId || Date.now(),
+          user: userName,
+          name: document.getElementById("activityName").value.trim(),
+          skill: document.getElementById("activitySkill").value,
+          date: document.getElementById("activityDate").value,
+          points: parseInt(document.getElementById("activityPoints").value, 10),
+          description: document.getElementById("activityDescription").value,
+        };
+
+        const activitiesJson = localStorage.getItem("userActivities");
+        const activities = activitiesJson ? JSON.parse(activitiesJson) : [];
+
+        if (editingActivityId) {
+          const targetIndex = activities.findIndex(
+            (activity) => activity.id === editingActivityId
+          );
+          if (targetIndex !== -1) {
+            activities[targetIndex] = newActivity;
+          } else {
+            activities.unshift(newActivity);
+          }
+        } else {
+          activities.unshift(newActivity);
+        }
+        localStorage.setItem("userActivities", JSON.stringify(activities));
+
+        const dict = getActivityDict(localStorage.getItem("language") || "vi");
+        const successText = editingActivityId
+          ? dict.message_success_update
+          : dict.message_success_create;
+        messageOutput.innerHTML = `<i class="fas fa-check-circle"></i> ${successText}`;
+        messageOutput.className = "message success show";
+
+        form.reset();
+        populateDefaultDate();
+        updateActivityInsights();
+        updateDescriptionCounter();
+        updateLivePreview();
+        exitEditMode();
+
+        setTimeout(() => {
+          window.location.href = "dashboard.html";
+        }, 2000);
+      }
+    </script>
+  </body>
 </html>

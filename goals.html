@@ -1,369 +1,868 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title data-translate="title_goals">Tiến độ Mục tiêu - Future Xion</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* CSS TÍCH HỢP ĐỂ ĐỒNG BỘ */
-        :root {
-            --color-primary: #5A189A;
-            --color-accent: #4F9AFF;
-            --color-callout: #FFD700;
-            --color-white: #ffffff;
-            --color-background-light: #f7f7f7;
-            --color-background-muted: #ececec;
-            --color-background-soft: #f2f6fc;
-            --color-text-dark: #333;
-            --color-text-medium: #555;
-            --border-color: #ddd;
-            --color-error: #dc3545;
-            --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--color-background-light);
-            color: var(--color-text-dark);
-            line-height: 1.6;
-            margin: 0;
-        }
+      body {
+        background: none;
+        color: var(--color-text-dark);
+      }
 
-        h1, h2, h3, h4 {
-            font-family: 'Outfit', sans-serif;
-            font-weight: 700;
-        }
-        
-        a { text-decoration: none; color: var(--color-primary); }
-        .primary-color { color: var(--color-primary); }
-        .accent-color { color: var(--color-accent); }
-        .color-text-dark { color: var(--color-text-dark); }
-        .color-text-medium { color: var(--color-text-medium); }
-        .font-weight-700 { font-weight: 700; }
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+      }
 
-        /* Bố cục Dashboard */
-        .dashboard-layout { display: flex; min-height: 100vh; }
-        .sidebar { width: 250px; background-color: var(--color-primary); color: var(--color-white); padding: 20px; flex-shrink: 0; }
-        .sidebar nav a { display: block; color: var(--color-white); padding: 12px 10px; margin-bottom: 5px; border-radius: 8px; transition: background-color 0.2s; font-weight: 500; }
-        .sidebar nav a:hover, .sidebar nav a.active { background-color: rgba(255, 255, 255, 0.2); }
-        .sidebar nav i { margin-right: 10px; }
+      a {
+        text-decoration: none;
+        color: var(--color-primary);
+      }
+      .primary-color {
+        color: var(--color-primary);
+      }
+      .accent-color {
+        color: var(--color-accent);
+      }
+      .color-text-dark {
+        color: var(--color-text-dark);
+      }
+      .color-text-medium {
+        color: var(--color-text-medium);
+      }
+      .font-weight-700 {
+        font-weight: 700;
+      }
 
-        .main-content { flex-grow: 1; padding: 30px; background-color: var(--color-background-light); }
-        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .dashboard-header h1 { font-family: 'Outfit', sans-serif; font-size: 2.5em; }
-        
-        /* Glass Box/Wrapper */
-        .glass-box {
-            background-color: var(--color-white);
-            border-radius: 12px;
-            box-shadow: var(--shadow-soft);
-            padding: 40px;
-            border: 1px solid var(--color-border);
-        }
-        
-        /* Layout mới */
+      /* Bố cục Dashboard */
+      .dashboard-layout {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      .main-content {
+        flex-grow: 1;
+        padding: 30px;
+        background-color: var(--color-background-light);
+      }
+      .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+      .dashboard-header h1 {
+        font-size: 2.4em;
+      }
+
+      /* Glass Box/Wrapper */
+      .glass-box {
+        background-color: var(--color-white);
+        border-radius: 12px;
+        box-shadow: var(--shadow-soft);
+        padding: 40px;
+        border: 1px solid var(--color-border);
+      }
+
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background-color: var(--color-primary);
+        color: var(--color-white);
+        border: none;
+        border-radius: 999px;
+        padding: 10px 20px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 10px 18px rgba(90, 24, 154, 0.2);
+      }
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 24px rgba(90, 24, 154, 0.25);
+      }
+
+      .goal-form-card {
+        margin-top: 25px;
+        padding: 20px;
+        border-radius: 12px;
+        background: var(--color-background-soft);
+        border: 1px solid var(--color-border);
+        box-shadow: var(--shadow-soft);
+      }
+      .goal-form-card h4 {
+        margin-bottom: 10px;
+      }
+      .goal-form {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+        margin-top: 10px;
+        align-items: flex-end;
+      }
+      .goal-form .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .goal-form label {
+        font-weight: 600;
+        font-size: 0.95em;
+      }
+      .goal-form select,
+      .goal-form input {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid var(--color-border);
+        font-family: "Roboto", sans-serif;
+        font-size: 1em;
+      }
+      .goal-form-feedback {
+        margin-top: 12px;
+        font-size: 0.9em;
+      }
+      .goal-form-feedback.success {
+        color: #059669;
+      }
+      .goal-form-feedback.error {
+        color: #dc2626;
+      }
+
+      /* Layout mới */
+      .goals-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-top: 20px;
+      }
+
+      /* Chart/Summary Card */
+      .progress-summary-card {
+        background-color: var(--color-background-soft);
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+        position: relative;
+      }
+      .goal-progress-value {
+        font-size: 2.4em;
+        font-weight: 800;
+        color: var(--color-accent);
+        margin: 10px 0 5px 0;
+      }
+      .goal-progress-meta {
+        font-size: 0.9em;
+        color: var(--color-text-medium);
+        margin-bottom: 12px;
+      }
+      progress.goal-progress {
+        width: 100%;
+        height: 12px;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      progress.goal-progress::-webkit-progress-bar {
+        background-color: rgba(90, 24, 154, 0.1);
+        border-radius: 12px;
+      }
+      progress.goal-progress::-webkit-progress-value {
+        background-color: var(--color-primary);
+        border-radius: 12px;
+      }
+      progress.goal-progress::-moz-progress-bar {
+        background-color: var(--color-primary);
+        border-radius: 12px;
+      }
+      .chart-empty-state {
+        position: absolute;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+        color: var(--color-text-medium);
+        font-weight: 600;
+      }
+
+      /* History List Styles */
+      .history-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 20px;
+      }
+      .history-item {
+        background: var(--color-background-soft);
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+        border-left: 4px solid var(--color-accent);
+      }
+      .history-item h4 {
+        font-size: 1.1em;
+        margin-bottom: 5px;
+        color: var(--color-text-dark);
+      }
+      .score-display {
+        font-weight: 700;
+        color: var(--color-primary);
+      }
+
+      /* No Data Message */
+      #no-data-message {
+        text-align: center;
+        padding: 30px;
+        border: 1px dashed var(--color-border);
+        border-radius: 12px;
+        margin-top: 20px;
+      }
+
+      /* Progress Display */
+      #current-progress-score {
+        font-size: 2.5em;
+        font-weight: 800;
+        color: var(--color-accent);
+        line-height: 1;
+      }
+      .goal-status-text {
+        font-size: 1.1em;
+        font-weight: 600;
+        color: var(--color-primary);
+      }
+
+      /* Responsive */
+      @media (max-width: 992px) {
         .goals-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-top: 20px;
+          grid-template-columns: 1fr;
         }
-
-        /* Chart/Summary Card */
-        .progress-summary-card {
-            background-color: var(--color-background-soft);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
-        }
-
-        /* History List Styles */
-        .history-list { list-style: none; padding: 0; margin-top: 20px; }
-        .history-item {
-            background: var(--color-background-soft);
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            box-shadow: 0 1px 5px rgba(0,0,0,0.05);
-            border-left: 4px solid var(--color-accent);
-        }
-        .history-item h4 { font-size: 1.1em; margin-bottom: 5px; color: var(--color-text-dark); }
-        .score-display { font-weight: 700; color: var(--color-primary); }
-        
-        /* No Data Message */
-        #no-data-message { text-align: center; padding: 30px; border: 1px dashed var(--color-border); border-radius: 12px; margin-top: 20px; }
-
-        /* Progress Display */
-        #current-progress-score { font-size: 2.5em; font-weight: 800; color: var(--color-accent); line-height: 1; }
-        .goal-status-text { font-size: 1.1em; font-weight: 600; color: var(--color-primary); }
-
-        /* Responsive */
-        @media (max-width: 992px) {
-            .goals-grid { grid-template-columns: 1fr; }
-        }
+      }
     </style>
-</head>
-<body onload="applyLanguageGoals(); loadGoalsData();">
-    
+  </head>
+  <body onload="applyLanguageGoals(); loadGoalsData();">
     <div class="dashboard-layout">
-        <aside class="sidebar">
-            <div class="logo">future<span class="logo-xion">Xion</span></div>
-            <nav>
-                <a href="dashboard.html" data-translate="menu_dashboard"><i class="fas fa-chart-pie"></i> Dashboard</a>
-                <a href="activity.html" data-translate="menu_activity"><i class="fas fa-pen-nib"></i> Ghi nhận Hoạt động</a>
-                <a href="report.html" data-translate="menu_report"><i class="fas fa-file-alt"></i> Hồ sơ Kỹ năng (CV)</a>
-                <a href="settings.html" data-translate="menu_settings"><i class="fas fa-cog"></i> Cài đặt</a>
-                <a href="auth.html" data-translate="menu_logout" onclick="localStorage.clear();"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
-            </nav>
-        </aside>
+      <aside class="sidebar">
+        <div class="logo">future<span class="logo-xion">Xion</span></div>
+        <nav></nav>
+      </aside>
 
-        <main class="main-content">
-            <div class="dashboard-header">
-                <h1 data-translate="h1_goals">Tiến độ Mục tiêu Cá nhân</h1>
-            </div>
+      <main class="main-content">
+        <div class="dashboard-header">
+          <h1 data-translate="h1_goals">Tiến độ Mục tiêu Cá nhân</h1>
+        </div>
 
-            <div class="glass-box">
-                
-                <div id="no-data-message" style="display: none;">
-                    <h3 class="primary-color" style="font-size: 1.8em;">Chưa có dữ liệu hoạt động</h3>
-                    <p class="color-text-medium">Vui lòng ghi nhận hoạt động đầu tiên để bắt đầu theo dõi tiến độ mục tiêu.</p>
-                    <a href="activity.html" class="btn-primary" style="margin-top: 10px; display: inline-block;">Ghi nhận Hoạt động</a>
+        <div class="glass-box">
+          <div id="no-data-message" style="display: none">
+            <h3 class="primary-color" style="font-size: 1.8em">
+              Chưa có dữ liệu hoạt động
+            </h3>
+            <p class="color-text-medium">
+              Vui lòng ghi nhận hoạt động đầu tiên để bắt đầu theo dõi tiến độ
+              mục tiêu.
+            </p>
+            <a
+              href="activity.html"
+              class="btn-primary"
+              style="margin-top: 10px; display: inline-block"
+              >Ghi nhận Hoạt động</a
+            >
+          </div>
+
+          <div id="goal-progress-view">
+            <h3
+              class="primary-color"
+              style="margin-bottom: 25px"
+              data-translate="h3_goal_overview"
+            >
+              <i class="fas fa-chart-line"></i> Tổng quan Mục tiêu Kỹ năng
+            </h3>
+
+            <div class="goals-grid">
+              <div class="progress-summary-card" style="min-height: 400px">
+                <canvas id="goalsRadarChart"></canvas>
+                <div id="goals-radar-empty" class="chart-empty-state">
+                  Chưa có dữ liệu để hiển thị biểu đồ radar. Hãy ghi nhận thêm
+                  hoạt động.
+                </div>
+              </div>
+
+              <div>
+                <div class="progress-summary-card">
+                  <p class="goal-status-text" data-translate="goal_status">
+                    Mục tiêu đang theo dõi
+                  </p>
+                  <h4
+                    class="primary-color"
+                    id="goal-title-display"
+                    style="margin: 0"
+                  >
+                    Trưởng nhó<m></m> lên 4.5
+                  </h4>
+                  <div class="goal-progress-value">
+                    <span id="current-score-progress">4.2</span> /
+                    <span id="target-score">5.0</span>
+                  </div>
+                  <progress
+                    id="goal-progress-bar"
+                    class="goal-progress"
+                    value="0"
+                    max="5"
+                  ></progress>
+                  <p class="goal-progress-meta" id="goal-progress-caption">
+                    Cần thêm 0.3 điểm để đạt mục tiêu.
+                  </p>
+
+                  <a
+                    href="#goal-form-card"
+                    class="btn-primary"
+                    onclick="scrollToGoalForm(event)"
+                    style="margin-top: 18px; display: inline-flex"
+                    data-translate="cta_open_goal_form"
+                    ><i class="fas fa-bullseye"></i> Thiết lập Mục tiêu Mới</a
+                  >
                 </div>
 
-                <div id="goal-progress-view">
-                    
-                    <h3 class="primary-color" style="margin-bottom: 25px;"><i class="fas fa-chart-line"></i> Tổng quan Mục tiêu Kỹ năng</h3>
-
-                    <div class="goals-grid">
-                        
-                        <div class="progress-summary-card" style="min-height: 400px;">
-                            <canvas id="goalsRadarChart"></canvas>
-                        </div>
-
-                        <div>
-                            <div class="progress-summary-card">
-                                <p class="goal-status-text">Mục tiêu Đang theo dõi:</p>
-                                <span id="current-progress-score">4.2</span>
-                                <span class="score-display">/ 5.0</span>
-                                <p class="color-text-medium" style="margin-top: 5px;">Mục tiêu: Đạt 4.5 điểm Leadership</p>
-
-                                <a href="#" class="btn-primary" style="margin-top: 15px; display: inline-block;">Thiết lập Mục tiêu Mới</a>
-                            </div>
-
-                            <h3 class="primary-color" style="margin-top: 30px;"><i class="fas fa-clock"></i> Cải thiện kỹ năng yếu</h3>
-                            <p class="color-text-medium">Tư duy Phản biện (2.8) đang là ưu tiên hàng đầu. <a href="courses.html" class="primary-color">Xem khóa học phù hợp.</a></p>
-                        </div>
+                <div class="goal-form-card" id="goal-form-card">
+                  <h4 data-translate="goal_form_title">
+                    Thiết lập mục tiêu mới
+                  </h4>
+                  <p
+                    class="color-text-medium"
+                    data-translate="goal_form_description"
+                  >
+                    Cá nhân hóa kỹ năng bạn muốn cải thiện và mức điểm kỳ vọng.
+                  </p>
+                  <form
+                    id="goal-form"
+                    class="goal-form"
+                    onsubmit="handleGoalSubmit(event)"
+                  >
+                    <div class="form-group">
+                      <label data-translate="goal_form_skill_label"
+                        >Kỹ năng theo dõi</label
+                      >
+                      <select id="goal-skill-select"></select>
                     </div>
-                    
-                    <h3 class="primary-color" id="history-title-display" style="margin-top: 40px;"><i class="fas fa-history"></i> Lịch sử Tiến trình (Leadership Score)</h3>
-                    <ul id="history-list-output" class="history-list">
-                        </ul>
+                    <div class="form-group">
+                      <label data-translate="goal_form_target_label"
+                        >Mục tiêu điểm từ 2.0 đến 5.0</label
+                      >
+                      <input
+                        type="number"
+                        id="goal-target-input"
+                        min="2"
+                        max="5"
+                        step="0.1"
+                      />
+                    </div>
+                    <button type="submit" class="btn-primary">
+                      <i class="fas fa-save"></i>
+                      <span data-translate="cta_save_goal">Lưu mục tiêu</span>
+                    </button>
+                  </form>
+                  <p class="goal-form-feedback" id="goal-form-feedback"></p>
                 </div>
-                
-                <p data-translate="p_goals_footer" class="color-text-medium" style="margin-top: 20px; font-style: italic; font-size: 0.9em;">[Tiến độ được tính toán từ dữ liệu hoạt động đã ghi nhận!]</p>
+
+                <h3
+                  class="primary-color"
+                  style="margin-top: 30px"
+                  data-translate="h3_goal_weak_skill"
+                >
+                  <i class="fas fa-clock"></i> Cải thiện kỹ năng yếu
+                </h3>
+                <p class="color-text-medium" data-translate="p_goal_weak_skill">
+                  Tư duy Phản biện 2.8 điểm đang là ưu tiên hàng đầu.
+                  <a href="courses.html" class="primary-color"
+                    >Xem khóa học phù hợp.</a
+                  >
+                </p>
+              </div>
             </div>
-        </main>
+
+            <h3
+              class="primary-color"
+              id="history-title-display"
+              style="margin-top: 40px"
+            >
+              <i class="fas fa-history"></i> Lịch sử Tiến trình
+            </h3>
+            <ul id="history-list-output" class="history-list"></ul>
+          </div>
+
+          <p
+            data-translate="p_goals_footer"
+            class="color-text-medium"
+            style="margin-top: 20px; font-style: italic; font-size: 0.9em"
+          >
+            [Tiến độ được tính toán từ dữ liệu hoạt động đã ghi nhận!]
+          </p>
+        </div>
+      </main>
     </div>
-    
+
+    <script src="mock-data.js"></script>
+    <script src="sidebar.js"></script>
     <script>
-        // MOCK DATA: Tiêu chí mục tiêu cho từng kỹ năng
-        const GOAL_TARGETS = {
-            'Leadership': 4.5,
-            'Communication': 4.0,
-            'ProblemSolving': 4.2,
-            'Teamwork': 3.8,
-            'CriticalThinking': 3.5 // Benchmark
-        };
-        const SKILLS_LABELS = ['Leadership', 'Communication', 'ProblemSolving', 'Teamwork', 'CriticalThinking'];
+      Sidebar.renderSidebar("goals");
+      // MOCK DATA: Tiêu chí mục tiêu cho từng kỹ năng
+      const GOAL_TARGETS = {
+        Leadership: 4.5,
+        Communication: 4.0,
+        ProblemSolving: 4.2,
+        Teamwork: 3.8,
+        CriticalThinking: 3.5, // Benchmark
+      };
+      const SKILLS_LABELS = [
+        "Leadership",
+        "Communication",
+        "ProblemSolving",
+        "Teamwork",
+        "CriticalThinking",
+      ];
+      const GOAL_STORAGE_KEY = "fx_primary_goal";
+      const DEFAULT_PRIMARY_SKILL = "Leadership";
 
-        let goalsRadarChart; 
-
-        const GoalsTranslations = {
-            vi: {
-                title_goals: "Tiến độ Mục tiêu - Future Xion", h1_goals: "Tiến độ Mục tiêu Cá nhân",
-                menu_dashboard: "Dashboard", menu_activity: "Ghi nhận Hoạt động", menu_report: "Hồ sơ Kỹ năng (CV)", menu_settings: "Cài đặt", menu_logout: "Đăng xuất",
-                h3_current_goal: "Mục tiêu Hiện tại: Tăng điểm {skill} lên {target}", p_progress_detail: "Tiến độ: / {target}",
-                h3_history_title: "Lịch sử Tiến trình ({skill} Score)",
-                p_goals_footer: "[Tiến độ được tính toán từ dữ liệu hoạt động đã ghi nhận!]",
-                score_achieved: "Điểm đạt được: {score}", activity_detail: "Hoạt động: {name} | Ngày: {date}",
-                skill_Leadership: "Lãnh đạo", skill_Communication: "Giao tiếp", skill_ProblemSolving: "Giải quyết Vấn đề", skill_Teamwork: "Teamwork", skill_CriticalThinking: "Tư duy Phản biện",
-                radar_target: "Mục tiêu", radar_current: "Điểm hiện tại", goal_status: "Mục tiêu Đang theo dõi:",
-            },
-            en: { /* ... tương tự ... */ }
-        };
-
-        // Hàm tính toán điểm kỹ năng (TƯƠNG TỰ LOGIC TRONG DASHBOARD)
-        function aggregateSkillData(activities) {
-            const scores = {};
-            SKILLS_LABELS.forEach(skill => { scores[skill] = { total: 0, count: 0, activities: [] }; });
-
-            activities.forEach(activity => {
-                const skill = activity.skill;
-                if (SKILLS_LABELS.includes(skill)) {
-                    const score5pt = (activity.points / 100) * 5.0;
-                    scores[skill].total += score5pt;
-                    scores[skill].count += 1;
-                    if (skill === 'Leadership') { // Mục tiêu mock là Leadership
-                        scores[skill].activities.push({ 
-                            score: score5pt.toFixed(2),
-                            name: activity.name,
-                            date: activity.date
-                        });
-                    }
-                }
-            });
-
-            let weakestSkill = SKILLS_LABELS[0];
-            let strongestSkill = SKILLS_LABELS[0];
-            let minScore = 5.1;
-            let maxScore = -0.1;
-
-            SKILLS_LABELS.forEach(skill => {
-                scores[skill].avg = scores[skill].count > 0 ? scores[skill].total / scores[skill].count : 0;
-                if (scores[skill].avg > 0) {
-                     if (scores[skill].avg < minScore) { minScore = scores[skill].avg; weakestSkill = skill; }
-                     if (scores[skill].avg > maxScore) { maxScore = scores[skill].avg; strongestSkill = skill; }
-                }
-            });
-            
-            return { scores, weakestSkill, strongestSkill };
+      function getStoredGoalConfig() {
+        try {
+          const data = localStorage.getItem(GOAL_STORAGE_KEY);
+          return data ? JSON.parse(data) : null;
+        } catch (error) {
+          console.warn("Không thể đọc dữ liệu mục tiêu:", error);
+          return null;
         }
-        
-        // HÀM VẼ BIỂU ĐỒ RADAR MỤC TIÊU
-        function drawGoalsRadarChart(scores, t) {
-            const ctx = document.getElementById('goalsRadarChart').getContext('2d');
-            if (goalsRadarChart) goalsRadarChart.destroy();
+      }
 
-            const skillLabelsTranslated = SKILLS_LABELS.map(skill => t[`skill_${skill}`] || skill);
-            const currentScoresArray = SKILLS_LABELS.map(skill => scores[skill].avg.toFixed(2));
-            const targetScoresArray = SKILLS_LABELS.map(skill => GOAL_TARGETS[skill]);
-            
-            goalsRadarChart = new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: skillLabelsTranslated,
-                    datasets: [
-                        {
-                            label: t.radar_current,
-                            data: currentScoresArray,
-                            backgroundColor: 'rgba(79, 154, 255, 0.4)', // Xanh dương
-                            borderColor: 'var(--color-accent)', borderWidth: 2, pointRadius: 4
-                        },
-                        {
-                            label: t.radar_target,
-                            data: targetScoresArray,
-                            backgroundColor: 'rgba(90, 24, 154, 0.1)', // Tím nhạt
-                            borderColor: 'var(--color-primary)', borderWidth: 2, pointRadius: 0, borderDash: [5, 5]
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: true,
-                    scales: {
-                        r: {
-                            ticks: { beginAtZero: true, max: 5, min: 0, stepSize: 1 },
-                            grid: { color: 'rgba(0,0,0,0.1)' },
-                            pointLabels: { font: { size: 14 } }
-                        }
-                    },
-                    plugins: { legend: { position: 'top' } }
-                }
-            });
-        }
-        
-        // HÀM CHÍNH: TẢI VÀ HIỂN THỊ DỮ LIỆU GOALS
-        function loadGoalsData() {
-            const activitiesJson = localStorage.getItem('userActivities');
-            const goalProgressView = document.getElementById('goal-progress-view');
-            const noDataMessage = document.getElementById('no-data-message');
-            const historyList = document.getElementById('history-list-output');
-            
-            const activities = activitiesJson ? JSON.parse(activitiesJson) : [];
-            const scores = aggregateSkillData(activities);
-            const t = GoalsTranslations[localStorage.getItem('language') || 'vi'];
-            
-            const currentScore = scores.Leadership.avg || 0; // Tiếp tục lấy Leadership cho thẻ chính
-            const relevantActivities = scores.Leadership.activities || [];
+      function getCurrentGoalConfig() {
+        const stored = getStoredGoalConfig();
+        const skill =
+          stored?.skill && GOAL_TARGETS[stored.skill]
+            ? stored.skill
+            : DEFAULT_PRIMARY_SKILL;
+        const parsedTarget = parseFloat(stored?.target);
+        const fallbackTarget = GOAL_TARGETS[skill] || 4.0;
+        const target =
+          !Number.isNaN(parsedTarget) && parsedTarget >= 2 && parsedTarget <= 5
+            ? parsedTarget
+            : fallbackTarget;
+        return { skill, target };
+      }
 
-            const displaySkillName = t[`skill_Leadership`];
+      let goalsRadarChart;
 
-            // Cập nhật tiêu đề mục tiêu chính
-            document.getElementById('goal-title-display').textContent = t.h3_current_goal
-                .replace('{skill}', displaySkillName)
-                .replace('{target}', MOCK_GOAL_TARGET);
+      const GoalsTranslations = {
+        vi: {
+          title_goals: "Tiến độ Mục tiêu - Future Xion",
+          h1_goals: "Tiến độ Mục tiêu Cá nhân",
+          menu_dashboard: "Dashboard",
+          menu_activity: "Ghi nhận Hoạt động",
+          menu_report: "Hồ sơ Kỹ năng (CV)",
+          menu_settings: "Cài đặt",
+          menu_logout: "Đăng xuất",
+          h3_current_goal: "Mục tiêu Hiện tại: Tăng điểm {skill} lên {target}",
+          p_progress_detail: "Tiến độ: / {target}",
+          h3_history_title: "Lịch sử tiến trình {skill}",
+          p_goals_footer:
+            "[Tiến độ được tính toán từ dữ liệu hoạt động đã ghi nhận!]",
+          score_achieved: "Điểm đạt được: {score}",
+          activity_detail: "Hoạt động: {name} | Ngày: {date}",
+          history_empty_state: "Chưa có dữ liệu để hiển thị.",
+          history_goal_empty:
+            "Chưa có hoạt động nào liên quan trực tiếp đến mục tiêu này.",
+          h3_goal_overview: "Tổng quan Mục tiêu Kỹ năng",
+          h3_goal_weak_skill: "Cải thiện kỹ năng yếu",
+          p_goal_weak_skill:
+            'Tư duy Phản biện (2.8) đang là ưu tiên hàng đầu. <a href="courses.html" class="primary-color">Xem khóa học phù hợp.</a>',
+          skill_Leadership: "Lãnh đạo",
+          skill_Communication: "Giao tiếp",
+          skill_ProblemSolving: "Giải quyết Vấn đề",
+          skill_Teamwork: "Teamwork",
+          skill_CriticalThinking: "Tư duy Phản biện",
+          radar_target: "Mục tiêu",
+          radar_current: "Điểm hiện tại",
+          goal_status: "Mục tiêu Đang theo dõi:",
+          goal_caption_completed:
+            "Bạn đã vượt mục tiêu — tiếp tục duy trì bằng cách ghi nhận hoạt động hàng tuần.",
+          goal_caption_remaining: "Cần thêm {points} điểm để đạt mục tiêu.",
+          cta_open_goal_form: "Thiết lập Mục tiêu Mới",
+          goal_form_title: "Thiết lập mục tiêu mới",
+          goal_form_description:
+            "Cá nhân hóa kỹ năng bạn muốn cải thiện và mức điểm kỳ vọng.",
+          goal_form_skill_label: "Kỹ năng theo dõi",
+          goal_form_target_label: "Mục tiêu điểm (2.0 - 5.0)",
+          cta_save_goal: "Lưu mục tiêu",
+          goal_form_success:
+            "Đã cập nhật mục tiêu! Radar và lịch sử đã được làm mới.",
+          goal_form_error: "Vui lòng nhập điểm hợp lệ trong khoảng 2.0 - 5.0.",
+        },
+        en: {
+          title_goals: "Goal Progress - Future Xion",
+          h1_goals: "Personal Goal Progress",
+          menu_dashboard: "Dashboard",
+          menu_activity: "Log Activity",
+          menu_report: "Skill Profile (CV)",
+          menu_settings: "Settings",
+          menu_logout: "Logout",
+          h3_current_goal: "Current goal: grow {skill} to {target}",
+          p_progress_detail: "Progress: / {target}",
+          h3_history_title: "Progress history ({skill} score)",
+          p_goals_footer:
+            "[Progress is calculated from the activities you have logged!]",
+          score_achieved: "Score achieved: {score}",
+          activity_detail: "Activity: {name} | Date: {date}",
+          history_empty_state: "No data to display yet.",
+          history_goal_empty: "No activities are tied to this goal yet.",
+          h3_goal_overview: "Skill Goal Overview",
+          h3_goal_weak_skill: "Improve your lowest skill",
+          p_goal_weak_skill:
+            'Critical Thinking (2.8) is currently the top priority. <a href="courses.html" class="primary-color">See relevant courses.</a>',
+          skill_Leadership: "Leadership",
+          skill_Communication: "Communication",
+          skill_ProblemSolving: "Problem Solving",
+          skill_Teamwork: "Teamwork",
+          skill_CriticalThinking: "Critical Thinking",
+          radar_target: "Target",
+          radar_current: "Current score",
+          goal_status: "Tracking goal:",
+          goal_caption_completed:
+            "You've achieved the target — keep logging new progress weekly.",
+          goal_caption_remaining:
+            "{points} more points needed to reach the target.",
+          cta_open_goal_form: "Set a New Goal",
+          goal_form_title: "Personalize your goal",
+          goal_form_description:
+            "Choose the skill and target score you want FutureXion to track.",
+          goal_form_skill_label: "Focus skill",
+          goal_form_target_label: "Target score (2.0 - 5.0)",
+          cta_save_goal: "Save goal",
+          goal_form_success:
+            "Goal updated! Radar and history now reflect the new target.",
+          goal_form_error: "Please enter a valid target between 2.0 and 5.0.",
+        },
+      };
 
-            if (activities.length === 0) {
-                goalProgressView.style.display = 'none';
-                noDataMessage.style.display = 'block';
-                return;
+      // Hàm tính toán điểm kỹ năng (TƯƠNG TỰ LOGIC TRONG DASHBOARD)
+      function aggregateSkillData(activities, trackedSkill) {
+        const activeSkill = trackedSkill || getCurrentGoalConfig().skill;
+        const scores = {};
+        SKILLS_LABELS.forEach((skill) => {
+          scores[skill] = { total: 0, count: 0, activities: [] };
+        });
+
+        activities.forEach((activity) => {
+          const skill = activity.skill;
+          if (SKILLS_LABELS.includes(skill)) {
+            const score5pt = (activity.points / 100) * 5.0;
+            scores[skill].total += score5pt;
+            scores[skill].count += 1;
+            if (skill === activeSkill) {
+              // Mục tiêu mock là Leadership
+              scores[skill].activities.push({
+                score: score5pt.toFixed(2),
+                name: activity.name,
+                translations: activity.translations || null,
+                date: activity.date,
+              });
             }
+          }
+        });
 
-            // Ẩn thông báo và hiển thị tiến trình
-            goalProgressView.style.display = 'block';
-            noDataMessage.style.display = 'none';
-            
-            // VẼ BIỂU ĐỒ
-            drawGoalsRadarChart(scores, t);
+        let weakestSkill = SKILLS_LABELS[0];
+        let strongestSkill = SKILLS_LABELS[0];
+        let minScore = 5.1;
+        let maxScore = -0.1;
 
-            // Cập nhật Progress Bar và Score
-            document.getElementById('current-score-progress').textContent = currentScore.toFixed(2);
-            document.getElementById('target-score').textContent = MOCK_GOAL_TARGET.toFixed(1);
-            
-            const progressBar = document.getElementById('goal-progress-bar');
-            progressBar.value = currentScore;
-            progressBar.max = MOCK_GOAL_TARGET;
-            
-            // Cập nhật tiêu đề lịch sử
-            document.getElementById('history-title-display').textContent = t.h3_history_title
-                .replace('{skill}', displaySkillName);
+        SKILLS_LABELS.forEach((skill) => {
+          scores[skill].avg =
+            scores[skill].count > 0
+              ? scores[skill].total / scores[skill].count
+              : 0;
+          if (scores[skill].avg > 0) {
+            if (scores[skill].avg < minScore) {
+              minScore = scores[skill].avg;
+              weakestSkill = skill;
+            }
+            if (scores[skill].avg > maxScore) {
+              maxScore = scores[skill].avg;
+              strongestSkill = skill;
+            }
+          }
+        });
 
-            // Tạo danh sách Lịch sử Tiến trình
-            historyList.innerHTML = '';
-            relevantActivities.forEach(activity => {
-                const item = document.createElement('li');
-                item.className = 'history-item';
+        return { scores, weakestSkill, strongestSkill };
+      }
 
-                const scoreHtml = t.score_achieved.replace('{score}', activity.score);
-                const detailHtml = t.activity_detail
-                    .replace('{name}', activity.name)
-                    .replace('{date}', activity.date);
+      // HÀM VẼ BIỂU ĐỒ RADAR MỤC TIÊU
+      function drawGoalsRadarChart(scores, t, goalConfig) {
+        const ctx = document.getElementById("goalsRadarChart").getContext("2d");
+        if (goalsRadarChart) goalsRadarChart.destroy();
 
-                item.innerHTML = `
+        const skillLabelsTranslated = SKILLS_LABELS.map(
+          (skill) => t[`skill_${skill}`] || skill
+        );
+        const dynamicTargets = { ...GOAL_TARGETS };
+        if (goalConfig?.skill) {
+          dynamicTargets[goalConfig.skill] = goalConfig.target;
+        }
+        const currentScoresArray = SKILLS_LABELS.map((skill) =>
+          Number(scores[skill].avg || 0).toFixed(2)
+        );
+        const targetScoresArray = SKILLS_LABELS.map(
+          (skill) => dynamicTargets[skill] || GOAL_TARGETS[skill]
+        );
+
+        goalsRadarChart = new Chart(ctx, {
+          type: "radar",
+          data: {
+            labels: skillLabelsTranslated,
+            datasets: [
+              {
+                label: t.radar_current,
+                data: currentScoresArray,
+                backgroundColor: "rgba(79, 154, 255, 0.4)", // Xanh dương
+                borderColor: "var(--color-accent)",
+                borderWidth: 2,
+                pointRadius: 4,
+              },
+              {
+                label: t.radar_target,
+                data: targetScoresArray,
+                backgroundColor: "rgba(90, 24, 154, 0.1)", // Tím nhạt
+                borderColor: "var(--color-primary)",
+                borderWidth: 2,
+                pointRadius: 0,
+                borderDash: [5, 5],
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+              r: {
+                ticks: { beginAtZero: true, max: 5, min: 0, stepSize: 1 },
+                grid: { color: "rgba(0,0,0,0.1)" },
+                pointLabels: { font: { size: 14 } },
+              },
+            },
+            plugins: { legend: { position: "top" } },
+          },
+        });
+      }
+      function toggleGoalChartEmptyState(show) {
+        const placeholder = document.getElementById("goals-radar-empty");
+        const canvas = document.getElementById("goalsRadarChart");
+        if (!placeholder || !canvas) return;
+        placeholder.style.display = show ? "flex" : "none";
+        canvas.style.display = show ? "none" : "block";
+      }
+
+      // HÀM CHÍNH: TẢI VÀ HIỂN THỊ DỮ LIỆU GOALS
+      function loadGoalsData() {
+        const activitiesJson = localStorage.getItem("userActivities");
+        const goalProgressView = document.getElementById("goal-progress-view");
+        const noDataMessage = document.getElementById("no-data-message");
+        const historyList = document.getElementById("history-list-output");
+        hydrateGoalForm();
+
+        const activities = activitiesJson ? JSON.parse(activitiesJson) : [];
+        const t = GoalsTranslations[localStorage.getItem("language") || "vi"];
+        const goalConfig = getCurrentGoalConfig();
+        const trackedSkill = goalConfig.skill;
+        const targetScore = goalConfig.target;
+        const { scores: scoreStore } = aggregateSkillData(
+          activities,
+          trackedSkill
+        );
+
+        const currentScore = scoreStore[trackedSkill]?.avg || 0;
+        const relevantActivities = scoreStore[trackedSkill]?.activities || [];
+
+        const displaySkillName = t[`skill_${trackedSkill}`] || trackedSkill;
+
+        // Cập nhật tiêu đề mục tiêu chính
+        document.getElementById("goal-title-display").textContent =
+          t.h3_current_goal
+            .replace("{skill}", displaySkillName)
+            .replace("{target}", targetScore.toFixed(1));
+
+        if (activities.length === 0) {
+          goalProgressView.style.display = "none";
+          noDataMessage.style.display = "block";
+          document.getElementById(
+            "history-list-output"
+          ).innerHTML = `<li class="history-item">${t.history_empty_state}</li>`;
+          toggleGoalChartEmptyState(true);
+          return;
+        }
+
+        // Ẩn thông báo và hiển thị tiến trình
+        goalProgressView.style.display = "block";
+        noDataMessage.style.display = "none";
+
+        // VẼ BIỂU ĐỒ
+        const hasScoreData = SKILLS_LABELS.some(
+          (skill) => scoreStore[skill].count > 0
+        );
+        toggleGoalChartEmptyState(!hasScoreData);
+        if (hasScoreData) {
+          drawGoalsRadarChart(scoreStore, t, goalConfig);
+        }
+
+        // Cập nhật Progress Bar và Score
+        document.getElementById("current-score-progress").textContent =
+          currentScore.toFixed(2);
+        document.getElementById("target-score").textContent =
+          targetScore.toFixed(1);
+        const remainingPoints = Math.max(0, targetScore - currentScore).toFixed(
+          1
+        );
+        document.getElementById("goal-progress-caption").textContent =
+          currentScore >= targetScore
+            ? t.goal_caption_completed
+            : t.goal_caption_remaining.replace("{points}", remainingPoints);
+
+        const progressBar = document.getElementById("goal-progress-bar");
+        progressBar.value = currentScore;
+        progressBar.max = targetScore;
+
+        // Cập nhật tiêu đề lịch sử
+        document.getElementById("history-title-display").textContent =
+          t.h3_history_title.replace("{skill}", displaySkillName);
+
+        renderGoalHistory(relevantActivities, t);
+      }
+
+      function renderGoalHistory(relevantActivities, t) {
+        const historyList = document.getElementById("history-list-output");
+        if (!historyList) return;
+        historyList.innerHTML = "";
+        if (!relevantActivities.length) {
+          historyList.innerHTML = `<li class="history-item">${t.history_goal_empty}</li>`;
+          return;
+        }
+        const currentLang = localStorage.getItem("language") || "vi";
+        relevantActivities.slice(0, 5).forEach((activity) => {
+          const item = document.createElement("li");
+          item.className = "history-item";
+          const localizedName = window.MockData?.getLocalizedActivityText
+            ? MockData.getLocalizedActivityText(
+                { name: activity.name, translations: activity.translations },
+                "name",
+                currentLang
+              )
+            : activity.name;
+          const scoreHtml = t.score_achieved.replace("{score}", activity.score);
+          const detailHtml = t.activity_detail
+            .replace("{name}", localizedName || activity.name)
+            .replace("{date}", activity.date || "—");
+          item.innerHTML = `
                     <h4>${scoreHtml}</h4>
                     <p>${detailHtml}</p>
                 `;
-                historyList.appendChild(item);
-            });
-        }
-        
-        function applyLanguageGoals() {
-            const currentLang = localStorage.getItem('language') || 'vi';
-            const t = GoalsTranslations[currentLang];
-            
-            document.title = t.title_goals;
-            
-            // Cập nhật tất cả các phần tử có data-translate
-            document.querySelectorAll('[data-translate]').forEach(element => {
-                const key = element.getAttribute('data-translate');
-                if (t[key]) {
-                    if (key.includes('menu_')) {
-                        const icon = element.querySelector('i');
-                        element.innerHTML = icon.outerHTML + ' ' + t[key];
-                    } else {
-                        element.textContent = t[key];
-                    }
-                }
-            });
-            // Gọi lại loadGoalsData để áp dụng ngôn ngữ mới cho text động
-            loadGoalsData();
-        }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-             // (Logic đã được gọi qua body onload)
+          historyList.appendChild(item);
         });
+      }
+
+      function hydrateGoalForm() {
+        const select = document.getElementById("goal-skill-select");
+        const targetInput = document.getElementById("goal-target-input");
+        if (!select || !targetInput) return;
+        const currentLang = localStorage.getItem("language") || "vi";
+        const t = GoalsTranslations[currentLang];
+        const goalConfig = getCurrentGoalConfig();
+        const optionsHtml = SKILLS_LABELS.map((skill) => {
+          const label = t[`skill_${skill}`] || skill;
+          return `<option value="${skill}">${label}</option>`;
+        }).join("");
+        select.innerHTML = optionsHtml;
+        select.value = goalConfig.skill;
+        targetInput.value = goalConfig.target.toFixed(1);
+      }
+
+      function handleGoalSubmit(event) {
+        event.preventDefault();
+        const select = document.getElementById("goal-skill-select");
+        const targetInput = document.getElementById("goal-target-input");
+        const feedback = document.getElementById("goal-form-feedback");
+        if (!select || !targetInput || !feedback) return;
+        const currentLang = localStorage.getItem("language") || "vi";
+        const t = GoalsTranslations[currentLang];
+        const selectedSkill = select.value;
+        const parsedTarget = parseFloat(targetInput.value);
+        if (
+          !selectedSkill ||
+          !GOAL_TARGETS[selectedSkill] ||
+          Number.isNaN(parsedTarget) ||
+          parsedTarget < 2 ||
+          parsedTarget > 5
+        ) {
+          feedback.textContent = t.goal_form_error;
+          feedback.className = "goal-form-feedback error";
+          return;
+        }
+        localStorage.setItem(
+          GOAL_STORAGE_KEY,
+          JSON.stringify({ skill: selectedSkill, target: parsedTarget })
+        );
+        feedback.textContent = t.goal_form_success;
+        feedback.className = "goal-form-feedback success";
+        loadGoalsData();
+      }
+
+      function scrollToGoalForm(event) {
+        if (event) event.preventDefault();
+        document
+          .getElementById("goal-form-card")
+          ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function applyLanguageGoals() {
+        const currentLang = localStorage.getItem("language") || "vi";
+        document.documentElement.lang = currentLang;
+        if (window.Sidebar) {
+          Sidebar.applySidebarLanguage(currentLang);
+        }
+        const t = GoalsTranslations[currentLang];
+
+        document.title = t.title_goals;
+
+        // Cập nhật tất cả các phần tử có data-translate
+        const HTML_TRANSLATION_KEYS = new Set(["p_goal_weak_skill"]);
+        document.querySelectorAll("[data-translate]").forEach((element) => {
+          const key = element.getAttribute("data-translate");
+          if (!t[key]) return;
+          if (key.includes("menu_")) return;
+          const icon = element.querySelector("i");
+          if (HTML_TRANSLATION_KEYS.has(key)) {
+            element.innerHTML = t[key];
+          } else if (icon) {
+            element.innerHTML = icon.outerHTML + " " + t[key];
+          } else {
+            element.textContent = t[key];
+          }
+        });
+        hydrateGoalForm();
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // (Logic đã được gọi qua body onload)
+      });
     </script>
-</body>
+  </body>
 </html>

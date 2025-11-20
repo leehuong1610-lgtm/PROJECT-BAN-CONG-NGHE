@@ -6,70 +6,166 @@
     <title>Điều khoản & Chính sách - Future Xion</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background-color: #f7f7fb;
+            color: #2c2c35;
+        }
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            background-color: #f7f7fb;
+        }
+        .terms-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 36px;
+            box-shadow: 0 25px 50px rgba(90, 24, 154, 0.08);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .terms-card h2 {
+            text-align: center;
+            color: var(--color-primary, #5a189a);
+            margin-top: 0;
+        }
+        .terms-card h3 {
+            color: var(--color-primary, #5a189a);
+            margin-top: 30px;
+        }
+        .terms-card p {
+            line-height: 1.6;
+            color: #4b5563;
+        }
+        .terms-highlight-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+            margin-top: 30px;
+        }
+        .terms-highlight {
+            background: rgba(90, 24, 154, 0.05);
+            border-left: 4px solid var(--color-primary, #5a189a);
+            padding: 16px 18px;
+            border-radius: 12px;
+        }
+        .terms-highlight h4 {
+            margin: 0 0 8px 0;
+            color: var(--color-primary, #5a189a);
+        }
+        .terms-footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.85em;
+            color: #6b7280;
+        }
+    </style>
 </head>
 <body>
-    
-    <div style="min-height: 100vh; display: flex; flex-direction: column;">
-        <header style="background-color: var(--color-primary); color: white;">
-            <div class="container navbar-container" style="padding: 15px 25px;">
-                <div class="logo" style="color: white;">future<span class="logo-xion" style="color: var(--color-accent);">Xion</span></div>
-                <nav style="display: flex; gap: 30px;">
-                    <a href="index.html" style="color: white;">Giới thiệu</a>
-                    <a href="activity.html" style="color: white;">Ghi nhận</a>
-                    <a href="progress.html" style="color: white;">Tiến trình</a>
-                    <a href="dashboard.html" style="color: white;">Thống kê</a>
-                </nav>
-                <div class="nav-actions">
-                    <button class="btn-icon" style="color: white;"><i class="fas fa-search"></i></button>
-                    <button class="btn-icon" style="color: white; margin-left: 10px;"><i class="fas fa-bars"></i></button>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="logo">future<span class="logo-xion">Xion</span></div>
+            <nav></nav>
+        </aside>
+        <main class="main-content">
+            <div class="terms-card">
+                <h2 data-translate="terms_heading">Điều khoản và chính sách bảo mật</h2>
+                <p data-translate="terms_intro">
+                    Nội dung của điều khoản sử dụng và chính sách bảo mật này của website Future Xion (sau đây gọi tắt là Điều khoản sử dụng) tạo thành hợp đồng ràng buộc giữa FutureXion và Người dùng. Việc tiếp tục sử dụng sản phẩm đồng nghĩa bạn đã đọc và đồng ý với các điều khoản bên dưới.
+                </p>
+
+                <h3 data-translate="terms_scope_heading">1. PHẠM VI ÁP DỤNG</h3>
+                <p data-translate="terms_scope_body">
+                    Điều khoản sử dụng này áp dụng cho toàn bộ dịch vụ của website FutureXion, hiện triển khai trên hạ tầng máy chủ của nhóm phát triển. Mọi truy cập, tương tác và sử dụng thông tin trên trang đều được xem là đồng ý với Điều khoản sử dụng.
+                </p>
+
+                <h3 data-translate="terms_conditions_heading">2. ĐIỀU KIỆN SỬ DỤNG</h3>
+                <p data-translate="terms_conditions_body">
+                    FutureXion có quyền thay đổi nội dung Điều khoản mà không cần thông báo trước. Người dùng nên kiểm tra thường xuyên để cập nhật. Việc tiếp tục sử dụng dịch vụ chứng minh bạn chấp nhận các chỉnh sửa và đảm bảo đủ năng lực pháp lý để tham gia thỏa thuận này.
+                </p>
+                
+                <h3 data-translate="terms_registration_heading">3. QUY ĐỊNH VỀ ĐĂNG KÝ</h3>
+                <p data-translate="terms_registration_body">
+                    Trong quá trình đăng ký, bạn cần cung cấp thông tin chính xác và thường xuyên cập nhật khi có thay đổi. Người dùng chịu trách nhiệm bảo mật tài khoản của mình, không mạo danh hay sử dụng tài khoản của người khác. Nếu nghi ngờ có truy cập trái phép, hãy thông báo ngay cho chúng tôi để được hỗ trợ.
+                </p>
+
+                <div class="terms-highlight-grid">
+                    <div class="terms-highlight">
+                        <h4 data-translate="terms_highlight_user_title"><i class="fas fa-user-shield"></i> Trách nhiệm của bạn</h4>
+                        <p data-translate="terms_highlight_user_body">Giữ an toàn thông tin đăng nhập, cập nhật dữ liệu đúng sự thật và chủ động báo cáo khi phát hiện bất thường.</p>
+                    </div>
+                    <div class="terms-highlight">
+                        <h4 data-translate="terms_highlight_fx_title"><i class="fas fa-lock"></i> Cam kết của FutureXion</h4>
+                        <p data-translate="terms_highlight_fx_body">Chúng tôi chỉ sử dụng dữ liệu để cá nhân hóa hành trình học tập và không chia sẻ cho bên thứ ba khi chưa có sự đồng ý.</p>
+                    </div>
                 </div>
-            </div>
-        </header>
 
-        <main style="flex-grow: 1;">
-            <div class="container">
-                <div class="terms-content">
-                    <h2 style="text-align: center;">Điều khoản và chính sách bảo mật</h2>
-                    <p style="text-align: center; margin-bottom: 30px; font-size: 0.9em; color: var(--color-text-medium);">
-                        Nội dung của điều khoản sử dụng và chính sách bảo mật này của website Future Xion... (sau đây gọi tắt là Điều khoản sử dụng) dưới đây tạo thành một thỏa thuận ràng buộc về các quyền và nghĩa vụ pháp lý giữa chúng tôi và Người dùng...
-                    </p>
-
-                    <h3>1. PHẠM VI ÁP DỤNG</h3>
-                    <p>Điều khoản sử dụng này áp dụng cho dịch vụ của website... chính thức chạy trên hạ tầng máy chủ của nhóm FutureXion... Mọi truy cập thông tin trên trang... như một dịch vụ cung cấp cho Người dùng. Người dùng hiểu rằng việc sử dụng dịch vụ và bất kỳ dịch vụ nào khác của FutureXion có nghĩa là Người dùng đồng ý với Điều khoản sử dụng.</p>
-
-                    <h3>2. ĐIỀU KIỆN SỬ DỤNG</h3>
-                    <p>... có thể thay đổi, điều chỉnh Điều khoản sử dụng mà không cần báo trước. Việc chỉnh sửa này có hiệu lực ngay khi được cập nhật lên website. Người dùng cần thường xuyên kiểm tra tại đây đối với việc tiếp tục sử dụng nhằm đồng nghĩa rằng Người dùng chấp nhận mọi chỉnh sửa. Người dùng phải đảm bảo có đủ quyền lực và năng lực để sử dụng dịch vụ và tham gia vào một thỏa thuận ràng buộc hợp đồng này.</p>
-                    
-                    <h3>3. QUY ĐỊNH VỀ ĐĂNG KÝ</h3>
-                    <p>Trong quá trình đăng ký, Người dùng là chủ thể cung cấp đầy đủ dữ liệu thực và chính xác những thông tin được đề đăng ký tài khoản. Người dùng không được phép mạo danh... và có nghĩa vụ phải thường xuyên cập nhật thông tin tài khoản khi cần. FutureXion không chịu trách nhiệm cho bất cứ hành động nào liên quan đến việc Người dùng mất khẩu và tài khoản của mình trên hệ thống, cũng như những thiệt hại nào về việc này.</p>
-                    <p>Người dùng hoàn toàn chịu trách nhiệm việc bảo mật và sử dụng tài khoản của mình, không sử dụng tài khoản của Người dùng khác. Người dùng hoàn toàn chịu trách nhiệm cho tất cả những hành động có liên quan đến việc sử dụng mật khẩu và tài khoản của mình trên hệ thống... Nếu phát hiện những nghi ngờ về việc truy cập trái phép, Người dùng phải thông báo ngay cho chúng tôi.</p>
+                <div class="terms-footer" data-translate="terms_footer">
+                    Cập nhật lần cuối: 20/11/2025 · FutureXion bảo lưu mọi quyền.
                 </div>
             </div>
         </main>
-        
-        <footer class="footer-modern" style="background-color: var(--color-background-muted); color: var(--color-text-medium);">
-            <div class="container footer-content-simple">
-                <div class="col" style="font-weight: 700;">
-                    <div class="logo" style="color: var(--color-primary);">future<span class="logo-xion" style="color: var(--color-accent);">Xion</span></div>
-                </div>
-                <div class="col">
-                    <i class="fas fa-phone-alt"></i> 0123456789
-                    <i class="fas fa-envelope" style="margin-left: 15px;"></i> Futurexion@gmail.com
-                </div>
-                <div class="col">
-                    <a href="#">Pháp lý</a>
-                    <a href="#">Điều khoản và chính sách</a>
-                </div>
-                <div class="col">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                </div>
-            </div>
-            <div style="text-align: center; font-size: 0.8em; padding-top: 10px; color: var(--color-text-medium);">
-                Copyright © 2025 FutureXion. All rights reserved.
-            </div>
-        </footer>
     </div>
+
+    <script src="mock-data.js"></script>
+    <script src="sidebar.js"></script>
+    <script>
+        Sidebar.renderSidebar("terms");
+
+        const TermsTranslations = {
+            vi: {
+                terms_heading: "Điều khoản và chính sách bảo mật",
+                terms_intro: "Nội dung của điều khoản sử dụng và chính sách bảo mật này của website Future Xion (sau đây gọi tắt là Điều khoản sử dụng) tạo thành hợp đồng ràng buộc giữa FutureXion và Người dùng. Việc tiếp tục sử dụng sản phẩm đồng nghĩa bạn đã đọc và đồng ý với các điều khoản bên dưới.",
+                terms_scope_heading: "1. PHẠM VI ÁP DỤNG",
+                terms_scope_body: "Điều khoản sử dụng này áp dụng cho toàn bộ dịch vụ của website FutureXion, hiện triển khai trên hạ tầng máy chủ của nhóm phát triển. Mọi truy cập, tương tác và sử dụng thông tin trên trang đều được xem là đồng ý với Điều khoản sử dụng.",
+                terms_conditions_heading: "2. ĐIỀU KIỆN SỬ DỤNG",
+                terms_conditions_body: "FutureXion có quyền thay đổi nội dung Điều khoản mà không cần thông báo trước. Người dùng nên kiểm tra thường xuyên để cập nhật. Việc tiếp tục sử dụng dịch vụ chứng minh bạn chấp nhận các chỉnh sửa và đảm bảo đủ năng lực pháp lý để tham gia thỏa thuận này.",
+                terms_registration_heading: "3. QUY ĐỊNH VỀ ĐĂNG KÝ",
+                terms_registration_body: "Trong quá trình đăng ký, bạn cần cung cấp thông tin chính xác và thường xuyên cập nhật khi có thay đổi. Người dùng chịu trách nhiệm bảo mật tài khoản của mình, không mạo danh hay sử dụng tài khoản của người khác. Nếu nghi ngờ có truy cập trái phép, hãy thông báo ngay cho chúng tôi để được hỗ trợ.",
+                terms_highlight_user_title: "<i class=\"fas fa-user-shield\"></i> Trách nhiệm của bạn",
+                terms_highlight_user_body: "Giữ an toàn thông tin đăng nhập, cập nhật dữ liệu đúng sự thật và chủ động báo cáo khi phát hiện bất thường.",
+                terms_highlight_fx_title: "<i class=\"fas fa-lock\"></i> Cam kết của FutureXion",
+                terms_highlight_fx_body: "Chúng tôi chỉ sử dụng dữ liệu để cá nhân hóa hành trình học tập và không chia sẻ cho bên thứ ba khi chưa có sự đồng ý.",
+                terms_footer: "Cập nhật lần cuối: 20/11/2025 · FutureXion bảo lưu mọi quyền."
+            },
+            en: {
+                terms_heading: "Terms of Use & Privacy Policy",
+                terms_intro: "This Terms of Use and Privacy Policy (collectively “Terms”) forms a binding agreement between FutureXion and every user. By continuing to use the product, you acknowledge that you have read and accepted all of the provisions below.",
+                terms_scope_heading: "1. SCOPE OF APPLICATION",
+                terms_scope_body: "These Terms apply to every service provided on the FutureXion website, currently hosted on the development team’s infrastructure. Any visit, interaction, or use of information on the site constitutes acceptance of these Terms.",
+                terms_conditions_heading: "2. CONDITIONS OF USE",
+                terms_conditions_body: "FutureXion may update the Terms without prior notice. Users should review them regularly. Continuing to use the service means you accept any changes and confirm that you have the legal capacity to enter this agreement.",
+                terms_registration_heading: "3. REGISTRATION RULES",
+                terms_registration_body: "During registration you must provide accurate information and update it whenever changes occur. You are responsible for safeguarding your account, not impersonating others, and notifying us immediately if you suspect unauthorized access.",
+                terms_highlight_user_title: "<i class=\"fas fa-user-shield\"></i> Your responsibilities",
+                terms_highlight_user_body: "Keep your login information secure, submit truthful data, and promptly report any abnormal activity.",
+                terms_highlight_fx_title: "<i class=\"fas fa-lock\"></i> FutureXion’s commitment",
+                terms_highlight_fx_body: "We only use your data to personalize your learning journey and will not share it with third parties without your consent.",
+                terms_footer: "Last updated: 20 Nov 2025 · All rights reserved by FutureXion."
+            }
+        };
+
+        function applyTermsLanguage(lang) {
+            const currentLang = lang || localStorage.getItem("language") || "vi";
+            document.documentElement.lang = currentLang;
+            if (window.Sidebar) {
+                Sidebar.applySidebarLanguage(currentLang);
+            }
+            const dict = TermsTranslations[currentLang] || TermsTranslations.vi;
+            document.querySelectorAll("[data-translate]").forEach((el) => {
+                const key = el.getAttribute("data-translate");
+                const value = dict[key];
+                if (!value) return;
+                // Preserve icons when HTML is embedded in translation
+                el.innerHTML = value;
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            applyTermsLanguage();
+        });
+    </script>
 </body>
 </html>

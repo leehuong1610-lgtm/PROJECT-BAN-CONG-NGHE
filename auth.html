@@ -1,108 +1,314 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Xác thực - Future Xion</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body class="auth-page">
-
-    <div class="auth-box glass-box">
-        <div id="auth-content-area"></div>
-    </div>
-    
-    <script>
-        const authContentArea = document.getElementById('auth-content-area');
-
-        // Hàm hỗ trợ tạo label (giữ inline styles tối thiểu cho khả năng đọc)
-        const createLabel = (text) => `<label style="display: block; text-align: left; font-size: 0.9em; margin-bottom: 5px; color: var(--color-text-dark);">${text}</label>`;
-
-        // --- HÀM XỬ LÝ DỮ LIỆU HOẠT ĐỘNG (GIỮ NGUYÊN) ---
-        function saveActivityData(userName, isNewUser = false) {
-            let activities = [];
-
-            if (!isNewUser) {
-                const activitiesJson = localStorage.getItem('userActivities');
-                activities = activitiesJson ? JSON.parse(activitiesJson) : [];
-
-                if (activities.length === 0) {
-                     isNewUser = true;
-                }
-            }
-            
-            if (isNewUser) {
-                 localStorage.setItem('userActivities', JSON.stringify([]));
-            } else {
-                 const activitiesJson = localStorage.getItem('userActivities');
-                 activities = activitiesJson ? JSON.parse(activitiesJson) : [];
-                 const newActivity = {
-                    id: Date.now(),
-                    user: userName,
-                    name: "Hoạt động Đăng nhập Hệ thống",
-                    skill: "System Management",
-                    date: new Date().toLocaleDateString('vi-VN'),
-                    points: 10
-                 };
-                 activities.push(newActivity);
-                 localStorage.setItem('userActivities', JSON.stringify(activities));
-            }
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      body.auth-page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 15px;
+        background: radial-gradient(
+            circle at top,
+            rgba(255, 255, 255, 0.35),
+            rgba(90, 24, 154, 0.08)
+          ),
+          linear-gradient(135deg, #f7f3ff 0%, #f0f6ff 100%);
+      }
+      .auth-box {
+        width: min(520px, 96vw);
+        border-radius: 32px;
+        box-shadow: 0 25px 60px rgba(90, 24, 154, 0.18);
+        padding: 38px 34px 30px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), #fff);
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
+      .auth-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
+      .auth-form .form-group,
+      .auth-form .remember-forgot-container,
+      .auth-form .custom-checkbox-label,
+      .auth-form input,
+      .auth-form select {
+        width: 100%;
+      }
+      .auth-form .auth-primary-action,
+      .auth-form .auth-secondary-action {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .auth-form .auth-primary-action,
+      .auth-form .auth-secondary-action {
+        gap: 12px;
+      }
+      .auth-form .auth-primary-action .btn,
+      .auth-form .auth-secondary-action .btn {
+        width: min(320px, 85%);
+        margin: 0 auto;
+      }
+      .auth-form .auth-secondary-action {
+        margin-top: 20px;
+      }
+      .btn-submit-primary {
+        background: linear-gradient(135deg, #6a3ab7 0%, #9c6dff 100%);
+        box-shadow: 0 15px 30px rgba(106, 58, 183, 0.35);
+        border: none;
+      }
+      .btn-submit-primary:hover {
+        transform: translateY(-1px);
+      }
+      .auth-form .auth-secondary-action .btn {
+        background: #fff;
+        border: 1px solid var(--border-color);
+        color: var(--color-text-dark);
+        box-shadow: none;
+      }
+      .remember-forgot-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+      }
+      .custom-checkbox-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.9em;
+        color: var(--color-text-medium);
+      }
+      .custom-checkbox-label input {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+      }
+      .auth-support-panel {
+        background: rgba(106, 58, 183, 0.08);
+        border-radius: 20px;
+        padding: 20px 22px;
+        box-shadow: inset 0 1px 10px rgba(90, 24, 154, 0.08);
+        display:none;
+      }
+      .auth-support-panel h3 {
+        margin: 0 0 10px;
+        font-size: 1.1em;
+        color: var(--color-text-dark);
+      }
+      .mock-account-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 12px;
+        margin-top: 10px;
+      }
+      .mock-account-item {
+        padding: 12px;
+        border-radius: 14px;
+        background: #fff;
+        border: 1px solid rgba(90, 24, 154, 0.15);
+        box-shadow: 0 4px 14px rgba(90, 24, 154, 0.08);
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .mock-account-item strong {
+        font-size: 0.95em;
+        color: var(--color-text-dark);
+      }
+      .mock-account-item code {
+        font-family: "Roboto Mono", monospace;
+        font-size: 0.85em;
+        background: rgba(90, 24, 154, 0.08);
+        padding: 2px 6px;
+        border-radius: 8px;
+        display: inline-block;
+      }
+      @media (max-width: 540px) {
+        .remember-forgot-container {
+          flex-direction: column;
+          align-items: flex-start;
         }
-        // -------------------------------------------------------------------
+        .auth-box {
+          padding: 26px 20px;
+          gap: 20px;
+        }
+      }
+      .btn-submit-google {
+        border-radius: 999px;
+        font-weight: 600;
+        height: 52px;
+      }
+    </style>
+  </head>
+  <body class="auth-page">
+    
+    <div class="auth-box glass-box">
+      <div id="auth-content-area"></div>
+      <div class="auth-support-panel">
+        <h3>Truy cập nhanh</h3>
+        <p style="margin: 0; color: var(--color-text-medium); font-size: 0.9em">
+          Dùng nhanh một trong các tài khoản thử nghiệm dưới đây để khám phá
+          Dashboard.
+        </p>
+        <div id="mock-account-list" class="mock-account-grid"></div>
+      </div>
+    </div>
 
-        // --- 1. LOGIN (FRAME 166) ---
-        const getLoginFrame = () => `
+    <script src="mock-data.js"></script>
+    <script>
+      const authContentArea = document.getElementById("auth-content-area");
+      const USERS_KEY = "fx_users";
+      const CURRENT_USER_PROFILE_KEY = "currentUserProfile";
+      const CURRENT_USER_KEY = "currentUser";
+      const MockDataAPI = window.MockData || {};
+      MockDataAPI.ensureMockData?.();
+
+      // Hàm hỗ trợ tạo label (giữ inline styles tối thiểu cho khả năng đọc)
+      const createLabel = (text) =>
+        `<label style="display: block; text-align: left; font-size: 0.9em; margin-bottom: 5px; color: var(--color-text-dark);">${text}</label>`;
+
+      function getStoredUsers() {
+        const usersJson = localStorage.getItem(USERS_KEY);
+        return usersJson ? JSON.parse(usersJson) : [];
+      }
+
+      function persistUsers(users) {
+        try {
+          localStorage.setItem(USERS_KEY, JSON.stringify(users));
+          return true;
+        } catch (error) {
+          console.error("Không thể lưu dữ liệu người dùng", error);
+          return false;
+        }
+      }
+
+      function saveActivityData(userName, isNewUser = false) {
+        let activities = [];
+
+        if (!isNewUser) {
+          const activitiesJson = localStorage.getItem("userActivities");
+          activities = activitiesJson ? JSON.parse(activitiesJson) : [];
+
+          if (activities.length === 0) {
+            isNewUser = true;
+          }
+        }
+
+        if (isNewUser) {
+          const templateActivities = (MockDataAPI.MOCK_ACTIVITIES || []).map(
+            (activity, index) => ({
+              ...activity,
+              id: Date.now() + index,
+              user: userName,
+            })
+          );
+          localStorage.setItem(
+            "userActivities",
+            JSON.stringify(templateActivities)
+          );
+        } else {
+          const activitiesJson = localStorage.getItem("userActivities");
+          activities = activitiesJson ? JSON.parse(activitiesJson) : [];
+          const newActivity = {
+            id: Date.now(),
+            user: userName,
+            name: "Hoạt động Đăng nhập Hệ thống",
+            skill: "System Management",
+            date: new Date().toLocaleDateString("vi-VN"),
+            points: 10,
+          };
+          activities.push(newActivity);
+          localStorage.setItem("userActivities", JSON.stringify(activities));
+        }
+      }
+      // -------------------------------------------------------------------
+
+      // --- 1. LOGIN (FRAME 166) ---
+      const getLoginFrame = () => `
             <div class="icon-lock"><i class="fas fa-sun"></i></div>
-            <h2>CHÀO MỪNG TRỞ LẠI!</h2>
-            <p class="subtitle">Đăng nhập để truy cập Dashboard và hồ sơ kỹ năng của bạn.</p>
+            <h2>Chào mừng trở lại!</h2>
+            <p class="subtitle">Đăng nhập để tiếp tục theo dõi hành trình phát triển kỹ năng của bạn.</p>
+            <div class="auth-feedback" id="auth-feedback"></div>
             
-            <form onsubmit="handleAuthSubmit(event, 'login')">
+            <form class="auth-form" onsubmit="handleAuthSubmit(event, 'login')">
                 <div class="form-group">
-                    ${createLabel('Tên người dùng')}
-                    <input type="text" id="login-username" placeholder="Usename" required>
+                    ${createLabel("Tên đăng nhập / Email")}
+                    <input type="text" id="login-username" placeholder="Nhập email hoặc tên đăng nhập" required>
                 </div>
                 <div class="form-group">
-                    ${createLabel('Mật khẩu')}
-                    <input type="password" id="login-password" placeholder="********" required>
+                    ${createLabel("Mật khẩu")}
+                    <input type="password" id="login-password" placeholder="••••••••" required>
                     
                     <div class="remember-forgot-container">
                         <label class="custom-checkbox-label">
-                            <input type="checkbox"> Remember me
+                            <input type="checkbox"> Ghi nhớ đăng nhập
                         </label>
-                        <a href="#" onclick="renderFrame('forgot')" class="btn-link color-primary" style="font-weight: 500;">Forgot password?</a>
+                        <a href="#" onclick="renderFrame('forgot')" class="btn-link color-primary" style="font-weight: 500;">Quên mật khẩu?</a>
                     </div>
                 </div>
                 
-                <button type="submit" class="btn btn-primary btn-submit-primary" style="width: 100%; margin-top: 20px;">Log in</button>
+                <div class="auth-primary-action">
+                    <button type="submit" class="btn btn-primary btn-submit-primary">Đăng nhập</button>
+                </div>
                 
-                <div class="auth-separator">Or</div>
+                <div class="auth-separator">Hoặc</div>
                 
-                <button type="button" onclick="handleGoogleLogin()" class="btn btn-submit-google" style="background: var(--color-white); border: 1px solid var(--border-color); color: var(--color-text-dark); width: 100%; box-shadow: none;">
-                    <i class="fab fa-google" style="color: #DB4437;"></i> Sign in with Google
-                </button>
+                <div class="auth-secondary-action">
+                    <button type="button" onclick="handleGoogleLogin()" class="btn btn-submit-google" style="background: var(--color-white); border: 1px solid var(--border-color); color: var(--color-text-dark); box-shadow: none;">
+                        <i class="fab fa-google" style="color: #DB4437;"></i> Đăng nhập bằng Google
+                    </button>
+                </div>
             </form>
 
             <p class="auth-footer color-text-medium" style="margin-top: 30px; font-size: 0.9em;">
-                Don't have an account? <a href="#" onclick="renderFrame('register')" class="link-small color-primary" style="font-weight: 700; margin-left: 5px;">Sign up</a>
+                Chưa có tài khoản? <a href="#" onclick="renderFrame('register')" class="link-small color-primary" style="font-weight: 700; margin-left: 5px;">Đăng ký ngay</a>
             </p>
         `;
 
-        // --- 2. REGISTER (FRAME 167) ---
-        const getRegisterFrame = () => `
+      // --- 2. REGISTER (FRAME 167) ---
+      const getRegisterFrame = () => `
             <div class="icon-lock"><i class="fas fa-user-circle"></i></div>
-            <h2>Create Account</h2>
-            <p class="subtitle">Đăng ký để bắt đầu đo lường kỹ năng mềm của bạn.</p>
+            <h2>Tạo tài khoản mới</h2>
+            <p class="subtitle">Hoàn tất thông tin để FutureXion cá nhân hóa dashboard cho bạn.</p>
+            <div class="auth-feedback" id="auth-feedback"></div>
             
-            <form onsubmit="handleAuthSubmit(event, 'register')">
-                <div class="form-group">${createLabel('Họ tên')}<input type="text" id="reg-name" placeholder="Full Name" required></div>
-                <div class="form-group">${createLabel('Username')}<input type="text" id="reg-username" placeholder="Username" required></div>
-                <div class="form-group">${createLabel('Email')}<input type="email" id="reg-email" placeholder="Email" required></div>
+            <form class="auth-form" onsubmit="handleAuthSubmit(event, 'register')">
+                <div class="form-group">${createLabel(
+                  "Họ và tên"
+                )}<input type="text" id="reg-name" placeholder="Ví dụ: Nguyễn Minh Anh" required></div>
+                <div class="form-group">${createLabel(
+                  "Tên đăng nhập"
+                )}<input type="text" id="reg-username" placeholder="Tên đăng nhập mong muốn" required></div>
+                <div class="form-group">${createLabel(
+                  "Email"
+                )}<input type="email" id="reg-email" placeholder="Email liên hệ" required></div>
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                     <div class="form-group" style="margin-bottom: 0;">${createLabel('Ngày sinh')}<input type="date" id="reg-dob" required></div>
-                     <div class="form-group" style="margin-bottom: 0;">${createLabel('Giới tính')}
+                     <div class="form-group" style="margin-bottom: 0;">${createLabel(
+                       "Ngày sinh"
+                     )}<input type="date" id="reg-dob" required></div>
+                     <div class="form-group" style="margin-bottom: 0;">${createLabel(
+                       "Giới tính"
+                     )}
                         <select id="reg-gender" required>
                             <option value="">Chọn</option>
                             <option value="male">Nam</option>
@@ -111,123 +317,302 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group" style="margin-top: 20px;">${createLabel('Trường Đại học')}<input type="text" id="reg-university" placeholder="Tên Trường Đại học" required></div>
-                <div class="form-group">${createLabel('Mật khẩu')}<input type="password" id="reg-password" placeholder="Password" required></div>
+                <div class="form-group" style="margin-top: 20px;">${createLabel(
+                  "Trường Đại học"
+                )}<input type="text" id="reg-university" placeholder="Ví dụ: Đại học Kinh tế Quốc dân" required></div>
+                <div class="form-group">${createLabel(
+                  "Mật khẩu"
+                )}<input type="password" id="reg-password" placeholder="Tối thiểu 6 ký tự" required></div>
                 
                 <label class="custom-checkbox-label" style="text-align: left; margin-top: -10px; margin-bottom: 15px;">
-                    <input type="checkbox" required> I agree to all terms and Privacy Policy
+                    <input type="checkbox" required> Tôi đồng ý với Điều khoản & Chính sách bảo mật
                 </label>
 
-                <button type="submit" class="btn btn-primary btn-submit-primary" style="width: 100%;">Sign up</button>
+                <div class="auth-primary-action">
+                    <button type="submit" class="btn btn-primary btn-submit-primary">Đăng ký</button>
+                </div>
                 
-                <div class="auth-separator">Or</div>
+                <div class="auth-separator">Hoặc</div>
                 
-                <button type="button" onclick="handleGoogleLogin()" class="btn btn-submit-google" style="background: var(--color-white); border: 1px solid var(--border-color); color: var(--color-text-dark); width: 100%; box-shadow: none;">
-                    <i class="fab fa-google" style="color: #DB4437;"></i> Sign in with Google
-                </button>
+                <div class="auth-secondary-action">
+                    <button type="button" onclick="handleGoogleLogin()" class="btn btn-submit-google" style="background: var(--color-white); border: 1px solid var(--border-color); color: var(--color-text-dark); box-shadow: none;">
+                        <i class="fab fa-google" style="color: #DB4437;"></i> Đăng ký bằng Google
+                    </button>
+                </div>
             </form>
 
             <p class="auth-footer color-text-medium" style="margin-top: 30px; font-size: 0.9em;">
-                Already have an account? <a href="#" onclick="renderFrame('login')" class="link-small color-primary" style="font-weight: 700; margin-left: 5px;">Log in</a>
+                Đã có tài khoản? <a href="#" onclick="renderFrame('login')" class="link-small color-primary" style="font-weight: 700; margin-left: 5px;">Đăng nhập</a>
             </p>
         `;
 
-        // --- 3. FORGOT PASSWORD (FRAME 168) ---
-        const getForgotFrame = () => `
+      // --- 3. FORGOT PASSWORD (FRAME 168) ---
+      const getForgotFrame = () => `
             <div class="icon-lock"><i class="fas fa-lock"></i></div>
-            <h2>Forgot your password?</h2>
-            <p class="subtitle">Enter your email so that we can send you password reset link</p>
+            <h2>Quên mật khẩu?</h2>
+            <p class="subtitle">Nhập email đã đăng ký để nhận liên kết đặt lại mật khẩu.</p>
+            <div class="auth-feedback" id="auth-feedback"></div>
             
             <form onsubmit="handleAuthSubmit(event, 'forgot')">
                 <div class="form-group">
-                    ${createLabel('Email')}
-                    <input type="email" id="forgot-email" placeholder="e.g. futurexion@gmail.com" required>
+                    ${createLabel("Email")}
+                    <input type="email" id="forgot-email" placeholder="ví dụ: ban@truong.edu.vn" required>
                 </div>
                 
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Send email</button>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Gửi email đặt lại</button>
                 
-                <a href="#" onclick="renderFrame('login')" class="btn-link color-primary" style="display: block; margin-top: 20px; font-weight: 500;">&lt; BACK TO LOGIN</a>
+                <a href="#" onclick="renderFrame('login')" class="btn-link color-primary" style="display: block; margin-top: 20px; font-weight: 500;">&lt; Quay lại đăng nhập</a>
             </form>
         `;
 
-        // --- 4. RESET PASSWORD (FRAME 169) ---
-        const getResetFrame = () => `
+      // --- 4. RESET PASSWORD (FRAME 169) ---
+      const getResetFrame = () => `
             <div class="icon-lock"><i class="fas fa-envelope-open-text"></i></div>
-            <h2>Reset password</h2>
-            <p class="subtitle">Please kindly set your new password</p>
+            <h2>Đặt lại mật khẩu</h2>
+            <p class="subtitle">Nhập mật khẩu mới cho tài khoản của bạn.</p>
+            <div class="auth-feedback" id="auth-feedback"></div>
             
             <form onsubmit="handleAuthSubmit(event, 'reset')">
                 <div class="form-group">
-                    ${createLabel('New password')}
-                    <input type="password" id="new-password" placeholder="Enter new password" required>
-                    <p style="text-align: left; font-size: 0.8em; color: green; margin: 5px 0 0 0;">Password strength: Excellent</p>
+                    ${createLabel("Mật khẩu mới")}
+                    <input type="password" id="new-password" placeholder="Nhập mật khẩu mới" required>
+                    <p style="text-align: left; font-size: 0.8em; color: green; margin: 5px 0 0 0;">Độ mạnh mật khẩu: Tốt</p>
                 </div>
                 <div class="form-group">
-                    ${createLabel('Re-enter password')}
-                    <input type="password" id="re-enter-password" placeholder="Re-enter password" required>
+                    ${createLabel("Nhập lại mật khẩu")}
+                    <input type="password" id="re-enter-password" placeholder="Nhập lại mật khẩu mới" required>
                 </div>
                 
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Cập nhật mật khẩu</button>
                 
-                <a href="#" onclick="renderFrame('login')" class="btn-link color-primary" style="display: block; margin-top: 20px; font-weight: 500;">&lt; BACK TO LOGIN</a>
+                <a href="#" onclick="renderFrame('login')" class="btn-link color-primary" style="display: block; margin-top: 20px; font-weight: 500;">&lt; Quay lại đăng nhập</a>
             </form>
         `;
 
-        // --- GOOGLE LOGIN (MOCK) ---
-        function handleGoogleLogin() {
-             const mockUserName = "Sinh viên Google";
-             localStorage.setItem('currentUser', mockUserName);
-             saveActivityData(mockUserName, true); 
-             window.location.href = 'dashboard.html';
+      // --- GOOGLE LOGIN (MOCK) ---
+      function handleGoogleLogin() {
+        const users = getStoredUsers();
+        const googleEmail = "google.user@example.com";
+        let googleUser = users.find((u) => u.email === googleEmail);
+
+        if (!googleUser) {
+          googleUser = {
+            id: `google_${Date.now()}`,
+            fullName: "Sinh viên Google",
+            username: `google_${Date.now()}`,
+            email: googleEmail,
+            provider: "google",
+            password: null,
+          };
+          users.push(googleUser);
+          persistUsers(users);
         }
 
-        // --- SUBMISSION HANDLER (CẬP NHẬT) ---
-        function handleAuthSubmit(event, flow) {
-            event.preventDefault();
-            
-            let userName = '';
+        showAuthMessage(
+          "success",
+          "Đăng nhập Google thành công! Đang chuyển hướng..."
+        );
+        setTimeout(() => finalizeLogin(googleUser, false), 500);
+      }
 
-            if (flow === 'login') {
-                // Lấy tên từ trường Username
-                userName = document.getElementById('login-username')?.value || 'Sinh viên Tích cực';
-                localStorage.setItem('currentUser', userName);
-                saveActivityData(userName, false); 
-                window.location.href = 'dashboard.html';
-            } else if (flow === 'register') {
-                 // Lấy tên từ trường Họ tên
-                 userName = document.getElementById('reg-name')?.value || 'Sinh viên Tích cực';
-                localStorage.setItem('currentUser', userName);
-                saveActivityData(userName, true); 
-                window.location.href = 'dashboard.html';
-            } else if (flow === 'forgot') {
-                renderFrame('reset');
-            } else if (flow === 'reset') {
-                renderFrame('login');
-            }
+      // --- SUBMISSION HANDLER (CẬP NHẬT) ---
+      function handleAuthSubmit(event, flow) {
+        event.preventDefault();
+        const users = getStoredUsers();
+
+        if (flow === "login") {
+          const identifier = document
+            .getElementById("login-username")
+            ?.value.trim();
+          const password = document.getElementById("login-password")?.value;
+
+          if (!identifier || !password) {
+            showAuthMessage(
+              "error",
+              "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu."
+            );
+            return;
+          }
+
+          const user = users.find(
+            (u) =>
+              u.username?.toLowerCase() === identifier.toLowerCase() ||
+              u.email?.toLowerCase() === identifier.toLowerCase()
+          );
+
+          if (!user) {
+            showAuthMessage("error", "Tài khoản không tồn tại.");
+            return;
+          }
+
+          if (user.provider === "google" && !user.password) {
+            showAuthMessage(
+              "error",
+              "Tài khoản Google - vui lòng dùng nút Đăng nhập Google."
+            );
+            return;
+          }
+
+          if (user.password !== password) {
+            showAuthMessage("error", "Mật khẩu chưa chính xác.");
+            return;
+          }
+
+          showAuthMessage(
+            "success",
+            "Đăng nhập thành công! Đang chuyển hướng..."
+          );
+          setTimeout(() => finalizeLogin(user, false), 400);
+        } else if (flow === "register") {
+          const fullName = document.getElementById("reg-name")?.value.trim();
+          const username = document
+            .getElementById("reg-username")
+            ?.value.trim();
+          const email = document
+            .getElementById("reg-email")
+            ?.value.trim()
+            .toLowerCase();
+          const password = document.getElementById("reg-password")?.value;
+          const dob = document.getElementById("reg-dob")?.value;
+          const gender = document.getElementById("reg-gender")?.value;
+          const university = document.getElementById("reg-university")?.value;
+
+          if (!fullName || !username || !email || !password) {
+            showAuthMessage(
+              "error",
+              "Vui lòng nhập đầy đủ thông tin bắt buộc."
+            );
+            return;
+          }
+
+          if (password.length < 6) {
+            showAuthMessage("error", "Mật khẩu cần tối thiểu 6 ký tự.");
+            return;
+          }
+
+          const usernameTaken = users.some(
+            (u) => u.username?.toLowerCase() === username.toLowerCase()
+          );
+          if (usernameTaken) {
+            showAuthMessage("error", "Tên đăng nhập đã tồn tại.");
+            return;
+          }
+
+          const emailTaken = users.some(
+            (u) => u.email?.toLowerCase() === email
+          );
+          if (emailTaken) {
+            showAuthMessage("error", "Email đã được sử dụng.");
+            return;
+          }
+
+          const newUser = {
+            id: `user_${Date.now()}`,
+            fullName,
+            username,
+            email,
+            password,
+            provider: "local",
+            dob,
+            gender,
+            university,
+          };
+
+          users.push(newUser);
+          const stored = persistUsers(users);
+          if (!stored) {
+            showAuthMessage(
+              "error",
+              "Trình duyệt đang chặn việc lưu tài khoản. Vui lòng mở lại trang hoặc kiểm tra cài đặt bộ nhớ."
+            );
+            return;
+          }
+          showAuthMessage(
+            "success",
+            "Đăng ký thành công! Đang chuyển hướng..."
+          );
+          setTimeout(() => finalizeLogin(newUser, true), 600);
+        } else if (flow === "forgot") {
+          renderFrame("reset");
+        } else if (flow === "reset") {
+          renderFrame("login");
         }
+      }
 
-        // --- RENDER LOGIC VÀ KIỂM TRA HASH NAVIGATION (GIỮ NGUYÊN) ---
-        function renderFrame(frameName) {
-            let htmlContent = '';
-            switch (frameName) {
-                case 'register': htmlContent = getRegisterFrame(); break;
-                case 'forgot': htmlContent = getForgotFrame(); break;
-                case 'reset': htmlContent = getResetFrame(); break;
-                case 'login': default: htmlContent = getLoginFrame(); break;
-            }
-            authContentArea.innerHTML = htmlContent;
+      // --- RENDER LOGIC VÀ KIỂM TRA HASH NAVIGATION (GIỮ NGUYÊN) ---
+      function renderFrame(frameName) {
+        let htmlContent = "";
+        switch (frameName) {
+          case "register":
+            htmlContent = getRegisterFrame();
+            break;
+          case "forgot":
+            htmlContent = getForgotFrame();
+            break;
+          case "reset":
+            htmlContent = getResetFrame();
+            break;
+          case "login":
+          default:
+            htmlContent = getLoginFrame();
+            break;
         }
+        authContentArea.innerHTML = htmlContent;
+        clearAuthMessage();
+      }
 
-        // Khởi tạo trang với Frame Đăng nhập, kiểm tra hash cho Register
-        document.addEventListener('DOMContentLoaded', () => {
-            const hash = window.location.hash.substring(1);
-            if (hash === 'register') {
-                 renderFrame('register');
-            } else {
-                 renderFrame('login');
-            }
-        });
+      function renderMockAccounts() {
+        const container = document.getElementById("mock-account-list");
+        if (!container) return;
+        const accounts = MockDataAPI.MOCK_USERS || [];
+        container.innerHTML = accounts
+          .map(
+            (account) => `
+            <div class="mock-account-item">
+                <strong>${account.fullName}</strong>
+                <span style="font-size:0.85em; color: var(--color-text-medium);">${
+                  account.email
+                }</span>
+                <code>${
+                  account.password ? account.password : "Google SSO"
+                }</code>
+            </div>
+        `
+          )
+          .join("");
+      }
+
+      // Khởi tạo trang với Frame Đăng nhập, kiểm tra hash cho Register
+      function finalizeLogin(user, isNewUser = false) {
+        localStorage.setItem(CURRENT_USER_KEY, user.fullName || user.username);
+        localStorage.setItem(CURRENT_USER_PROFILE_KEY, JSON.stringify(user));
+        saveActivityData(user.fullName || user.username, isNewUser);
+        window.location.href = "dashboard.html";
+      }
+
+      function showAuthMessage(type, message) {
+        const feedback = document.getElementById("auth-feedback");
+        if (!feedback) {
+          alert(message);
+          return;
+        }
+        feedback.textContent = message;
+        feedback.className = `auth-feedback show ${type}`;
+      }
+
+      function clearAuthMessage() {
+        const feedback = document.getElementById("auth-feedback");
+        if (feedback) {
+          feedback.textContent = "";
+          feedback.className = "auth-feedback";
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const hash = window.location.hash.substring(1);
+        renderFrame(hash === "register" ? "register" : "login");
+        renderMockAccounts();
+      });
     </script>
-
-</body>
+  </body>
 </html>
