@@ -1,8 +1,5 @@
-/**
- * File này chứa các cấu hình biểu đồ cho UI/UX
- */
 
-// 1. RADAR CHART - Phân tích Điểm mạnh/Yếu (ENHANCED)
+
 
 function getEnhancedRadarChartConfig(
   data,
@@ -141,7 +138,6 @@ function getEnhancedRadarChartConfig(
   };
 }
 
-// 2. LINE CHART - Xu hướng Điểm Trung bình (ENHANCED)
 
 function getEnhancedLineChartConfig(labels, data, forecastData = null) {
   const datasets = [
@@ -151,7 +147,7 @@ function getEnhancedLineChartConfig(labels, data, forecastData = null) {
       borderColor: "#5A189A",
       backgroundColor: "rgba(90, 24, 154, 0.1)",
       fill: true,
-      tension: 0.4, // Smooth curve
+      tension: 0.4, 
       pointRadius: 6,
       pointHoverRadius: 10,
       pointBackgroundColor: "#FFFFFF",
@@ -167,7 +163,6 @@ function getEnhancedLineChartConfig(labels, data, forecastData = null) {
     },
   ];
 
-  // Thêm forecast line nếu có
   if (forecastData && forecastData.length > 0) {
     datasets.push({
       label: "Dự đoán",
@@ -280,7 +275,6 @@ function getEnhancedLineChartConfig(labels, data, forecastData = null) {
   };
 }
 
-// 3. BAR CHART - So sánh Kỹ năng
 
 function getBarChartConfig(labels, userData, benchmarkData = null) {
   const datasets = [
@@ -289,9 +283,9 @@ function getBarChartConfig(labels, userData, benchmarkData = null) {
       data: userData,
       backgroundColor: function (context) {
         const value = context.parsed.y;
-        if (value >= 4.0) return "rgba(16, 185, 129, 0.8)"; // Green
-        if (value >= 3.0) return "rgba(245, 158, 11, 0.8)"; // Orange
-        return "rgba(239, 68, 68, 0.8)"; // Red
+        if (value >= 4.0) return "rgba(16, 185, 129, 0.8)"; 
+        if (value >= 3.0) return "rgba(245, 158, 11, 0.8)"; 
+        return "rgba(239, 68, 68, 0.8)"; 
       },
       borderColor: function (context) {
         const value = context.parsed.y;
@@ -408,15 +402,14 @@ function getBarChartConfig(labels, userData, benchmarkData = null) {
   };
 }
 
-// 4. DOUGHNUT CHART - Phân bổ Hoạt động
 
 function getDoughnutChartConfig(labels, data) {
   const colors = [
-    "rgba(90, 24, 154, 0.8)", // Purple
-    "rgba(79, 154, 255, 0.8)", // Blue
-    "rgba(16, 185, 129, 0.8)", // Green
-    "rgba(245, 158, 11, 0.8)", // Orange
-    "rgba(239, 68, 68, 0.8)", // Red
+    "rgba(90, 24, 154, 0.8)", 
+    "rgba(79, 154, 255, 0.8)", 
+    "rgba(16, 185, 129, 0.8)", 
+    "rgba(245, 158, 11, 0.8)", 
+    "rgba(239, 68, 68, 0.8)", 
   ];
 
   return {
@@ -487,7 +480,6 @@ function getDoughnutChartConfig(labels, data) {
   };
 }
 
-// 5. AREA CHART - Lịch sử Phát triển
 
 function getAreaChartConfig(labels, datasets) {
   const colors = [

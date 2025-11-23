@@ -16,7 +16,6 @@
       rel="stylesheet"
     />
     <style>
-      /* CSS TÍCH HỢP TỪ DASHBOARD (Đảm bảo đồng bộ) */
       :root {
         --color-primary: #5a189a;
         --color-accent: #4f9aff;
@@ -85,7 +84,6 @@
         font-weight: 600;
       }
 
-      /* General Layout */
       .dashboard-layout {
         display: flex;
         min-height: 100vh;
@@ -102,7 +100,6 @@
         margin-bottom: 30px;
       }
 
-      /* Badges Specific Styles */
       .report-wrapper {
         background-color: var(--color-background-card);
         border-radius: 15px;
@@ -177,7 +174,7 @@
   <body onload="applyLanguageBadges(); loadBadgesData();">
     <div class="dashboard-layout">
       <aside class="sidebar">
-        <div class="logo">future<span class="logo-xion">Xion</span></div>
+        <div class="logo">Future<span class="logo-xion">Xion</span></div>
         <nav></nav>
       </aside>
 
@@ -276,7 +273,6 @@
         CriticalThinking: "Tư Duy Phản Biện",
       };
 
-      // MOCKUP AGGREGATION LOGIC (Sao chép và điều chỉnh từ Report/Dashboard)
       function aggregateSkillData(activities) {
         const scores = {};
         SKILLS_LABELS.forEach((skill) => {
@@ -293,7 +289,6 @@
           }
         });
 
-        // Tính điểm trung bình và tổng số hoạt động theo từng skill
         const finalScores = {};
         SKILLS_LABELS.forEach((skill) => {
           scores[skill].avg =
@@ -305,7 +300,6 @@
         return scores;
       }
 
-      // ĐỊNH NGHĨA VÀ KIỂM TRA HUY HIỆU
       function getBadgeDefinitions(scores, t) {
         const teamActivities = scores.Teamwork.activityCount;
         const leadershipScore = scores.Leadership.avg;
@@ -317,7 +311,7 @@
             id: "teamwork",
             titleKey: "badge_title_teamwork",
             icon: "fas fa-users",
-            isUnlocked: teamActivities >= 5, // ĐK: 5 Hoạt động nhóm
+            isUnlocked: teamActivities >= 5,
             statusText: t.req_teamwork,
             currentProgress: `${teamActivities} / 5`,
           },
@@ -325,7 +319,7 @@
             id: "leadership",
             titleKey: "badge_title_leadership",
             icon: "fas fa-trophy",
-            isUnlocked: leadershipScore >= 4.0, // ĐK: Điểm Lãnh đạo >= 4.0
+            isUnlocked: leadershipScore >= 4.0, 
             statusText: t.req_leadership,
             currentProgress: `${leadershipScore.toFixed(1)} / 4.0`,
           },
@@ -333,7 +327,7 @@
             id: "communication",
             titleKey: "badge_title_communication",
             icon: "fas fa-microphone-alt",
-            isUnlocked: communicationScore >= 4.5, // ĐK: Điểm Giao tiếp >= 4.5
+            isUnlocked: communicationScore >= 4.5, 
             statusText: t.req_communication,
             currentProgress: `${communicationScore.toFixed(1)} / 4.5`,
           },
@@ -341,7 +335,7 @@
             id: "critical_thinking",
             titleKey: "badge_title_critical",
             icon: "fas fa-brain",
-            isUnlocked: criticalThinkingScore >= 3.5, // ĐK: Điểm TVPB >= 3.5 (Benchmark)
+            isUnlocked: criticalThinkingScore >= 3.5, 
             statusText: t.req_critical_thinking,
             currentProgress: `${criticalThinkingScore.toFixed(1)} / 3.5`,
           },
@@ -354,7 +348,6 @@
         const badgeGrid = document.getElementById("badge-grid-output");
         const t = BadgesTranslations[localStorage.getItem("language") || "vi"];
 
-        // Xử lý dữ liệu
         const activities = activitiesJson ? JSON.parse(activitiesJson) : [];
         const scores = aggregateSkillData(activities);
         const badgeList = getBadgeDefinitions(scores, t);
@@ -402,7 +395,6 @@
 
         document.title = t.title_badges;
 
-        // Cập nhật tất cả các phần tử có data-translate
         document.querySelectorAll("[data-translate]").forEach((element) => {
           const key = element.getAttribute("data-translate");
           if (t[key]) {
@@ -414,7 +406,6 @@
             }
           }
         });
-        // Gọi lại loadBadgesData để áp dụng ngôn ngữ mới cho text động
         loadBadgesData();
       }
     </script>

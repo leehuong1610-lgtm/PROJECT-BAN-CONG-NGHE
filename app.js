@@ -1,19 +1,15 @@
-// =========================================================================
-// 1. DỮ LIỆU MẪU VÀ BIẾN CHUNG
-// =========================================================================
+
 
 let skillsRadarChartWebRating; 
 let skillsRadarChartInteractionDemo;
 let averageTrendChart;
 
-// Dữ liệu mẫu (chỉ dùng cho biểu đồ demo và benchmark)
-const initialSkillsData = [4.2, 3.8, 4.5, 4.0, 2.8]; // Lãnh đạo, GT, GQ, TW, TVPB
+const initialSkillsData = [4.2, 3.8, 4.5, 4.0, 2.8]; 
 const industryDemand = [4.5, 4.0, 4.7, 4.2, 3.5]; 
 const skillsLabels = [ 'Leadership', 'Communication', 'ProblemSolving', 'Teamwork', 'CriticalThinking' ];
 const trendLabels = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6'];
-const trendData = [3.5, 3.7, 3.8, 3.9, 4.0, 4.1]; // Mock Trend Data
+const trendData = [3.5, 3.7, 3.8, 3.9, 4.0, 4.1]; 
 
-// Tên kỹ năng thân thiện để hiển thị
 const skillDisplayNames = {
     'Leadership': 'Lãnh đạo',
     'Communication': 'Giao tiếp',
@@ -21,10 +17,6 @@ const skillDisplayNames = {
     'Teamwork': 'Teamwork',
     'CriticalThinking': 'Tư duy Phản biện'
 };
-
-// =========================================================================
-// 2. LOGIC XỬ LÝ DỮ LIỆU (CORE FUNCTIONALITY)
-// =========================================================================
 
 /**
  * Kiểm tra xem có dữ liệu hoạt động nào được ghi nhận không.
@@ -49,10 +41,8 @@ function hasActivityData() {
  */
 function saveActivityData(userName, isNewUser = false) {
     if (isNewUser) {
-        // Thiết lập mảng rỗng cho người dùng mới
         localStorage.setItem('userActivities', JSON.stringify([]));
     } else {
-        // Đăng nhập: Không làm gì nếu đã có dữ liệu, hoặc khởi tạo rỗng nếu không phải user mới
         const activitiesJson = localStorage.getItem('userActivities');
         if (!activitiesJson) {
             localStorage.setItem('userActivities', JSON.stringify([]));
@@ -65,7 +55,7 @@ function saveActivityData(userName, isNewUser = false) {
  * @returns {object} { scores: [4.2, 3.8, ...], summary: { weakest: 'SkillA', strongest: 'SkillB', avgTotal: 4.0 } }
  */
 function aggregateSkillScores(activities) {
-    const scores = {}; // { Leadership: { total: X, count: Y }, ... }
+    const scores = {}; 
     const initialScores = {};
     let totalScoreSum = 0;
     let totalScoreCount = 0;
@@ -109,13 +99,11 @@ function aggregateSkillScores(activities) {
                 strongestSkill = skill;
             }
         } else if (activities.length > 0 && !weakestSkill) {
-             // Nếu có hoạt động nhưng skill này chưa có điểm, coi là yếu nhất
              weakestSkill = skill;
              minScore = 0;
         }
     });
     
-    // Nếu không có hoạt động, đặt về null
     if (totalScoreCount === 0) {
         weakestSkill = null;
         strongestSkill = null;
@@ -132,35 +120,25 @@ function aggregateSkillScores(activities) {
 }
 
 
-// =========================================================================
-// 3. LOGIC CHUYỂN TRANG (AUTH.HTML)
-// =========================================================================
-
-/**
- * Xử lý khi click Google Login (Tương tự Register)
- */
 function handleGoogleLogin() {
     const mockUserName = "Sinh viên Google";
     localStorage.setItem('currentUser', mockUserName);
-    saveActivityData(mockUserName, true); // Thiết lập trạng thái RỖNG
+    saveActivityData(mockUserName, true); 
     window.location.href = 'dashboard.html';
 }
 
-/**
- * Xử lý form Đăng nhập/Đăng ký.
- */
 function handleAuthSubmit(event, flow) {
     event.preventDefault();
     
     if (flow === 'login') {
         const userName = document.getElementById('login-email')?.value || 'Sinh viên Tích cực';
         localStorage.setItem('currentUser', userName);
-        saveActivityData(userName, false); // Giữ lại dữ liệu cũ hoặc khởi tạo nếu chưa có
+        saveActivityData(userName, false); 
         window.location.href = 'dashboard.html';
     } else if (flow === 'register') {
          const userName = document.getElementById('reg-name')?.value || 'Sinh viên Tích cực';
         localStorage.setItem('currentUser', userName);
-        saveActivityData(userName, true); // Thiết lập trạng thái RỖNG
+        saveActivityData(userName, true); 
         window.location.href = 'dashboard.html';
     } else if (flow === 'forgot') {
         renderFrame('reset');
@@ -169,9 +147,7 @@ function handleAuthSubmit(event, flow) {
     }
 }
 
-/**
- * Logic kiểm tra hash và render khung tương ứng.
- */
+
 function initializeAuthPage() {
     const hash = window.location.hash.substring(1);
     if (hash === 'register') {
@@ -181,13 +157,6 @@ function initializeAuthPage() {
     }
 }
 
-// =========================================================================
-// 4. LOGIC DASHBOARD (DASHBOARD.HTML)
-// =========================================================================
-
-/**
- * Tải dữ liệu người dùng và cập nhật Dashboard.
- */
 function loadUserDashboardData() {
     const activitiesJson = localStorage.getItem('userActivities');
     const activities = activitiesJson ? JSON.parse(activitiesJson) : [];
@@ -196,13 +165,9 @@ function loadUserDashboardData() {
 
     const activityCount = summary.totalScoreCount || activities.length;
     const avgScore = summary.avgTotal;
-    
-    // Cập nhật STATS CARD
     document.getElementById('stat-avg-score-value').textContent = avgScore.toFixed(2) === '0.00' ? 'N/A' : avgScore.toFixed(2);
     document.getElementById('stat-logged-activity-count-value').textContent = activityCount;
-    
-    // MÔ PHỎNG: Cập nhật Huy hiệu và Mục tiêu
-    if (activityCount >= 1 && avgScore > 3.0) { // Giả định: Đã ghi nhận 1 hoạt động và điểm TB > 3.0
+    if (activityCount >= 1 && avgScore > 3.0) { 
         document.getElementById('stat-badges-value').textContent = '1';
         document.querySelector('#stat-badges p.stat-sub-text').textContent = 'Chiến Binh Sơ Cấp';
     } else {
@@ -218,42 +183,33 @@ function loadUserDashboardData() {
          document.querySelector('#stat-goal-progress p.stat-sub-text').textContent = 'Chưa thiết lập mục tiêu';
     }
     
-    // Cập nhật RECCOMENDATION SPOTLIGHT
     const weakestScore = summary.weakest ? skillScores[skillsLabels.indexOf(summary.weakest)] : 0;
     const weakestName = summary.weakest ? skillDisplayNames[summary.weakest] : 'Kỹ năng';
 
     document.getElementById('reco-priority-value').textContent = `Ưu tiên: ${weakestName} (${weakestScore.toFixed(1)})`;
     document.getElementById('reco-strongest-value').textContent = `Mạnh nhất: ${skillDisplayNames[summary.strongest]} (${skillScores[skillsLabels.indexOf(summary.strongest)].toFixed(1)})`;
     
-    // TRẢ VỀ DỮ LIỆU THỰC TẾ CHO BIỂU ĐỒ
     return { dynamicSkillScores: skillScores };
 }
 
-/**
- * Khởi tạo biểu đồ và áp dụng ngôn ngữ.
- */
 function initializeChartsAndApplyLanguage() {
     const hasDataFlag = hasActivityData();
-    let dynamicData = { dynamicSkillScores: initialSkillsData }; // Dùng mock data nếu chưa có
+    let dynamicData = { dynamicSkillScores: initialSkillsData }; 
 
     if (hasDataFlag) {
-        // TẢI VÀ TÍNH TOÁN DỮ LIỆU THỰC TẾ
         dynamicData = loadUserDashboardData(); 
 
         document.getElementById('data-content-area').classList.remove('chart-container-hidden');
         document.getElementById('empty-state-message').classList.add('chart-container-hidden');
         
     } else {
-        // EMPTY STATE
         document.getElementById('data-content-area').classList.add('chart-container-hidden');
         document.getElementById('empty-state-message').classList.remove('chart-container-hidden');
         updateEmptyStats();
     }
     
-    // KHỞI TẠO BIỂU ĐỒ
     const currentScores = dynamicData.dynamicSkillScores;
     
-    // 1. WEB RATING CHART (REAL DATA)
     const webRatingDynamicData = {
         labels: skillsLabels.map((label, i) => `${skillDisplayNames[label]} (${currentScores[i].toFixed(1)})`),
         datasets: [{
@@ -277,11 +233,9 @@ function initializeChartsAndApplyLanguage() {
     var webRatingCtx = document.getElementById('skillsRadarChartWebRating').getContext('2d');
     skillsRadarChartWebRating = new Chart(webRatingCtx, getRadarChartConfig(webRatingDynamicData, 'var(--color-text-dark)', 0.4)); 
 
-    // 2. LINE CHART (TREND) - VẪN DÙNG MOCK DATA
     var trendCtx = document.getElementById('averageTrendChart').getContext('2d');
     averageTrendChart = new Chart(trendCtx, trendConfig);
     
-    // 3. INTERACTION DEMO CHART (VẪN DÙNG MOCK DATA)
     const interactionDemoDynamicData = {
         labels: skillsLabels.slice(0, 4).map((label, i) => `${skillDisplayNames[label]} (${initialSkillsData[i].toFixed(1)})`),
         datasets: [{
@@ -295,25 +249,21 @@ function initializeChartsAndApplyLanguage() {
     var demoCtx = document.getElementById('skillsRadarChartInteractionDemo').getContext('2d');
     skillsRadarChartInteractionDemo = new Chart(demoCtx, getRadarChartConfig(interactionDemoDynamicData, 'var(--color-text-dark)', 0.5)); 
     
-    resetChartData(); // Khởi tạo sliders
+    resetChartData(); 
     applyLanguageDashboard();
 }
 
-// =========================================================================
-// 5. LOGIC CHUYỂN ĐỔI NGÔN NGỮ VÀ CHART UTIL (GIỮ NGUYÊN)
-// =========================================================================
-
-const DashboardTranslations = { /* ... (Giữ nguyên khối dịch thuật) ... */ };
-function updateChartLabels(lang) { /* ... (Giữ nguyên logic cập nhật nhãn) ... */ }
-const getRadarChartConfig = (data, labelColor, fillAlpha) => ({ /* ... (Giữ nguyên config) ... */ });
-const trendConfig = { /* ... (Giữ nguyên config) ... */ };
-function updateChartData(index, rawValue) { /* ... (Giữ nguyên logic slider) ... */ }
-function resetChartData() { /* ... (Giữ nguyên logic reset slider) ... */ }
-function updateEmptyStats() { /* ... (Giữ nguyên logic update empty stats) ... */ }
-function applyLanguageDashboard() { /* ... (Giữ nguyên logic áp dụng ngôn ngữ) ... */ }
+const DashboardTranslations = {  };
+function updateChartLabels(lang) {  }
+const getRadarChartConfig = (data, labelColor, fillAlpha) => ({});
+const trendConfig = { };
+function updateChartData(index, rawValue) {  }
+function resetChartData() { }
+function updateEmptyStats() {  }
+function applyLanguageDashboard() {  }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Chỉ gọi initializeAuthPage nếu đây là trang auth.html
+
     if (document.body.classList.contains('auth-page')) {
         initializeAuthPage();
     }

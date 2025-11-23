@@ -13,7 +13,7 @@
   <body>
     <div class="dashboard-layout">
       <aside class="sidebar">
-        <div class="logo">future<span class="logo-xion">Xion</span></div>
+        <div class="logo">Future<span class="logo-xion">Xion</span></div>
         <nav></nav>
       </aside>
 
@@ -26,8 +26,6 @@
           <h2 style="font-size: 1.8em; margin-bottom: 25px">
             1. Tùy chọn Chung
           </h2>
-
-          <!-- CHỨC NĂNG CHUYỂN ĐỔI NGÔN NGỮ -->
           <div class="setting-item">
             <label id="label-language">Ngôn ngữ Giao diện</label>
             <div style="display: flex; gap: 10px; align-items: center">
@@ -120,7 +118,6 @@
     </div>
 
     <style>
-      /* CSS cho Toggle Switch (Áp dụng cho settings.html) */
       .switch {
         position: relative;
         display: inline-block;
@@ -192,7 +189,6 @@
     <script src="sidebar.js"></script>
     <script>
       Sidebar.renderSidebar("settingsAdv");
-      // BẢNG DỊCH cho Settings
       const SettingsTranslations = {
         vi: {
           title: "Cài đặt - Future Xion",
@@ -231,18 +227,9 @@
           classes: ["Strategic Decision Making", "Leading Teams Virtual"],
         },
       ];
-
-      // MOCKUP LOGIC ĐỔI NGÔN NGỮ - LƯU VÀ TẢI LẠI TRANG
       function changeLanguage(lang) {
-        // 1. Lưu trạng thái ngôn ngữ vào LocalStorage
         localStorage.setItem("language", lang);
-
-        // 2. Cập nhật giao diện (chỉ cần cập nhật nội dung, không cần alert)
         applyLanguageSettings(lang);
-
-        // 3. (Mô phỏng) Tải lại toàn bộ ứng dụng để áp dụng ngôn ngữ cho các trang khác
-        // window.location.reload();
-        // KHÔNG dùng reload để tránh lỗi, chỉ cập nhật nội dung trên trang hiện tại.
       }
 
       function applyLanguageSettings(lang) {
@@ -252,7 +239,6 @@
         }
         const t = SettingsTranslations[currentLang];
 
-        // Cập nhật các nhãn chính trên trang
         document.title = t.title;
         document.querySelector("h1").textContent = t.h1;
         document.querySelector(".activity-box h2").textContent = t.h2;
@@ -261,15 +247,13 @@
         document.getElementById("label-language").textContent = t.l_lang;
         document.getElementById("label-benchmark").textContent = t.l_bench;
         document.getElementById("label-supervisor").textContent = t.l_super;
-        document.getElementById("language-selector").value = currentLang; // Đảm bảo selector đúng
+        document.getElementById("language-selector").value = currentLang; 
         const pill = document.getElementById("language-pill");
         if (pill) {
           pill.textContent = currentLang.toUpperCase();
         }
         renderIntegrationStatus();
       }
-
-      // Khôi phục trạng thái ban đầu khi tải trang
       document.addEventListener("DOMContentLoaded", () => {
         const savedLang = localStorage.getItem("language") || "vi";
         document.getElementById("language-selector").value = savedLang;

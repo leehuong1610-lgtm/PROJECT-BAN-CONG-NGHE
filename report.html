@@ -80,7 +80,6 @@
         padding: 0 20px;
       }
 
-      /* Buttons */
       .btn {
         border: none;
         border-radius: 10px;
@@ -115,7 +114,6 @@
         font-size: 0.9em;
       }
 
-      /* CV Report Container */
       .report-wrapper {
         background-color: var(--color-background-card);
         border-radius: 15px;
@@ -127,7 +125,6 @@
         border: 1px solid var(--color-border);
       }
 
-      /* 1. Profile Header */
       .profile-header-section {
         padding: 40px 50px;
         background-color: var(--color-background-soft);
@@ -172,7 +169,6 @@
         margin-bottom: 5px;
       }
 
-      /* 2. CORE CONTENT GRID (70% DETAILS | 30% ADVICE) */
       .report-content-grid {
         display: grid;
         grid-template-columns: 2fr 1fr;
@@ -216,7 +212,6 @@
         min-height: 280px;
       }
 
-      /* Section Header (Tinh tế) */
       .section-separator {
         font-size: 1.6em;
         color: var(--color-text-dark);
@@ -225,7 +220,6 @@
         border-bottom: 2px solid var(--color-border);
       }
 
-      /* NEW: SKILL PROFICIENCY BAR SECTION */
       .proficiency-section {
         padding: 20px;
         background-color: var(--color-background-soft);
@@ -262,7 +256,6 @@
         border-radius: 5px;
       }
 
-      /* Skill Detail Cards */
       .skills-detail-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -308,7 +301,6 @@
         border-left: 3px solid var(--color-border);
       }
 
-      /* Insight Cards (Right Column) */
       .insight-card {
         background-color: var(--color-background-soft);
         padding: 25px;
@@ -330,7 +322,6 @@
         text-align: center;
       }
 
-      /* Responsive */
       @media (max-width: 992px) {
         .report-content-grid {
           grid-template-columns: 1fr;
@@ -366,7 +357,7 @@
   <body onload="applyLanguageReport(); loadReportData();">
     <div class="dashboard-layout">
       <aside class="sidebar">
-        <div class="logo">future<span class="logo-xion">Xion</span></div>
+        <div class="logo">Future<span class="logo-xion">Xion</span></div>
         <nav></nav>
       </aside>
 
@@ -973,16 +964,12 @@
           }</p>`;
         }
       }
-
-      // HÀM CHÍNH: TẢI VÀ HIỂN THỊ DỮ LIỆU REPORT
       function loadReportData() {
         const activitiesJson = localStorage.getItem("userActivities");
         const reportContentBody = document.getElementById(
           "report-content-body"
         );
         const noDataMsg = document.getElementById("no-data-message");
-
-        // Lấy các element profile
         const profileNameElement = document.getElementById("profile-name");
         const profileAvgScoreElement =
           document.getElementById("profile-avg-score");
@@ -997,7 +984,6 @@
           "Sinh viên Đại học Kinh tế Quốc dân (Mẫu)";
 
         if (!activitiesJson || JSON.parse(activitiesJson).length === 0) {
-          // Hiển thị trạng thái không có dữ liệu
           reportContentBody.style.display = "none";
           noDataMsg.style.display = "block";
           profileAvgScoreElement.textContent = "N/A";
@@ -1006,7 +992,6 @@
           return;
         }
 
-        // Show content
         reportContentBody.style.display = "block";
         noDataMsg.style.display = "none";
 
@@ -1025,10 +1010,8 @@
         let totalScoreSum = 0;
         let totalScoreCount = 0;
 
-        // DRAW CHARTS AND BARS
         drawRadarChart(scores);
-        generateProficiencyBars(scores); // Vẽ thanh tiến trình
-
+        generateProficiencyBars(scores); 
         SKILLS_LABELS.forEach((skillName) => {
           const score = scores[skillName].avg || 0;
           if (score > 0) {
@@ -1036,17 +1019,12 @@
             totalScoreCount++;
           }
         });
-
-        // CẬP NHẬT ĐIỂM TRUNG BÌNH CHUNG VÀ TỔNG HOẠT ĐỘNG
         const finalAvgScore =
           totalScoreCount > 0 ? totalScoreSum / SKILLS_LABELS.length : 0;
         profileAvgScoreElement.textContent =
           finalAvgScore.toFixed(2) + " / 5.0";
         profileTotalActivitiesElement.textContent = activities.length;
 
-        // 2. CẬP NHẬT KHỐI CV ADVICE
-
-        // Benchmark
         const localizedStrongest = resolveSkillLabel(strongestSkill, t);
         document.getElementById("benchmark-status").textContent =
           t.p_benchmark_status
@@ -1056,7 +1034,6 @@
         document.getElementById("benchmark-progress").value =
           strongestScoreVal * 20;
 
-        // CV Prompt Title
         document.getElementById("cv-prompt-skill").textContent =
           t.p_cv_prompt_skill
             .replace("{skill}", localizedStrongest)
@@ -1070,7 +1047,6 @@
             .replace("{status_vi}", statusLabel)
             .replace("{score}", strongestScoreVal.toFixed(1));
 
-        // CTA Phát triển
         document.getElementById("cta-develop-weak").textContent =
           t.cta_develop_weak_skill.replace(
             "{score}",
@@ -1082,7 +1058,6 @@
       }
 
       function applyLanguageReport() {
-        /* ... (Logic dịch thuật giữ nguyên) ... */
         const currentLang = localStorage.getItem("language") || "vi";
         document.documentElement.lang = currentLang;
         if (window.Sidebar) {

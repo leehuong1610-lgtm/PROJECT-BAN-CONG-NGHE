@@ -39,7 +39,7 @@
   <body onload="applyLanguageProgress()">
     <div class="dashboard-layout">
       <aside class="sidebar">
-        <div class="logo">future<span class="logo-xion">Xion</span></div>
+        <div class="logo">Future<span class="logo-xion">Xion</span></div>
         <nav></nav>
       </aside>
 
@@ -300,7 +300,6 @@
         },
       };
 
-      // Dữ liệu Mockup cho Radar Chart
       const initialRadarData = [100, 80, 60, 80, 40, 60];
 
       let skillsRadarChart;
@@ -309,7 +308,6 @@
       function initializeProgressCharts(lang) {
         const t = ProgressTranslations[lang];
 
-        // 1. Radar Chart
         const radarData = {
           labels: t.radar_labels,
           datasets: [
@@ -386,8 +384,6 @@
             options: barOptions,
           });
         };
-
-        // Khởi tạo các Bar Chart (Dữ liệu cố định)
         teamworkChart = createBarChart(
           "teamworkChart",
           [30, 50, 70, 40, 50, 60, 70],
@@ -417,7 +413,6 @@
         document.title = ProgressTranslations[currentLang].title_progress;
         const t = ProgressTranslations[currentLang];
 
-        // Cập nhật tất cả các phần tử có data-translate
         document.querySelectorAll("[data-translate]").forEach((element) => {
           const key = element.getAttribute("data-translate");
           if (!t[key]) return;
@@ -434,8 +429,6 @@
           }
         });
 
-        // Cập nhật lại Charts với ngôn ngữ mới
-        // Phải hủy và khởi tạo lại charts vì cần thay đổi nhãn trục/nhãn data
         if (skillsRadarChart) skillsRadarChart.destroy();
         if (teamworkChart) teamworkChart.destroy();
         if (communicateChart) communicateChart.destroy();

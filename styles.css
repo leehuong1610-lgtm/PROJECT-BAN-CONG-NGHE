@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 
 :root {
-    --color-primary: #5A189A; /* Grape */
-    --color-accent: #4F9AFF; /* Sky */
-    --color-callout: #FFD700; /* Gold CTA */
+    --color-primary: #5A189A; 
+    --color-accent: #4F9AFF; 
+    --color-callout: #FFD700; 
     --color-white: #FFFFFF;
     --color-background-light: #F3E5FF;
     --color-background-muted: #E6EAF0;
@@ -32,7 +32,6 @@
     --border-color: #D3DCE6;
 }
 
-/* BASE STYLES & RESET */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -68,7 +67,6 @@ h2 {
 .primary-color { color: var(--color-primary); }
 .accent-color { color: var(--color-accent); }
 
-/* BUTTONS */
 .btn {
     padding: 15px 32px;
     border: none;
@@ -124,7 +122,6 @@ h2 {
     text-decoration: none;
 }
 
-/* INPUTS */
 input, select, textarea { 
     width: 100%; 
     padding: 12px; 
@@ -142,8 +139,6 @@ input:focus, select:focus, textarea:focus {
 }
 .form-group { margin-bottom: 20px; }
 
-
-/* HEADER & NAVBAR */
 .header {
     background-color: var(--color-white);
     border-bottom: 1px solid var(--border-color);
@@ -160,7 +155,6 @@ input:focus, select:focus, textarea:focus {
 .nav-item::after { content: ''; position: absolute; width: 0; height: 3px; bottom: -5px; left: 0; background-color: var(--color-primary); transition: width 0.3s ease; }
 .nav-item:hover::after { width: 100%; }
 
-/* GLASS BOX MIXIN */
 .glass-box {
     background: var(--glass-background);
     backdrop-filter: blur(15px);
@@ -171,7 +165,6 @@ input:focus, select:focus, textarea:focus {
     padding: 30px;
 }
 
-/* AUTH LAYOUT (CẢI THIỆN GIAO DIỆN) */
 .auth-page { 
     justify-content: center; 
     align-items: center; 
@@ -264,7 +257,6 @@ input:focus, select:focus, textarea:focus {
 .auth-separator::after { right: 0; }
 
 
-/* DASHBOARD LAYOUT */
 .dashboard-layout {
     display: flex;
     flex-grow: 1;
@@ -339,7 +331,6 @@ input:focus, select:focus, textarea:focus {
 }
 .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
 
-/* CONTENT BLOCKS */
 .chart-area, .activity-box, .report-content {
     background: var(--glass-background);
     backdrop-filter: blur(15px);
@@ -362,14 +353,11 @@ input:focus, select:focus, textarea:focus {
 .feature-flex-container, .value-prop-flex-container { display: flex; gap: 30px; justify-content: space-between; margin-top: 30px; }
 .feature-card, .value-box { flex: 1; min-width: 280px; background-color: var(--color-background-muted); padding: 30px; border-radius: 15px; border: 1px solid var(--border-color); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); }
 
-/* UTILITY & RECO BOXES */
 .cv-prompt, .reco-box { background-color: var(--color-background-muted); padding: 15px; border-left: 5px solid var(--color-accent); margin-top: 15px; border-radius: 8px; font-size: 0.9em; color: var(--color-text-dark); }
 .activity-box label { display: block; font-weight: 600; margin-bottom: 5px; color: var(--color-text-medium); }
 
-/* FOOTER */
 .footer-modern { background-color: var(--color-background-muted); color: var(--color-text-medium); padding: 50px 0 20px 0; border-top: 1px solid var(--border-color); }
 
-/* Dashboard Tables & Lists */
 .activity-table {
     width: 100%;
     margin-top: 10px;
@@ -405,7 +393,7 @@ input:focus, select:focus, textarea:focus {
     font-size: 0.9em;
     color: var(--color-text-medium);
 }
-/* Setting Toggle Switch */
+
 .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px dashed var(--border-color); }
 .setting-item label:first-child { font-weight: 600; color: var(--color-text-dark); }
 .switch { position: relative; display: inline-block; width: 45px; height: 25px; }
@@ -417,7 +405,6 @@ input:checked + .slider:before { transform: translateX(20px); }
 .slider.round { border-radius: 25px; }
 .slider.round:before { border-radius: 50%; }
 
-/* Badge Page */
 .badge-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -446,7 +433,6 @@ input:checked + .slider:before { transform: translateX(20px); }
     opacity: 0.5;
 }
 
-/* Report Page */
 .report-content {
     background: var(--glass-background);
     backdrop-filter: blur(15px);
@@ -462,8 +448,6 @@ input:checked + .slider:before { transform: translateX(20px); }
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
 }
 
-
-/* --- RESPONSIVE --- */
 @media (max-width: 1200px) {
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -490,31 +474,23 @@ input:checked + .slider:before { transform: translateX(20px); }
     .main-nav { flex-direction: column; }
 }
 
-/* ... (GIỮ NGUYÊN CÁC PHẦN TRƯỚC) ... */
-
-/* =========================================================================
-   REPORT PAGE (report.html)
-   ========================================================================= */
-/* Màu sắc Tốt (Proficient) */
 .status-proficient {
-    border-left: 5px solid var(--color-accent); /* Màu xanh là màu Proficient */
+    border-left: 5px solid var(--color-accent); 
 }
 .status-proficient-text {
     color: var(--color-accent);
 }
 
-/* Màu sắc Cần cải thiện (Needs Improvement) */
 .status-needs-improvement {
-    border-left: 5px solid var(--color-error); /* Màu đỏ là màu Error */
+    border-left: 5px solid var(--color-error); 
 }
 .status-needs-improvement-text {
     color: var(--color-error);
 }
 
-/* Report Content Layout */
 .report-content-grid {
     display: grid; 
-    grid-template-columns: 3fr 2fr; /* Chia 3/2 như yêu cầu của bạn */
+    grid-template-columns: 3fr 2fr; 
     gap: 40px;
     margin-top: 20px;
 }
@@ -526,11 +502,9 @@ input:checked + .slider:before { transform: translateX(20px); }
 }
 
 .skill-card-report {
-    background-color: var(--color-white); /* Nền trắng cho nổi bật */
+    background-color: var(--color-white); 
     padding: 15px;
     border-radius: 8px;
     margin-top: 15px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
 }
-
-/* (Các style khác giữ nguyên) */

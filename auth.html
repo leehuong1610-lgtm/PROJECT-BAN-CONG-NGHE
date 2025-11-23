@@ -182,7 +182,6 @@
       const MockDataAPI = window.MockData || {};
       MockDataAPI.ensureMockData?.();
 
-      // Hàm hỗ trợ tạo label (giữ inline styles tối thiểu cho khả năng đọc)
       const createLabel = (text) =>
         `<label style="display: block; text-align: left; font-size: 0.9em; margin-bottom: 5px; color: var(--color-text-dark);">${text}</label>`;
 
@@ -240,9 +239,7 @@
           localStorage.setItem("userActivities", JSON.stringify(activities));
         }
       }
-      // -------------------------------------------------------------------
 
-      // --- 1. LOGIN (FRAME 166) ---
       const getLoginFrame = () => `
             <div class="icon-lock"><i class="fas fa-sun"></i></div>
             <h2>Chào mừng trở lại!</h2>
@@ -283,8 +280,6 @@
                 Chưa có tài khoản? <a href="#" onclick="renderFrame('register')" class="link-small color-primary" style="font-weight: 700; margin-left: 5px;">Đăng ký ngay</a>
             </p>
         `;
-
-      // --- 2. REGISTER (FRAME 167) ---
       const getRegisterFrame = () => `
             <div class="icon-lock"><i class="fas fa-user-circle"></i></div>
             <h2>Tạo tài khoản mới</h2>
@@ -346,7 +341,6 @@
             </p>
         `;
 
-      // --- 3. FORGOT PASSWORD (FRAME 168) ---
       const getForgotFrame = () => `
             <div class="icon-lock"><i class="fas fa-lock"></i></div>
             <h2>Quên mật khẩu?</h2>
@@ -365,7 +359,6 @@
             </form>
         `;
 
-      // --- 4. RESET PASSWORD (FRAME 169) ---
       const getResetFrame = () => `
             <div class="icon-lock"><i class="fas fa-envelope-open-text"></i></div>
             <h2>Đặt lại mật khẩu</h2>
@@ -389,7 +382,6 @@
             </form>
         `;
 
-      // --- GOOGLE LOGIN (MOCK) ---
       function handleGoogleLogin() {
         const users = getStoredUsers();
         const googleEmail = "google.user@example.com";
@@ -415,7 +407,6 @@
         setTimeout(() => finalizeLogin(googleUser, false), 500);
       }
 
-      // --- SUBMISSION HANDLER (CẬP NHẬT) ---
       function handleAuthSubmit(event, flow) {
         event.preventDefault();
         const users = getStoredUsers();
@@ -539,7 +530,6 @@
         }
       }
 
-      // --- RENDER LOGIC VÀ KIỂM TRA HASH NAVIGATION (GIỮ NGUYÊN) ---
       function renderFrame(frameName) {
         let htmlContent = "";
         switch (frameName) {
@@ -582,7 +572,6 @@
           .join("");
       }
 
-      // Khởi tạo trang với Frame Đăng nhập, kiểm tra hash cho Register
       function finalizeLogin(user, isNewUser = false) {
         localStorage.setItem(CURRENT_USER_KEY, user.fullName || user.username);
         localStorage.setItem(CURRENT_USER_PROFILE_KEY, JSON.stringify(user));

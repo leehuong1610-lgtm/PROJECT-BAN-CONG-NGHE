@@ -14,7 +14,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <script src="enhanced-charts-config.js"></script>
     <style>
-      /* CSS GỐC CỦA BẠN (Được giữ nguyên) */
       .empty-state {
         text-align: center;
         padding: 80px 30px;
@@ -40,12 +39,9 @@
       .chart-container-hidden {
         display: none !important;
       }
-      /* Đảm bảo các chỉ số stats hiển thị giá trị 0 */
       .stat-card-empty p {
         color: var(--color-text-medium) !important;
       }
-
-      /* Thêm các biến màu và font cho CSS inline hoạt động */
       :root {
         --color-primary: #5a189a;
         --color-accent: #4f9aff;
@@ -740,7 +736,6 @@
       let latestSkillAverages = [];
       let latestLocalizedSkillLabels = [];
 
-      // Định nghĩa Kỹ năng (Được sử dụng cho việc tính toán)
       const SKILLS_LABELS = [
         "Leadership",
         "Communication",
@@ -806,7 +801,6 @@
         ],
       };
 
-      // Hàm tổng hợp dữ liệu kỹ năng
       function aggregateSkillData(activities) {
         const scores = {};
         SKILLS_LABELS.forEach((skill) => {
@@ -837,7 +831,6 @@
         let finalAvgScore =
           totalActivityCount > 0 ? avgTotal / SKILLS_LABELS.length : 0;
 
-        // MÔ PHỎNG: Tìm kiếm điểm yếu nhất/mạnh nhất (cho Reco)
         let maxScore = -1,
           minScore = 6;
         let strongestSkill = SKILLS_LABELS[0],
@@ -853,7 +846,6 @@
           }
         });
 
-        // Nếu không có hoạt động, dùng mock data
         if (totalActivityCount === 0) {
           strongestSkill = "ProblemSolving";
           weakestSkill = "CriticalThinking";
@@ -877,7 +869,6 @@
         };
       }
 
-      // HÀM MỚI: TẢI VÀ TÍNH TOÁN DỮ LIỆU DASHBOARD
       function loadUserDashboardData(forceMock = false) {
         const activitiesJson = localStorage.getItem("userActivities");
         const activities = activitiesJson ? JSON.parse(activitiesJson) : [];
@@ -921,7 +912,6 @@
           (label) => dict[`skill_${label.toLowerCase()}`] || label
         );
 
-        // Cập nhật STATS CARD
         const avgScoreValue = usingMock ? MOCK_STATS.avgScore : finalAvgScore;
         document.getElementById("stat-avg-score-value").textContent =
           avgScoreValue.toFixed(2) === "0.00"
@@ -979,7 +969,6 @@
           }
         }
 
-        // --- Cập nhật Reco (Mock Data Replacement) ---
         document.getElementById("reco-priority-value").textContent = `${
           dict.reco_prefix_priority
         } ${
@@ -991,7 +980,6 @@
           dict[`skill_${strongestSkill.toLowerCase()}`] || strongestSkill
         } ${scores[strongestSkill].avg.toFixed(1)}`;
 
-        // DRAW CHART (Web Rating)
         const webRatingDynamicData = {
           labels: SKILLS_LABELS.map(
             (label) =>
@@ -1043,7 +1031,6 @@
         };
       }
 
-      // Hàm cập nhật chỉ số Stats khi không có dữ liệu
       function updateEmptyStats() {
         const dict = getDashboardDictionary(
           localStorage.getItem("language") || "vi"
@@ -1348,9 +1335,7 @@
           : dict.benchmark_show;
       }
 
-      // Hàm kiểm tra dữ liệu hoạt động có sẵn trong localStorage
       function hasActivityData() {
-        /* ... (Giữ nguyên) ... */
         const activitiesJson = localStorage.getItem("userActivities");
         if (!activitiesJson) return false;
 
@@ -1362,8 +1347,6 @@
           return false;
         }
       }
-
-      // Logic Chart và Update Logic (Giữ nguyên các hàm này)
       function updateChartData(index, rawValue) {
         const normalizedValue = (Number(rawValue) / 10).toFixed(1);
         interactionDemoValues[index] = parseFloat(normalizedValue);
@@ -1398,7 +1381,6 @@
         }
       }
       function getRadarChartConfig(data, labelColor, fillAlpha) {
-        /* ... */
         return {
           type: "radar",
           data: data,

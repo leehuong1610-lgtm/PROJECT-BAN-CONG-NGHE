@@ -66,7 +66,7 @@
 <body>
     <div class="dashboard-layout">
         <aside class="sidebar">
-            <div class="logo">future<span class="logo-xion">Xion</span></div>
+            <div class="logo">Future<span class="logo-xion">Xion</span></div>
             <nav></nav>
         </aside>
         <main class="main-content">
@@ -158,7 +158,6 @@
                 const key = el.getAttribute("data-translate");
                 const value = dict[key];
                 if (!value) return;
-                // Preserve icons when HTML is embedded in translation
                 el.innerHTML = value;
             });
         }
